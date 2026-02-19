@@ -5,11 +5,10 @@ import API_BASE_URL from "../config.js";
 ===================================================== */
 
 const userId = localStorage.getItem("user_id");
-let categoryId = null;
-let level = "level1";
-let selectedDay = 1;
-
+const categoryId = localStorage.getItem("category_id");
+const level = "level1";
 const headerDay = document.getElementById("currentDayHeader");
+const selectedDay = parseInt(localStorage.getItem("selected_day")) || 1;
 
 if (!userId) {
   alert("Login required");
@@ -30,47 +29,32 @@ let currentExercise = null;
 
 async function loadProgress() {
   console.log("🚀 Initializing level1.js");
+  console.log("Current API URL:", API_BASE_URL);
+
+  container.innerHTML = "<p>Loading progress...</p>";
 
   try {
-    // 1. Fetch Active State from DB first
-    const stateRes = await fetch(`${API_BASE_URL}/user-state/${userId}`);
-    const state = await stateRes.json();
+    const res = await fetch(`${API_BASE_URL}/progress/${userId}/${level}/${categoryId}`);
 
-    categoryId = state.active_category_id || 1;
-    level = state.active_level || "level1";
-    selectedDay = state.selected_day || 1;
-
-    console.log("Active State Loaded:", { categoryId, level, selectedDay });
-    console.log("Current API URL:", API_BASE_URL);
-
-    container.innerHTML = "<p>Loading progress...</p>";
-
-    try {
-      const res = await fetch(`${API_BASE_URL}/progress/${userId}/${level}/${categoryId}`);
-
-      if (!res.ok) {
-        console.warn(`Progress not found (Status: ${res.status}). Attempting to create...`);
-        if (res.status === 405) {
-          container.innerHTML = `<p style="color:red">Error: Method Not Allowed (405). You are likely using the stale Vercel backend. Please switch config.js to 127.0.0.1:8000 and use Live Server.</p>`;
-          return;
-        }
-        await createProgress();
+    if (!res.ok) {
+      console.warn(`Progress not found (Status: ${res.status}). Attempting to create...`);
+      if (res.status === 405) {
+        container.innerHTML = `<p style="color:red">Error: Method Not Allowed (405). You are likely using the stale Vercel backend. Please switch config.js to 127.0.0.1:8000 and use Live Server.</p>`;
         return;
       }
-
-      progressData = await res.json();
-      console.log("Progress Data Loaded ✅", progressData);
-
-      headerDay.textContent = `Your current day: Day ${selectedDay} 🔥`;
-      loadExercisesForDay();
-
-    } catch (err) {
-      console.error("Load Progress Error:", err);
-      container.innerHTML = `<p style="color:red">Fetch Error: ${err.message}. Ensure your backend server is running locally.</p>`;
+      await createProgress();
+      return;
     }
+
+    progressData = await res.json();
+    console.log("Progress Data Loaded ✅", progressData);
+
+    headerDay.textContent = `Your current day: Day ${selectedDay} 🔥`;
+    loadExercisesForDay();
+
   } catch (err) {
-    console.error("Outer Load Progress Error:", err);
-    container.innerHTML = `<p style="color:red">Failed to initialize session: ${err.message}</p>`;
+    console.error("Load Progress Error:", err);
+    container.innerHTML = `<p style="color:red">Fetch Error: ${err.message}. Ensure your backend server is running locally.</p>`;
   }
 }
 
@@ -539,13 +523,17 @@ async function loadWarmup() {
       return;
     }
 
-    // 🔥 Fetch active state for day
-    const stateRes = await fetch(`${API_BASE_URL}/user-state/${userId}`);
-    const state = await stateRes.json();
-    const activeDay = state.selected_day || 1;
+    // 🔥 Safe selected day
+    let selectedDay = localStorage.getItem("selected_day");
 
-    // 🔥 Shuffle safely using activeDay
-    const shuffled = stableShuffle(data, activeDay);
+    if (!selectedDay) {
+      selectedDay = 1;
+    } else {
+      selectedDay = parseInt(selectedDay);
+    }
+
+    // 🔥 Shuffle safely
+    const shuffled = stableShuffle(data, selectedDay);
 
     exercises = shuffled.slice(0, 10);
 
