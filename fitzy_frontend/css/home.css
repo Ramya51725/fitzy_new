@@ -1,356 +1,688 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: Georgia, serif;
 }
-body{
-background: linear-gradient(to top, #fad0c43d 0%, #ffd1ff 100%);
-}
-.home{
-  padding-top: 30px;
-  padding-left: 30px;
-  font-size: 50px;
-  color: black;
-  display: flex;
-  justify-content: space-between;
-  width: 90%;
-}
-.decide{
-    margin-top: 10px;
-    font-weight:500;
-
-}
-span{
-  font-size: 25px;
-  color: rgb(129, 59, 129);
-}   
-.home p{
-    font-size:25px;
-}
-.nav{
-    border-radius: 10px;
-    padding-top: 55px;
-    padding-left: 10px;
-    margin-top: 60px;
-    margin-left: 30px;
-    border: 1px solid black;
-    display: flex;
-    flex-direction: column;
-    gap: 100px;
-    width: 100px;
-    padding-bottom: 30px;
-}
-.move{
-    margin-left: 15px;
-}
-.four_weeks_plan{
-    display: flex;
-    margin-left:px;
-}
-.plans{
-    margin-top: 40px;
-    margin-left: 200px;
-    display: inline;
-    width: 500px;
-    height: 100px;
-}
-.Weeks{
-    margin-top: 80px;
-    width: 250px;
-    border-radius: 20px;
-    margin-right: 20px;    
-}
-.foundation_week{
-    margin-left: 30px;
-    border: 1px solid black;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.727);
-
-}
-.status{
-  border: 1px solid black;
-  border-radius: 10px;
-  width:170px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  color: black;
-  padding: 2px;
-}   
-.week1{
-    border: 2px solid black;
-    width: 100px;
-    padding: 5px;
-    border-radius: 10px;
-    margin-top: 10px;
-    margin-bottom: 20px;
-    background-color: rgba(255, 0, 0, 0.106);
-    color: black;
-}
-.foundation_week a{
-    text-decoration: none;
-}
-.foundation_week h2{
-    margin-top: 20px;
-}
-.arranging_weeks_flex{
-    display: flex;
-    gap: 80px;
-    justify-content: center;
-    padding-left: 100px;   
-}
-footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background-color: #222;
-  color: #fff;
-  text-align: center;
-  padding: 10px;
-  font-size: 18px;
-  z-index: 9999;
-  opacity: 1;
-}
 
 body {
-  padding-bottom: 60px;
-}
-
-footer p{
-  display: flex;
-  justify-content: center;
-}
-.Arrranging_weeks_and_plans{
- display: flex;
-}
-.days_plans{
-    margin-top: 20px;
-    margin-left: 80px;
-    border: 1px solid black;
-    height: 650px;  
-}
-.level1{
-    border: 1px solid black;
-    width: 400px;
-    height: 250px;
-    background-color: hsla(210, 20%, 98%, 0.695);
-    border-radius: 60px;
-  
-}
-.levels{
-    display: flex;
-    flex-direction: column;
-    gap: 80px;
-    margin-top: 50px;
-    margin-left: 60px;
-}
-.name_of_level{
-    font-size: 25px;
-    margin-left: 70px;
-    margin-top: 15px;
-}
-.quate{
-    margin-top: 20px;
-    margin-left: 18px;
-    font-size: 18px;
-}
-.level-btn{
-    display: inline;
-    border: 1px solid black;
-    padding: 15px 25px;
-    border-radius: 10px;
-    margin-top: 100px;
-    background-color: rgba(255, 0, 0, 0.242);
-    color: black;
-}
-.images_button{
-    display: flex;
-    justify-content: space-around;
-}
-a{
-    text-decoration: none;
-}
-.btn{
-    margin-top: 65px;
-}
-.about_level{
-    font-size: 30px;
-    margin-left: 40px;
+    background: linear-gradient(to top, #fad0c43d 0%, #ffd1ff 100%);
+    height: 100vh;
+    overflow: hidden;
+    /* 🔥 This removes scrolling */
 }
 
 
-
-
-@media (max-width: 768px) {
-
+/* HEADER */
 .home {
-    padding-top: 15px;
-    padding-left: 15px;
-    font-size: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    background: linear-gradient(to right, #e9d5ff, #fbcfe8);
 }
 
-span {
-    font-size: 20px;
-    margin-top: 5px;
+/* Left Side */
+.home-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
-.move{
-    width: 25px;
-    height: 25px;
+.home-left h2 {
+    font-size: 30px;
+    margin: 0;
 }
-h1{
-    font-size: 25px;
+
+.home-left span {
+    font-size: 23px;
+    color: #555;
 }
+
+/* Right Side Badge */
+.home-right .decide {
+    font-weight: bold;
+    background: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+
+.decide {
+    font-size: 22px;
+}
+
+/* MAIN LAYOUT */
+.Arrranging_weeks_and_plans {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 40px 60px;
+}
+
+/* LEFT SECTION */
+.left_section {
+    display: flex;
+    width: 60%;
+    margin-left: 10px;
+    align-items: center;
+    /* 🔥 vertically center with boxes */
+}
+
+
 .nav {
     border: 1px solid black;
-    border-radius: 10px;
-    width: 95%;
-    margin: 20px;
-    padding: 10px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    gap: 15px;
-    margin-top: 30px;
-}
-span{
-    display: flex;
-    flex-wrap: wrap;
-}
+    border-radius: 20px;
+    width: 90px;
+    height: 520px;
 
-h1{
-    font-size: 20px;
-}
-
-.four_weeks_plan {
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
     align-items: center;
-    gap: 30px;
+
+    margin-top: 50px;
+    /* 🔥 keezha varum */
+}
+
+.nav-icon {
+    font-size: 30px;
+    /* 🔥 Bigger size */
+    color: black;
+    /* 🔥 Black color */
+    transition: 0.3s;
+}
+
+.nav-icon:hover {
+    color: purple;
+    /* Optional hover effect */
+    transform: scale(1.2);
+}
+
+
+.move {
+    margin-left: 10px;
 }
 
 .plans {
-    margin: 0;
-    width: 90%;
-    height: auto;
-    text-align: center;
+    margin-left: 100px;
+    width: 100%;
 }
 
-.Weeks {
-    width: 200px;
-    margin-top: 40px;
+.arranging_weeks_flex {
+    display: flex;
+    gap: 60px;
+    margin-top: 60px;
 }
-
 
 .foundation_week {
-    width: 90%;
-    margin: 20px auto;
+    border: 1px solid black;
     padding: 20px;
-    border-radius: 15px;
+    border-radius: 12px;
+    width: 270px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.879);
+    transition: all 0.3s ease;
+    /* 🔥 Smooth animation */
+    cursor: pointer;
+}
+
+.quote-container {
+  height: 40px;   /* Fix height */
+  display: flex;
+  align-items: center;
+}
+
+.typing {
+  font-size: 28px;
+  font-weight: bold;
+  color: purple;
+  border-right: 3px solid purple;
+  white-space: nowrap;
+}
+
+
+@keyframes blink {
+  50% { border-color: transparent; }
+}
+
+
+/* Cursor blinking */
+@keyframes blink {
+    50% {
+        border-color: transparent;
+    }
+}
+
+.day-completed {
+    background: #28a745 !important;
+    color: white !important;
+    border: none !important;
+}
+
+/* 🔥 Hover Effect */
+.foundation_week:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
 }
 
 
 .foundation_week h2 {
-    text-align: center;
-    font-size: 22px;
+    font-size: 20px;
+    margin-bottom: 10px;
 }
 
+
 .status {
-    width: 100%;
-    text-align: center;
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 150px;
     margin: 10px 0;
+    padding: 3px;
 }
 
 .week1 {
-    width: 60%;
-    margin: 10px auto;
+    border: 2px solid black;
+    width: 100px;
+    padding: 6px;
+    border-radius: 10px;
     text-align: center;
+    background-color: transparent;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.arranging_weeks_flex {
-    flex-direction: column;
+/* 🔥 When hovering the entire card */
+.foundation_week:hover .week1 {
+    background-color: purple;
+    color: white;
+}
+
+img {
+    margin-left: 50px;
+}
+
+.motivation {
+    width: 400px;
+    line-height: 1.5;
+}
+
+#typing-text {
+    border-right: 3px solid purple;
+    padding-right: 5px;
+    white-space: normal;
+    word-break: break-word;
+    animation: blink 0.7s infinite;
+}
+
+@keyframes blink {
+    50% {
+        border-color: transparent;
+    }
+}
+
+
+
+/* Hover Effect */
+.week1:hover::before {
+    width: 100%;
+}
+
+/* Change Text Color On Hover */
+.week1:hover {
+    color: white;
+}
+
+
+@keyframes jump {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+/* Month Timeline */
+.circle {
+    width: 40px;
+    height: 40px;
+    border: 2px solid black;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* ✨ Soft Shadow for all 4 months */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+    transition: 0.3s ease;
+}
+
+/* ✨ Hover Lift Effect */
+.circle:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 22px rgba(0, 0, 0, 0.35);
+}
+
+/* 🔥 Active Month */
+.circle.active {
+    background-color: purple;
+    color: white;
+
+    /* Jump Animation */
+    animation: jump 1s infinite ease-in-out;
+
+    /* Purple Glow Shadow */
+    box-shadow: 0 12px 25px rgba(128, 0, 128, 0.6);
+}
+
+
+
+/* DIVIDER */
+.divider {
+    width: 1px;
+    margin-top: 40px;
+    height: 550px;
+    background-color: black;
+}
+
+.day-buttons {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    width: 240px;
+}
+
+.day-buttons::-webkit-scrollbar {
+    display: none;
+}
+
+.day-btn {
+    min-width: 80px;
+    padding: 8px 12px;
+    border: 2px solid black;
+    border-radius: 10px;
+    background-color: #f3d3df;
+    transition: 0.3s;
+}
+
+.image-git {
+    display: flex;
+}
+
+.day-btn.active {
+    background-color: purple;
+    color: white;
+    font-weight: bold;
+}
+
+.day-btn.disabled {
+    opacity: 0.8;
+    cursor: not-allowed;
+}
+
+/* RIGHT SECTION */
+.days_plans {
+    width: 35%;
+    padding-left: 40px;
+}
+
+/* Motivational Section */
+.motivation {
+    font-size: 26px;
+    margin-bottom: 20px;
+}
+
+.motivation_img {
+    margin-bottom: 20px;
+}
+
+.start_day {
+    display: flex;
+    align-items: center;
     gap: 20px;
-    padding: 0;
-    align-items: center;
+    margin: 30px 0;
 }
 
-.Arrranging_weeks_and_plans {
-    flex-direction: column;
-    align-items: center;
+.day_box {
+    border: 2px solid black;
+    padding: 10px 30px;
+    border-radius: 10px;
+    font-weight: bold;
 }
 
-  .days_plans {
-    width: 95%;
-    height: auto;
+.arrow {
     border: none;
-    margin: 0;
-    
+    background: none;
+    font-size: 25px;
+    cursor: pointer;
 }
 
-.levels {
-    margin-left: 0;
-    gap: 30px;
-    align-items: center;
-}
-
-.level1 {
-    width: 90%;
-    height: auto;
-    border-radius: 25px;
-    padding: 20px;
-}
-
-.name_of_level {
-    font-size: 20px;
-    text-align: center;
-    margin: 10px 0;
-}
-
-.quate {
-    font-size: 16px;
-    text-align: center;
-    margin: 10px;
-}
-
-.level-btn {
-    display: block;
-    margin: 15px auto;
-    padding: 10px 20px;
-}
-
-.images_button {
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
-}
-
-.btn {
-    margin-top: 20px;
-    text-align: center;
-}
-
-.about_level {
-    font-size: 22px;
-    text-align: center;
-    margin-left: 0;
-    margin-top: 20px;
-}
-
-footer {
-    text-align: center;
-    padding: 12px;
-    font-size: 16px;
+/* Month Timeline */
+.month {
     margin-top: 40px;
 }
-    .log_out, .log_out1 {
+
+.weeks_line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.circle {
+    width: 40px;
+    height: 40px;
+    border: 2px solid black;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.circle.active {
+    background-color: purple;
+    color: white;
+}
+
+.line {
+    width: 40px;
+    height: 2px;
+    background-color: black;
+}
+
+/* FOOTER */
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #222;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-size: 16px;
+}
+.circle.completed {
+    background-color: #28a745;  /* green */
+    color: white;
+    border: none;
+}
+/* LOCKED CARD */
+.foundation_week.locked {
+    opacity: 0.6;
+    pointer-events: none;
+    position: relative;
+}
+
+/* LOCK ICON */
+.lock-overlay {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 22px;
+    color: black;
+}
+
+/* UNLOCKED */
+.foundation_week.unlocked {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* COMPLETED STATUS GREEN */
+.status.completed {
+    background-color: #28a745;
+    color: white;
+    font-weight: bold;
+}
+
+/* 🔥 Beginner Always Hover Effect (Without Hovering) */
+
+/* 🔥 Beginner Always Hover Effect (Permanent) */
+
+/* ================= ACTIVE LEVEL GLOW ================= */
+
+.active-level {
+    transform: translateY(-12px) scale(1.05);
+    border: 2px solid #9333ea;
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.5),
+        0 0 60px rgba(160, 32, 240, 0.6);
+}
+
+.active-level .week1 {
+    background-color: purple;
+    color: white;
+}
+
+/* ================= COMPLETED LEVEL ================= */
+
+.foundation_week.completed-level {
+    transform: none;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    border: 1px solid #28a745;
+}
+
+/* Completed badge stronger */
+.status.completed {
+    background-color: #28a745;
+    color: white;
+    font-weight: bold;
+}
+
+/* Purple Start Button Always */
+#beginnerCard .week1 {
+    background-color: purple;
+    color: white;
+}
+
+/* COMPLETED LEVEL STYLE */
+
+.completed-level {
+    border: 2px solid #28a745 !important;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3) !important;
+    transform: none !important;
+}
+
+.completed-level .week1 {
+    background-color: #28a745 !important;
+    color: white !important;
+}
+.foundation_week.locked {
+    opacity: 0.6;
+    pointer-events: none;
+}
+.lock-overlay {
+    display: none !important;
+}
+
+
+@media (max-width: 768px) {
+
+    .home {
+        padding-top: 15px;
+        padding-left: 15px;
+        font-size: 28px;
+    }
+
+    span {
+        font-size: 20px;
+        margin-top: 5px;
+    }
+
+    .move {
+        width: 25px;
+        height: 25px;
+    }
+
+    h1 {
+        font-size: 25px;
+    }
+
+    .nav {
+        border: 1px solid black;
+        border-radius: 10px;
+        width: 95%;
+        margin: 20px;
+        padding: 10px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        gap: 15px;
+        margin-top: 30px;
+    }
+
+    span {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+
+    .four_weeks_plan {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .plans {
+        margin: 0;
+        width: 90%;
+        height: auto;
+        text-align: center;
+    }
+
+    .Weeks {
+        width: 200px;
+        margin-top: 40px;
+    }
+
+
+    .foundation_week {
+        width: 90%;
+        margin: 20px auto;
+        padding: 20px;
+        border-radius: 15px;
+    }
+
+
+    .foundation_week h2 {
+        text-align: center;
+        font-size: 22px;
+    }
+
+    .status {
+        width: 100%;
+        text-align: center;
+        margin: 10px 0;
+    }
+
+    .week1 {
+        width: 60%;
+        margin: 10px auto;
+        text-align: center;
+    }
+
+    .arranging_weeks_flex {
+        flex-direction: column;
+        gap: 20px;
+        padding: 0;
+        align-items: center;
+    }
+
+    .Arrranging_weeks_and_plans {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .days_plans {
+        width: 95%;
+        height: auto;
+        border: none;
+        margin: 0;
+
+    }
+
+    .levels {
+        margin-left: 0;
+        gap: 30px;
+        align-items: center;
+    }
+
+    .level1 {
+        width: 90%;
+        height: auto;
+        border-radius: 25px;
+        padding: 20px;
+    }
+
+    .name_of_level {
+        font-size: 20px;
+        text-align: center;
+        margin: 10px 0;
+    }
+
+    .quate {
+        font-size: 16px;
+        text-align: center;
+        margin: 10px;
+    }
+
+    .level-btn {
+        display: block;
+        margin: 15px auto;
+        padding: 10px 20px;
+    }
+
+    .images_button {
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .btn {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .day-disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    .about_level {
+        font-size: 30px;
+        text-align: center;
+        margin-left: 0;
+        margin-top: 20px;
+    }
+
+    .about_level h2 {
+        font-size: 40px;
+    }
+
+    footer {
+        text-align: center;
+        padding: 12px;
+        font-size: 16px;
+        margin-top: 40px;
+    }
+
+    .log_out,
+    .log_out1 {
         width: 50%;
         padding: 8px;
         font-size: 16px;
     }
-footer p {
-    justify-content: center;
-}
+
+    footer p {
+        justify-content: center;
+    }
 }

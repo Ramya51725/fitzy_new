@@ -1,211 +1,609 @@
 import API_BASE_URL from "../config.js";
 
-// Get category id only
-const categoryId = localStorage.getItem("category_id");
+/* =====================================================
+   🔥 BASIC DATA
+===================================================== */
 
-if (!categoryId) {
-  alert("Category not found. Please login again.");
+const userId = localStorage.getItem("user_id");
+const categoryId = localStorage.getItem("category_id");
+const level = "level1";
+const headerDay = document.getElementById("currentDayHeader");
+const selectedDay = parseInt(localStorage.getItem("selected_day")) || 1;
+
+if (!userId || !categoryId) {
+  alert("Login required");
   window.location.href = "../../html/sign_in.html";
 }
 
-const level = "level1";
-
 const container = document.getElementById("exerciseContainer");
 const detailContainer = document.getElementById("exerciseDetail");
+const completeBtn = document.getElementById("completeDayBtn");
 
-const API_URL = `${API_BASE_URL}/exercise/by-category-level?category_id=${categoryId}&level=${level}`;
+let progressData = null;
+let currentExercise = null;
 
 
-// ✅ Simple fetch (NO headers, NO token)
-fetch(API_URL)
-  .then(res => res.json())
-  .then(data => {
+/* =====================================================
+   🔥 LOAD OR CREATE PROGRESS
+===================================================== */
 
-    container.innerHTML = "";
+async function loadProgress() {
+  try {
+    const res = await fetch(`${API_BASE_URL}/progress/${userId}/${level}/${categoryId}`);
 
-    if (!data || data.length === 0) {
+    if (!res.ok) {
+      await createProgress();
+      return;
+    }
+
+    progressData = await res.json();
+
+    headerDay.textContent =
+      `Your current day: Day ${selectedDay} 🔥`;
+
+    loadExercisesForDay();
+
+  } catch (err) {
+    console.error("Load Progress Error:", err);
+  }
+}
+
+async function createProgress() {
+  try {
+    const res = await fetch(`${API_BASE_URL}/progress/complete-day`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user_id: userId,
+        level: level,
+        category_id: categoryId
+      })
+    });
+
+    progressData = await res.json();
+
+    headerDay.textContent =
+      `Your current day: Day ${selectedDay} 🔥`;
+
+    loadExercisesForDay();
+
+  } catch (err) {
+    console.error("Create Progress Error:", err);
+  }
+}
+
+
+/* =====================================================
+   🔥 LOAD EXERCISES
+===================================================== */
+
+
+
+async function loadExercisesForDay() {
+
+  if (!progressData) return;
+
+  try {
+
+    let month = Number(progressData.current_month);
+
+    if (!month || month < 1) month = 1;
+    if (month > 2) month = 2;
+
+    const levelMap = {
+      1: [1, 2], // Beginner
+      2: [3, 4], // Intermediate
+      3: [5, 6], // Advanced
+      4: [7, 8]  // Expert
+    };
+
+    const categoryLevels = levelMap[Number(progressData.category_id)];
+
+    if (!categoryLevels) {
+      container.innerHTML = "<p>Invalid category</p>";
+      return;
+    }
+
+    const levelNumber = categoryLevels[month - 1];
+    const dynamicLevel = "level" + levelNumber;
+
+    console.log("Category:", progressData.category_id);
+    console.log("Month:", month);
+    console.log("Fetching Level:", dynamicLevel);
+
+    const res = await fetch(
+      `${API_BASE_URL}/exercise/by-category-level?category_id=${progressData.category_id}&level=${dynamicLevel}`
+    );
+
+    const data = await res.json();
+
+    if (!data || !data.length) {
       container.innerHTML = "<p>No exercises found</p>";
       return;
     }
 
-    data.forEach(ex => {
-      const card = document.createElement("div");
-      card.className = "exercise-card";
+    const shuffled = stableShuffle(data, selectedDay);
+    const todayExercises = shuffled.slice(0, 6);
 
-      const imgPath = ex.exercise_image
-        ? ex.exercise_image.startsWith("http")
-          ? ex.exercise_image
-          : `/Assets/${ex.exercise_image}`
-        : "/Assets/default.png";
+    renderExercises(todayExercises);
 
-      card.innerHTML = `
-        <img src="${imgPath}">
-        <p>${ex.title}</p>
-      `;
+  } catch (err) {
+    console.error("Exercise Load Error:", err);
+  }
+}
 
-      card.onclick = () => showExerciseDetail(ex);
-      container.appendChild(card);
-    });
-  })
-  .catch(err => {
-    console.error(err);
-    container.innerHTML = "<p>Error loading exercises</p>";
+
+
+/* =====================================================
+   🔥 STABLE SHUFFLE
+===================================================== */
+
+function stableShuffle(array, seed) {
+
+  let shuffled = [...array];
+
+  function seededRandom(seed) {
+    let x = Math.sin(seed * 9999) * 10000;
+    return x - Math.floor(x);
+  }
+
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const random = seededRandom(seed + i * 7);
+    const j = Math.floor(random * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+
+  return shuffled;
+}
+
+
+/* =====================================================
+   🔥 RENDER EXERCISES
+===================================================== */
+
+function renderExercises(exercises) {
+
+  container.innerHTML = "";
+
+  exercises.forEach(ex => {
+
+    const card = document.createElement("div");
+    card.className = "exercise-card";
+
+    card.innerHTML = `
+      <img src="${ex.exercise_image || '/Assets/default.png'}">
+      <p>${ex.title}</p>
+    `;
+
+    card.onclick = () => showExerciseDetail(ex);
+
+    container.appendChild(card);
   });
+}
 
+
+/* =====================================================
+   🔥 SHOW DETAIL
+===================================================== */
 
 function showExerciseDetail(ex) {
-
-  let videoHTML = `<p>No video available</p>`;
-
-  if (ex.exercise_video) {
-    if (ex.exercise_video.includes("youtube")) {
-      videoHTML = `
-        <iframe src="${ex.exercise_video}" allowfullscreen></iframe>
-      `;
-    } else {
-      videoHTML = `
-        <video controls muted>
-          <source src="${ex.exercise_video}" type="video/mp4">
-        </video>
-      `;
-    }
-  }
 
   detailContainer.innerHTML = `
     <h2>${ex.title}</h2>
 
-    <div class="video-box">
-      ${videoHTML}
+    <div class="exercise-top-section">
+      <div class="video-box">
+        <video src="${ex.exercise_video || ""}" muted autoplay loop></video>
+      </div>
+
+      <div class="exercise-timer-section">
+        <h1 id="exerciseTimer">02:00</h1>
+        <button id="exerciseStartBtn">Start</button>
+      </div>
     </div>
 
-    <p><strong>Instructions</strong><br>
-      ${ex.instruction || "No instructions"}
-    </p>
+    <div class="exercise-info">
+      <h3>Instructions</h3>
+      <p>${ex.instruction || "No instructions"}</p>
 
-    <p><strong>Breathing Tip</strong><br>
-      ${ex.breathing_tip || "No breathing tip"}
-    </p>
+      <h3>Breathing Tip</h3>
+      <p>${ex.breathing_tip || "No breathing tip available"}</p>
 
-    <p><strong>Focus areas</strong></p>
-    <div class="focus-areas">
-      ${(ex.focus_area || []).map(a =>
-        `<div class="focus-pill">${a}</div>`
-      ).join("")}
+      <h3>Focus Area</h3>
+      <div class="focus-areas">
+        ${formatFocusAreas(ex.focus_area)}
+      </div>
     </div>
   `;
+
+  // Clear any existing interval to prevent leaks
+  if (window.exerciseInterval) {
+    clearInterval(window.exerciseInterval);
+    window.exerciseInterval = null;
+  }
+
+  currentExercise = ex;
+  initExerciseTimer();
+}
+
+function updateMonthTitles(currentMonth) {
+  const monthTitle1 = document.getElementById("monthTitle1");
+  const monthTitle2 = document.getElementById("monthTitle2");
+
+  if (!monthTitle1 || !monthTitle2) return;
+
+  let startMonth;
+  if (currentMonth <= 2) startMonth = 1;          // Beginner
+  else if (currentMonth <= 4) startMonth = 3;     // Intermediate
+  else if (currentMonth <= 6) startMonth = 5;     // Advanced
+  else startMonth = 7;                            // Expert
+
+  monthTitle1.innerText = "Month " + startMonth;
+  monthTitle2.innerText = "Month " + (startMonth + 1);
+}
+
+function initExerciseTimer() {
+
+  const timerDisplay = document.getElementById("exerciseTimer");
+  const startBtn = document.getElementById("exerciseStartBtn");
+
+  let timeLeft = 120;
+
+  function updateTimer() {
+    const min = Math.floor(timeLeft / 60);
+    const sec = timeLeft % 60;
+    timerDisplay.textContent = `${min}:${sec < 10 ? "0" : ""}${sec}`;
+  }
+
+  startBtn.onclick = () => {
+
+    if (window.exerciseInterval) return;
+
+    startBtn.disabled = true;
+    console.log("Exercise Timer Started 🕒");
+
+    window.exerciseInterval = setInterval(() => {
+
+      timeLeft--;
+      updateTimer();
+
+      if (timeLeft <= 0) {
+
+        clearInterval(window.exerciseInterval);
+        window.exerciseInterval = null;
+        timerDisplay.textContent = "Completed ✔";
+        timerDisplay.style.color = "green";
+        startBtn.style.display = "none";
+        console.log("Exercise Completed! Updating progress...");
+        updateProgressAfterExercise();
+      }
+
+    }, 1000);
+  };
+
+  updateTimer();
 }
 
 
-// import API_BASE_URL from "../config.js";
+/* =====================================================
+   🔥 FORMAT FOCUS AREA
+===================================================== */
 
-// const token = localStorage.getItem("token");
-// if (!token) {
-//   alert("Session expired. Please login again.");
-//   window.location.href = "../../html/sign_in.html";
-// }
+function formatFocusAreas(focusArea) {
 
+  if (!focusArea) {
+    return `<div class="focus-pill">Not specified</div>`;
+  }
 
-// const categoryId = localStorage.getItem("category_id");
-// if (!categoryId) {
-//   alert("Category not found. Please login again.");
-//   window.location.href = "../../html/sign_in.html";
-// }
+  let areas = Array.isArray(focusArea)
+    ? focusArea
+    : focusArea.split(",");
 
-// const level = "level1";
-
-
-// const container = document.getElementById("exerciseContainer");
-// const detailContainer = document.getElementById("exerciseDetail");
-
-// const API_URL = `${API_BASE_URL}/exercise/by-category-level?category_id=${categoryId}&level=${level}`;
+  return areas.map(area =>
+    `<div class="focus-pill">${area.trim()}</div>`
+  ).join("");
+}
 
 
-// fetch(API_URL, {
-//   headers: {
-//     "Authorization": `Bearer ${token}`
-//   }
-// })
-//   .then(res => {
-//     if (res.status === 401) {
-//       localStorage.clear();
-//       alert("Session expired. Please login again.");
-//       window.location.href = "../../html/sign_in.html";
-//       return;
-//     }
-//     return res.json();
-//   })
-//   .then(data => {
-//     if (!data) return;
+/* =====================================================
+   🔥 TIMER SYSTEM
+===================================================== */
 
-//     container.innerHTML = "";
+// This function is now part of initExerciseTimer, so it's removed here.
 
-//     if (data.length === 0) {
-//       container.innerHTML = "<p>No exercises found</p>";
-//       return;
-//     }
 
-//     data.forEach(ex => {
-//       const card = document.createElement("div");
-//       card.className = "exercise-card";
+/* =====================================================
+   🔥 PROGRESS UPDATE
+===================================================== */
 
-//       const imgPath = ex.exercise_image
-//         ? ex.exercise_image.startsWith("http")
-//           ? ex.exercise_image
-//           : `/Assets/${ex.exercise_image}`
-//         : "/Assets/default.png";
+async function updateProgressAfterExercise() {
+  if (!progressData) {
+    console.warn("No progressData loaded, cannot update.");
+    return;
+  }
 
-//       card.innerHTML = `
-//         <img src="${imgPath}">
-//         <p>${ex.title}</p>
-//       `;
+  // Ensure it's a number to prevent string concatenation bugs
+  progressData.completed_exercises = Number(progressData.completed_exercises) + 1;
+  console.log(`Exercise Count: ${progressData.completed_exercises}/6`);
 
-//       card.onclick = () => showExerciseDetail(ex);
-//       container.appendChild(card);
-//     });
-//   })
-//   .catch(err => {
-//     console.error(err);
-//     container.innerHTML = "<p>Error loading exercises</p>";
-//   });
+  if (currentExercise) {
+    await logExerciseToHistory(currentExercise);
+  }
 
-// function showExerciseDetail(ex) {
+  if (progressData.completed_exercises >= 6) {
+    console.log("Limit reached! Moving to next day...");
+    await moveToNextDay();
+  } else {
+    await saveProgress();
+  }
+}
 
-//   let videoHTML = `<p>No video available</p>`;
 
-//   if (ex.exercise_video) {
-//     if (ex.exercise_video.includes("youtube")) {
-//       videoHTML = `
-//         <iframe src="${ex.exercise_video}" allowfullscreen></iframe>
-//       `;
-//     } else {
-//       videoHTML = `
-//         <video controls muted>
-//           <source src="${ex.exercise_video}" type="video/mp4">
-//         </video>
-//       `;
-//     }
-//   }
+completeBtn.addEventListener("click", async () => {
+  console.log("Mark Day Complete button clicked!");
+  await moveToNextDay();
+});
 
-//   detailContainer.innerHTML = `
-//     <h2>${ex.title}</h2>
 
-//     <div class="video-box">
-//       ${videoHTML}
-//     </div>
+async function moveToNextDay() {
+  if (!progressData) return;
 
-//     <p><strong>Instructions</strong><br>
-//       ${ex.instruction || "No instructions"}
-//     </p>
+  console.log("Moving to next day logic started...");
+  progressData.completed_exercises = 0;
+  progressData.current_day = Number(progressData.current_day) + 1;
+  progressData.completed_days = Number(progressData.completed_days) + 1;
 
-//     <p><strong>Breathing Tip</strong><br>
-//       ${ex.breathing_tip || "No breathing tip"}
-//     </p>
+  if (progressData.current_day > 7) {
+    progressData.current_day = 1;
+    progressData.current_week = Number(progressData.current_week) + 1;
+  }
 
-//     <p><strong>Focus areas</strong></p>
-//     <div class="focus-areas">
-//       ${(ex.focus_area || []).map(a =>
-//         `<div class="focus-pill">${a}</div>`
-//       ).join("")}
-//     </div>
-//   `;
-// }
+  if (progressData.current_week > 4) {
+    progressData.current_week = 1;
+    progressData.current_month = Number(progressData.current_month) + 1;
+  }
+
+  console.table({
+    Message: "Resetting state for next day",
+    Day: progressData.current_day,
+    Week: progressData.current_week,
+    Month: progressData.current_month,
+    ExercisesCompleted: progressData.completed_exercises
+  });
+
+  await saveProgress();
+
+  alert("Day Completed Successfully! 🔥");
+  window.location.href = "../landing/beginner.html";
+}
+
+
+async function logExerciseToHistory(ex) {
+  console.log("Attempting to log exercise:", ex.title);
+  try {
+    const res = await fetch(`${API_BASE_URL}/exercise-log/log`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user_id: Number(userId),
+        exercise_id: ex.exercise_id || null,
+        title: ex.title,
+        level: level,
+        day: Number(selectedDay)
+      })
+    });
+
+    if (res.ok) {
+      console.log("Exercise logged to history ✅");
+    } else {
+      const err = await res.json();
+      console.error("Log History Error:", err);
+      // alert(`Log History Failed: ${res.status}`);
+    }
+  } catch (err) {
+    console.error("Log Exercise Fetch Error:", err);
+  }
+}
+
+
+async function saveProgress() {
+  if (!progressData) return;
+
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/progress/update/${userId}/${level}/${categoryId}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          current_month: progressData.current_month,
+          current_week: progressData.current_week,
+          current_day: progressData.current_day,
+          completed_days: progressData.completed_days,
+          completed_exercises: progressData.completed_exercises,
+          is_month_completed: progressData.is_month_completed,
+          is_level_completed: progressData.is_level_completed,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      const errData = await response.json();
+      console.error("Save Error Detail:", errData);
+      alert(`Save Failed: ${response.status} - ${JSON.stringify(errData)}`);
+      return;
+    }
+
+    console.log("Progress Saved ✅");
+
+  } catch (err) {
+    console.error("Save Progress Error:", err);
+    alert("Network Error: Could not save progress. Check if backend is running.");
+  }
+}
+
+
+/* =====================================================
+   🔥 INITIAL START
+===================================================== */
+
+// Initial load moved to bottom
+
+/* =====================================================
+   🔥 WARMUP SYSTEM (UNCHANGED)
+===================================================== */
+
+const overlay = document.getElementById("warmupOverlay");
+const warmupStartBtn = document.getElementById("startWarmup");
+const skipBtn = document.getElementById("skipBtn");
+const timerDisplay = document.getElementById("timer");
+const exerciseName = document.getElementById("exerciseName");
+const warmupVideo = document.getElementById("warmupVideo");
+const breakScreen = document.getElementById("breakScreen");
+const prevBtn = document.getElementById("prevExercise");
+const nextBtn = document.getElementById("nextExercise");
+
+let exercises = [];
+let index = 0;
+let timeLeft = 60;
+let interval = null;
+let completedExercises = 0;
+let isBreak = false;
+
+setTimeout(() => {
+  overlay.style.display = "flex";
+  loadWarmup();
+}, 2000);
+
+async function loadWarmup() {
+
+  try {
+
+    const response = await fetch(
+      `${API_BASE_URL}/exercise/warmup/${level}/${categoryId}`
+    );
+
+    const data = await response.json();
+
+    if (!data || !data.length) {
+      console.log("No warmup exercises found");
+      return;
+    }
+
+    // 🔥 Safe selected day
+    let selectedDay = localStorage.getItem("selected_day");
+
+    if (!selectedDay) {
+      selectedDay = 1;
+    } else {
+      selectedDay = parseInt(selectedDay);
+    }
+
+    // 🔥 Shuffle safely
+    const shuffled = stableShuffle(data, selectedDay);
+
+    exercises = shuffled.slice(0, 10);
+
+    if (!exercises.length) {
+      console.log("No exercises after shuffle");
+      return;
+    }
+
+    showExercise(0);
+
+  } catch (error) {
+    console.error("Warmup Load Error:", error);
+  }
+}
+
+
+function showExercise(i) {
+
+  index = i;
+  isBreak = false;
+
+  breakScreen.style.display = "none";
+  warmupVideo.style.display = "block";
+
+  exerciseName.textContent = exercises[index].title;
+  warmupVideo.src = exercises[index].exercise_video || "";
+
+  timeLeft = 60;
+  updateTimer();
+
+  clearInterval(interval);
+  interval = null;
+
+  warmupStartBtn.disabled = false;
+}
+
+function updateTimer() {
+  const min = Math.floor(timeLeft / 60);
+  const sec = timeLeft % 60;
+  timerDisplay.textContent =
+    `${min}:${sec < 10 ? "0" : ""}${sec}`;
+}
+
+function startWarmupTimer() {
+
+  if (interval) return;
+
+  warmupStartBtn.disabled = true;
+
+  interval = setInterval(() => {
+
+    timeLeft--;
+    updateTimer();
+
+    if (timeLeft <= 0) {
+
+      clearInterval(interval);
+
+      if (isBreak) {
+        showExercise(index);
+      } else {
+        moveNext();
+      }
+    }
+
+  }, 1000);
+}
+
+function moveNext() {
+
+  completedExercises++;
+
+  if (completedExercises === 5) {
+    isBreak = true;
+    warmupVideo.style.display = "none";
+    breakScreen.style.display = "flex";
+    timeLeft = 120;
+    updateTimer();
+    return;
+  }
+
+  index++;
+
+  if (index < exercises.length) {
+    showExercise(index);
+  } else {
+    overlay.style.display = "none";
+  }
+}
+
+warmupStartBtn.addEventListener("click", startWarmupTimer);
+skipBtn.addEventListener("click", moveNext);
+
+
+/* =====================================================
+   🔥 INITIAL START
+===================================================== */
+
+// Ensure only one initial load
+loadProgress();
+
+
+
+
+
+
