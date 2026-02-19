@@ -7,19 +7,33 @@ const nextBtn = document.getElementById("nextBtn");
 let globalCurrentMonth = 1;
 
 const userId = localStorage.getItem("user_id");
-const categoryId = localStorage.getItem("category_id");
-const level = localStorage.getItem("level") || "level1";
+let categoryId = null;
+let level = "level1";
 
 if (!userId) {
     alert("Please login first");
     window.location.href = "../sign_in.html";
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+    await fetchActiveState();
     loadProgress();
     setCategoryName();
     typeEffect();
 });
+
+async function fetchActiveState() {
+    try {
+        const res = await fetch(`${API_BASE_URL}/user-state/${userId}`);
+        const state = await res.json();
+        categoryId = state.active_category_id;
+        level = state.active_level || "level1";
+        console.log("Active State Loaded:", { categoryId, level });
+    } catch (err) {
+        console.error("Fetch State Error:", err);
+        categoryId = 1; // fallback
+    }
+}
 
 async function loadProgress() {
 
@@ -167,9 +181,19 @@ function renderDays(currentDay) {
             btn.classList.add("day-completed");
         }
 
-        btn.addEventListener("click", () => {
-            localStorage.setItem("selected_day", i);
-            window.location.href = `../levels/${level}.html`;
+        btn.addEventListener("click", async () => {
+            try {
+                // Update selected day in database before moving
+                await fetch(`${API_BASE_URL}/user-state/update/${userId}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ selected_day: i })
+                });
+                window.location.href = `../levels/${level}.html`;
+            } catch (err) {
+                console.error("Update State Error:", err);
+                window.location.href = `../levels/${level}.html`; // fallback redirect
+            }
         });
 
         dayContainer.appendChild(btn);
@@ -193,8 +217,6 @@ if (prevBtn) {
 /* ================= CATEGORY NAME ================= */
 
 function setCategoryName() {
-
-    const categoryId = Number(localStorage.getItem("category_id"));
     const categorySpan = document.getElementById("categoryName");
 
     if (!categorySpan) return;

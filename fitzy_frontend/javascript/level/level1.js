@@ -5,12 +5,13 @@ import API_BASE_URL from "../config.js";
 ===================================================== */
 
 const userId = localStorage.getItem("user_id");
-const categoryId = localStorage.getItem("category_id");
-const level = "level1";
-const headerDay = document.getElementById("currentDayHeader");
-const selectedDay = parseInt(localStorage.getItem("selected_day")) || 1;
+let categoryId = null;
+let level = "level1";
+let selectedDay = 1;
 
-if (!userId || !categoryId) {
+const headerDay = document.getElementById("currentDayHeader");
+
+if (!userId) {
   alert("Login required");
   window.location.href = "../../html/sign_in.html";
 }
@@ -28,23 +29,48 @@ let currentExercise = null;
 ===================================================== */
 
 async function loadProgress() {
+  console.log("🚀 Initializing level1.js");
+
   try {
-    const res = await fetch(`${API_BASE_URL}/progress/${userId}/${level}/${categoryId}`);
+    // 1. Fetch Active State from DB first
+    const stateRes = await fetch(`${API_BASE_URL}/user-state/${userId}`);
+    const state = await stateRes.json();
 
-    if (!res.ok) {
-      await createProgress();
-      return;
+    categoryId = state.active_category_id || 1;
+    level = state.active_level || "level1";
+    selectedDay = state.selected_day || 1;
+
+    console.log("Active State Loaded:", { categoryId, level, selectedDay });
+    console.log("Current API URL:", API_BASE_URL);
+
+    container.innerHTML = "<p>Loading progress...</p>";
+
+    try {
+      const res = await fetch(`${API_BASE_URL}/progress/${userId}/${level}/${categoryId}`);
+
+      if (!res.ok) {
+        console.warn(`Progress not found (Status: ${res.status}). Attempting to create...`);
+        if (res.status === 405) {
+          container.innerHTML = `<p style="color:red">Error: Method Not Allowed (405). You are likely using the stale Vercel backend. Please switch config.js to 127.0.0.1:8000 and use Live Server.</p>`;
+          return;
+        }
+        await createProgress();
+        return;
+      }
+
+      progressData = await res.json();
+      console.log("Progress Data Loaded ✅", progressData);
+
+      headerDay.textContent = `Your current day: Day ${selectedDay} 🔥`;
+      loadExercisesForDay();
+
+    } catch (err) {
+      console.error("Load Progress Error:", err);
+      container.innerHTML = `<p style="color:red">Fetch Error: ${err.message}. Ensure your backend server is running locally.</p>`;
     }
-
-    progressData = await res.json();
-
-    headerDay.textContent =
-      `Your current day: Day ${selectedDay} 🔥`;
-
-    loadExercisesForDay();
-
   } catch (err) {
-    console.error("Load Progress Error:", err);
+    console.error("Outer Load Progress Error:", err);
+    container.innerHTML = `<p style="color:red">Failed to initialize session: ${err.message}</p>`;
   }
 }
 
@@ -54,21 +80,28 @@ async function createProgress() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        user_id: userId,
+        user_id: Number(userId),
         level: level,
-        category_id: categoryId
+        category_id: Number(categoryId)
       })
     });
 
+    if (!res.ok) {
+      const errText = await res.text();
+      console.error("Create Progress Failed:", res.status, errText);
+      container.innerHTML = `<p style="color:red">Create Progress Failed: ${res.status}. Check your backend console.</p>`;
+      return;
+    }
+
     progressData = await res.json();
+    console.log("New Progress Created ✅", progressData);
 
-    headerDay.textContent =
-      `Your current day: Day ${selectedDay} 🔥`;
-
+    headerDay.textContent = `Your current day: Day ${selectedDay} 🔥`;
     loadExercisesForDay();
 
   } catch (err) {
     console.error("Create Progress Error:", err);
+    container.innerHTML = `<p style="color:red">Network Error while creating progress. Is the backend running?</p>`;
   }
 }
 
@@ -85,34 +118,38 @@ async function loadExercisesForDay() {
 
   try {
 
-    let month = Number(progressData.current_month);
+    // Fallback for category_id if missing in progressData
+    const catId = Number(progressData.category_id) || Number(localStorage.getItem("category_id")) || 1;
 
+    let month = Number(progressData.current_month);
     if (!month || month < 1) month = 1;
-    if (month > 2) month = 2;
 
     const levelMap = {
-      1: [1, 2], // Beginner
-      2: [3, 4], // Intermediate
-      3: [5, 6], // Advanced
-      4: [7, 8]  // Expert
+      1: [1, 2], // Category 1: Month 1 -> Level 1, Month 2 -> Level 2
+      2: [3, 4], // Category 2: Month 1 -> Level 3, Month 2 -> Level 4
+      3: [5, 6],
+      4: [7, 8]
     };
 
-    const categoryLevels = levelMap[Number(progressData.category_id)];
+    const categoryLevels = levelMap[catId];
 
     if (!categoryLevels) {
-      container.innerHTML = "<p>Invalid category</p>";
+      console.error("Invalid Category ID:", catId);
+      container.innerHTML = "<p>Invalid category. Please select a workout plan again.</p>";
       return;
     }
 
-    const levelNumber = categoryLevels[month - 1];
+    // Ensure we don't exceed the defined months (max 2 levels per category here)
+    const levelIdx = (month - 1) % categoryLevels.length;
+    const levelNumber = categoryLevels[levelIdx];
     const dynamicLevel = "level" + levelNumber;
 
-    console.log("Category:", progressData.category_id);
-    console.log("Month:", month);
-    console.log("Fetching Level:", dynamicLevel);
+    console.log("Category ID:", catId);
+    console.log("User Month:", month);
+    console.log("Mapped Level:", dynamicLevel);
 
     const res = await fetch(
-      `${API_BASE_URL}/exercise/by-category-level?category_id=${progressData.category_id}&level=${dynamicLevel}`
+      `${API_BASE_URL}/exercise/by-category-level?category_id=${catId}&level=${dynamicLevel}`
     );
 
     const data = await res.json();
@@ -122,8 +159,20 @@ async function loadExercisesForDay() {
       return;
     }
 
-    const shuffled = stableShuffle(data, selectedDay);
-    const todayExercises = shuffled.slice(0, 6);
+    const shuffled = stableShuffle(data, month); // Seed by month for a stable monthly shuffle
+
+    // Improved rotation: Shift the starting index based on the day
+    // This ensures different exercises appear each day
+    const groups = Math.ceil(shuffled.length / 6);
+    const rotationIdx = ((selectedDay - 1) % groups) * 6;
+
+    // Handle wrap-around for the last group if it's smaller than 6
+    let todayExercises = shuffled.slice(rotationIdx, rotationIdx + 6);
+
+    // If we have fewer than 6 left at the end, grab from the beginning to fill
+    if (todayExercises.length < 6 && shuffled.length > 6) {
+      todayExercises = todayExercises.concat(shuffled.slice(0, 6 - todayExercises.length));
+    }
 
     renderExercises(todayExercises);
 
@@ -490,17 +539,13 @@ async function loadWarmup() {
       return;
     }
 
-    // 🔥 Safe selected day
-    let selectedDay = localStorage.getItem("selected_day");
+    // 🔥 Fetch active state for day
+    const stateRes = await fetch(`${API_BASE_URL}/user-state/${userId}`);
+    const state = await stateRes.json();
+    const activeDay = state.selected_day || 1;
 
-    if (!selectedDay) {
-      selectedDay = 1;
-    } else {
-      selectedDay = parseInt(selectedDay);
-    }
-
-    // 🔥 Shuffle safely
-    const shuffled = stableShuffle(data, selectedDay);
+    // 🔥 Shuffle safely using activeDay
+    const shuffled = stableShuffle(data, activeDay);
 
     exercises = shuffled.slice(0, 10);
 
