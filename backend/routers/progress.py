@@ -48,3 +48,8 @@ def get_user_progress(user_id: int, db: Session = Depends(get_db)):
         }
         for p in progress
     ]
+@router.delete("/reset/{user_id}")
+def reset_progress(user_id: int, db: Session = Depends(get_db)):
+    db.query(UserProgress).filter(UserProgress.user_id == user_id).delete()
+    db.commit()
+    return {"message": "Progress reset successfully"}

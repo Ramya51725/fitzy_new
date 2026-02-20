@@ -99,6 +99,14 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!res.ok) throw new Error();
       markGreen(selectedDay);
 
+      // Check if 30 days are completed
+      if (selectedDay === 30) {
+        if (confirm("Congratulations! You have completed the 30-day diet plan. Would you like to reset for a new start?")) {
+          await resetDietProgress();
+          return;
+        }
+      }
+
       // 🔥 Auto-select next day
       const nextDayIndex = selectedDay;
       if (dayButtons[nextDayIndex]) {
@@ -110,6 +118,32 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("Failed to save progress");
     }
   });
+
+  async function resetDietProgress() {
+    try {
+      const res = await fetch(`${PROGRESS_API}/reset/${userId}`, {
+        method: "DELETE"
+      });
+
+      if (!res.ok) throw new Error("Reset failed");
+
+      // Clear UI
+      dayButtons.forEach(btn => {
+        btn.classList.remove("completed");
+        if (btn.innerText !== "Day 1") {
+          btn.classList.add("disabled");
+        }
+      });
+
+      // Reset to Day 1
+      dayButtons[0].click();
+      alert("Progress reset. Let's start a fresh cycle! 🔥");
+
+    } catch (err) {
+      console.error(err);
+      alert("Failed to reset progress. Please try again.");
+    }
+  }
 
   async function loadProgress() {
     try {
