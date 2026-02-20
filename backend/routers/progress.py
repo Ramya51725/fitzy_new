@@ -14,20 +14,6 @@ router = APIRouter(
 
 @router.post("/complete")
 def mark_completed(progress: ProgressCreate, db: Session = Depends(get_db)):
-    # 🔥 Check if user already completed a diet today
-    today = date.today()
-    last_completed = db.query(UserProgress).filter(
-        UserProgress.user_id == progress.user_id,
-        UserProgress.status == "completed"
-    ).order_by(UserProgress.updated_at.desc()).first()
-
-    if last_completed and last_completed.updated_at.date() == today:
-        if last_completed.day != progress.day: # Allow re-saving same day, but not mark NEW day
-             raise HTTPException(
-                status_code=403, 
-                detail="You can only complete one diet plan per day. Please come back tomorrow!"
-            )
-
     existing = db.query(UserProgress).filter(
         UserProgress.user_id == progress.user_id,
         UserProgress.day == progress.day

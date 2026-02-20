@@ -37,12 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
     btn.innerText = `Day ${day}`;
 
     btn.onclick = () => {
-      if (btn.classList.contains("disabled")) {
-        if (finishedToday && day === maxCompletedDay + 1) {
-          alert(`Diet completed for today. Day ${day} will unlock tomorrow.`);
-        }
-        return;
-      }
+      if (btn.classList.contains("disabled")) return;
       if (activeBtn) activeBtn.classList.remove("active");
 
       btn.classList.add("active");
@@ -100,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
         throw new Error(errorData.detail || "Could not save progress");
       }
 
-      markGreen(selectedDay, false); // Don't unlock the next one for today!
+      markGreen(selectedDay, true); // Unlock next day immediately!
 
       // Check if 30 days are completed
       if (selectedDay === 30) {
@@ -110,12 +105,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
 
-      // 🔥 Block auto-select next day (Wait until tomorrow)
+      // Auto-select next day
       const nextDayIndex = selectedDay;
       if (dayButtons[nextDayIndex]) {
-        dayButtons[nextDayIndex].classList.add("disabled");
-        finishedToday = true;
-        maxCompletedDay = Math.max(maxCompletedDay, selectedDay);
+        dayButtons[nextDayIndex].classList.remove("disabled");
+        dayButtons[nextDayIndex].click();
       }
     } catch (err) {
       console.error(err);
@@ -161,21 +155,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
       data.forEach(p => {
         if (p.status === "completed") {
-          const isToday = p.updated_at && p.updated_at.split('T')[0] === today;
-          markGreen(p.day, !isToday);
+          markGreen(p.day, true); // Always allow unlocking next day
           maxCompletedDay = Math.max(maxCompletedDay, p.day);
-          if (isToday) finishedToday = true;
         }
       });
 
       const nextBtn = dayButtons[maxCompletedDay];
       if (nextBtn) {
-        if (!finishedToday) {
-          nextBtn.classList.remove("disabled");
-          nextBtn.click();
-        } else {
-          nextBtn.classList.add("disabled");
-        }
+        nextBtn.classList.remove("disabled");
+        nextBtn.click();
       }
 
     } catch (err) {
