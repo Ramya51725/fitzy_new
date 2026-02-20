@@ -88,7 +88,7 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
     try:
         new_progress = ExerciseProgress(
             user_id=new_user.user_id,
-            level="fitzy",
+            level="Beginner",
             category_id=new_user.category_id,
             current_month=1,
             current_week=1,

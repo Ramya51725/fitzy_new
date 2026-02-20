@@ -14,6 +14,16 @@ router = APIRouter(
     tags=["Exercise Progress"]
 )
 
+def get_level_name(month: int) -> str:
+    if month <= 2:
+        return "Beginner"
+    elif month <= 4:
+        return "Intermediate"
+    elif month <= 6:
+        return "Advance"
+    else:
+        return "Expert"
+
 
 # =========================================
 # 🔥 COMPLETE DAY
@@ -55,7 +65,7 @@ def complete_day(progress: ProgressCreate, db: Session = Depends(get_db)):
     # If no progress → create new
     new_progress = ExerciseProgress(
         user_id=progress.user_id,
-        level=progress.level,
+        level=get_level_name(1),
         category_id=progress.category_id,
         completed_days=0,
         current_day=1,
@@ -82,9 +92,11 @@ def get_progress(
     db: Session = Depends(get_db)
 ):
     query = db.query(ExerciseProgress).filter(
-        ExerciseProgress.user_id == user_id,
-        ExerciseProgress.level == level
+        ExerciseProgress.user_id == user_id
     )
+
+    if level != "fitzy":
+        query = query.filter(ExerciseProgress.level == level)
 
     if category_id is not None and category_id != 0:
         query = query.filter(ExerciseProgress.category_id == category_id)
@@ -95,6 +107,43 @@ def get_progress(
         raise HTTPException(status_code=404, detail="Progress not found")
 
     return progress
+
+
+# =========================================
+# 🔥 INIT PROGRESS (Create fresh record for new user)
+# =========================================
+@router.post("/init", response_model=ProgressResponse)
+def init_progress(progress: ProgressCreate, db: Session = Depends(get_db)):
+    """Creates a fresh Beginner (Month 1, Week 1, Day 1) record if one doesn't exist."""
+
+    existing = db.query(ExerciseProgress).filter(
+        ExerciseProgress.user_id == progress.user_id,
+        ExerciseProgress.level == progress.level,
+        ExerciseProgress.category_id == progress.category_id
+    ).first()
+
+    if existing:
+        return existing
+
+    new_progress = ExerciseProgress(
+        user_id=progress.user_id,
+        level=get_level_name(1),
+        category_id=progress.category_id,
+        current_month=1,
+        current_week=1,
+        current_day=1,
+        completed_days=0,
+        completed_months=0,
+        completed_exercises=0,
+        is_month_completed=False,
+        is_level_completed=False
+    )
+
+    db.add(new_progress)
+    db.commit()
+    db.refresh(new_progress)
+
+    return new_progress
 
 
 # =========================================
@@ -111,9 +160,11 @@ def update_progress(
 ):
 
     query = db.query(ExerciseProgress).filter(
-        ExerciseProgress.user_id == user_id,
-        ExerciseProgress.level == level
+        ExerciseProgress.user_id == user_id
     )
+
+    if level != "fitzy":
+        query = query.filter(ExerciseProgress.level == level)
 
     if category_id is not None and category_id != 0:
         query = query.filter(ExerciseProgress.category_id == category_id)
@@ -129,6 +180,8 @@ def update_progress(
     # Sync fields if provided in request body
     if update_data.current_month is not None:
         progress.current_month = update_data.current_month
+        # 🔥 AUTO-UPDATE LEVEL NAME BASED ON MONTH
+        progress.level = get_level_name(progress.current_month)
     if update_data.current_week is not None:
         progress.current_week = update_data.current_week
     if update_data.current_day is not None:
