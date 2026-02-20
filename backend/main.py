@@ -1,7 +1,7 @@
 import sys
 import os
 
-# 🔥 ADD CURRENT DIRECTORY TO PATH FOR VERCEL
+# 🔥 ENSURE BACKEND DIRECTORY IS IN PATH FOR VERCEL
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from fastapi import FastAPI, APIRouter
