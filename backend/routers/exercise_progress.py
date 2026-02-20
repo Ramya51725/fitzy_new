@@ -72,14 +72,23 @@ def complete_day(progress: ProgressCreate, db: Session = Depends(get_db)):
 # =========================================
 # 🔥 GET PROGRESS
 # =========================================
+@router.get("/{user_id}/{level}", response_model=ProgressResponse)
 @router.get("/{user_id}/{level}/{category_id}", response_model=ProgressResponse)
-def get_progress(user_id: int, level: str, category_id: int, db: Session = Depends(get_db)):
-
-    progress = db.query(ExerciseProgress).filter(
+def get_progress(
+    user_id: int, 
+    level: str, 
+    category_id: Optional[int] = None, 
+    db: Session = Depends(get_db)
+):
+    query = db.query(ExerciseProgress).filter(
         ExerciseProgress.user_id == user_id,
-        ExerciseProgress.level == level,
-        ExerciseProgress.category_id == category_id   # ✅ FIXED
-    ).first()
+        ExerciseProgress.level == level
+    )
+
+    if category_id is not None and category_id != 0:
+        query = query.filter(ExerciseProgress.category_id == category_id)
+
+    progress = query.first()
 
     if not progress:
         raise HTTPException(status_code=404, detail="Progress not found")
@@ -90,20 +99,25 @@ def get_progress(user_id: int, level: str, category_id: int, db: Session = Depen
 # =========================================
 # 🔥 UPDATE PROGRESS
 # =========================================
+@router.put("/update/{user_id}/{level}", response_model=ProgressResponse)
 @router.put("/update/{user_id}/{level}/{category_id}", response_model=ProgressResponse)
 def update_progress(
     user_id: int, 
     level: str, 
-    category_id: int, 
     update_data: ProgressUpdate, 
+    category_id: Optional[int] = None, 
     db: Session = Depends(get_db)
 ):
 
-    progress = db.query(ExerciseProgress).filter(
+    query = db.query(ExerciseProgress).filter(
         ExerciseProgress.user_id == user_id,
-        ExerciseProgress.level == level,
-        ExerciseProgress.category_id == category_id
-    ).first()
+        ExerciseProgress.level == level
+    )
+
+    if category_id is not None and category_id != 0:
+        query = query.filter(ExerciseProgress.category_id == category_id)
+
+    progress = query.first()
 
     if not progress:
         raise HTTPException(status_code=404, detail="Progress not found")

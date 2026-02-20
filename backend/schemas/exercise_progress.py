@@ -6,7 +6,7 @@ from typing import Optional
 class ProgressCreate(BaseModel):
     user_id: int
     level: str
-    category_id: int
+    category_id: Optional[int] = None
 
 
 # 🔥 UPDATE (Partial Update Supported)

@@ -16,7 +16,7 @@ class ExerciseProgress(Base):
     )
 
     level = Column(String(20), nullable=False)
-    category_id = Column(Integer, nullable=False)
+    category_id = Column(Integer, nullable=True)
 
     current_month = Column(Integer, default=1)
     current_week = Column(Integer, default=1)

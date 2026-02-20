@@ -5,6 +5,7 @@ from passlib.context import CryptContext
 from dependencies import get_db
 from models.model import User
 from models.category import Category
+from models.exercise_progress import ExerciseProgress
 from schemas.schema import UserCreate, UserUpdate, UserLogin
 from utils.bmi_utils import calculate_bmi
 
@@ -82,6 +83,23 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
+
+    # 🔥 INITIALIZE PROGRESS FOR NEW USER
+    new_progress = ExerciseProgress(
+        user_id=new_user.user_id,
+        level="fitzy",
+        category_id=new_user.category_id,
+        current_month=1,
+        current_week=1,
+        current_day=1,
+        completed_days=0,
+        completed_months=0,
+        completed_exercises=0,
+        is_month_completed=False,
+        is_level_completed=False
+    )
+    db.add(new_progress)
+    db.commit()
 
     return {
         "user_id": new_user.user_id,
