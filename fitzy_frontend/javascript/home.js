@@ -128,15 +128,27 @@ function handleLevels(currentMonth) {
                 // ACTIVE
                 card.el.classList.add("active-level");
                 if (statusEl) statusEl.textContent = "🔥 In Progress";
+                if (startBtn) {
+                    startBtn.innerText = "Start";
+                    startBtn.onclick = () => {
+                        window.location.href = `../levels/workout.html`;
+                    };
+                }
             } else if (currentMonth > card.end) {
                 // COMPLETED
                 card.el.classList.add("completed-level");
                 if (statusEl) statusEl.textContent = "✅ Completed";
-            }
-
-            if (startBtn) {
-                startBtn.onclick = () => {
-                    window.location.href = `../levels/workout.html`;
+                if (startBtn) {
+                    startBtn.innerText = "Finished";
+                    startBtn.onclick = (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    };
+                }
+                // Disable navigation on the entire card for completed levels
+                card.el.onclick = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
                 };
             }
         } else {
