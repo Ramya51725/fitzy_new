@@ -91,6 +91,12 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!res.ok) throw new Error();
       markGreen(selectedDay);
 
+      // 🔥 Auto-select next day
+      const nextDayIndex = selectedDay;
+      if (dayButtons[nextDayIndex]) {
+        dayButtons[nextDayIndex].click();
+      }
+
     } catch (err) {
       console.error(err);
       alert("Failed to save progress");
@@ -114,7 +120,10 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       const nextBtn = dayButtons[maxCompletedDay];
-      if (nextBtn) nextBtn.classList.remove("disabled");
+      if (nextBtn) {
+        nextBtn.classList.remove("disabled");
+        nextBtn.click(); // 🔥 Auto-select the next available day on load
+      }
 
     } catch (err) {
       console.error(err);
