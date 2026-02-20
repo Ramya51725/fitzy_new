@@ -53,29 +53,56 @@ async function saveProgress() {
     localStorage.setItem("fitzy_progress", JSON.stringify(progressState));
     console.log("Progress Saved to localStorage ✅");
 
-    // 2. 🔥 Sync with Supabase (Backend)
+    // 2. 🔥 Sync with Backend
     try {
-        const res = await fetch(`${API_BASE_URL}/progress/update/${userId}/fitzy/${categoryId}`, {
+        const payload = {
+            current_month: Number(progressState.currentMonth),
+            current_week: Number(progressState.currentWeek),
+            current_day: Number(progressState.currentDay),
+            completed_months: Number(progressState.completedMonths),
+            completed_days: Number(progressState.completedDays)
+        };
+
+        // Try to UPDATE existing record
+        let res = await fetch(`${API_BASE_URL}/progress/update/${userId}/fitzy/${categoryId}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                current_month: Number(progressState.currentMonth),
-                current_week: Number(progressState.currentWeek),
-                current_day: Number(progressState.currentDay),
-                completed_months: Number(progressState.completedMonths),
-                completed_days: Number(progressState.completedDays)
-            })
+            body: JSON.stringify(payload)
         });
+
+        // 🔥 If no record (404) → Create first, then update
+        if (res.status === 404) {
+            console.log("No progress record found → Creating new record for this user...");
+
+            // Create initial record via complete-day (acts as upsert)
+            await fetch(`${API_BASE_URL}/progress/complete-day`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    user_id: Number(userId),
+                    level: "fitzy",
+                    category_id: Number(categoryId)
+                })
+            });
+
+            // Now update with the correct progress values
+            res = await fetch(`${API_BASE_URL}/progress/update/${userId}/fitzy/${categoryId}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+        }
 
         if (!res.ok) {
             const errorText = await res.text();
             throw new Error(`Server Error: ${res.status} - ${errorText}`);
         }
 
-        console.log("Progress synced with Supabase 🔓");
+        console.log("Progress synced with backend ✅");
     } catch (err) {
-        console.error("Supabase Sync Error:", err);
-        alert(`Failed to save progress to cloud: ${err.message}. Your progress is saved only locally for now.`);
+        console.error("Cloud Sync Error:", err);
+        // Don't alert user — progress is safely saved locally
+        console.warn("Progress saved locally only. Cloud sync failed:", err.message);
     }
 }
 
