@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fitzy | Workout</title>
+    <link rel="icon" href="../../Assets/logo.png" type="image/x-icon" />
+    <link rel="stylesheet" href="../../css/normal.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <div class="header">
+        <div class="header-left">
+            <img src="../../Assets/logo.png" width="45" height="45" />
+            <div>
+                <h2>Fitzy</h2>
+                <span>Lift.Sweat.Repeat</span>
+            </div>
+        </div>
+
+        <div class="header-right">
+            <p id="currentDayHeader">Your current day: Day 1 🔥</p>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="nav">
+            <a href="../landing/beginner.html"><i class="fa-solid fa-house nav-icon"></i></a>
+            <a href="../veg.html"><i class="fa-solid fa-bowl-food nav-icon"></i></i></a>
+            <a href="../exercises/chest.html"><i class="fa-solid fa-dumbbell nav-icon"></i></a>
+            <a href="../settings.html"><i class="fa-solid fa-gear nav-icon"></i></a>
+        </div>
+
+        <div class="exercise-section-wrapper">
+
+            <div id="exerciseContainer" class="exercise-grid">
+                <p>Loading exercises...</p>
+            </div>
+
+            <div class="day-complete-section">
+                <button type="button" id="completeDayBtn">Mark Day Complete</button>
+            </div>
+
+        </div>
+
+
+
+        <div class="divider"></div>
+
+        <div class="exercise-detail" id="exerciseDetail">
+            <p>Select an exercise</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; Fitzy Lift Sweat Repeat 2025</p>
+    </footer>
+
+    <!-- 🔥 WARMUP OVERLAY -->
+    <div id="warmupOverlay" class="warmup-overlay">
+
+        <div class="warmup-box">
+
+            <h2>Warm Up</h2>
+            <p class="total-time">Total Time: 12 Minutes</p>
+
+            <!-- ✅ Exercise Title + Arrows -->
+            <div class="exercise-section">
+                <button class="arrow" id="prevExercise">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+
+                <h3 id="exerciseName" class="exercise-title">
+                    Exercise Name
+                </h3>
+
+                <button class="arrow" id="nextExercise">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+
+            <!-- ✅ VIDEO + BREAK CONTAINER -->
+            <div class="warmup-video">
+
+                <video id="warmupVideo" muted autoplay loop></video>
+
+                <!-- 🔥 BREAK SCREEN (INSIDE VIDEO ONLY) -->
+                <div id="breakScreen" class="break-screen">
+                    <i class="fa-solid fa-clock break-icon"></i>
+                    <p>Break Time</p>
+                    <div class="break-input-section">
+                        <label for="breakMinutes">Minutes:</label>
+                        <input type="number" id="breakMinutes" value="2" min="1" max="10"
+                            style="width:50px; text-align:center; font-size:18px; padding:5px; border-radius:8px; border:1px solid #ccc;">
+                        <button id="startBreakBtn"
+                            style="padding:8px 20px; font-size:16px; border-radius:8px; background:#4CAF50; color:white; border:none; cursor:pointer; margin-left:10px;">Start
+                            Break</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <h1 id="timer">01:00</h1>
+
+            <div class="warmup-buttons">
+                <button id="startWarmup">Start</button>
+                <button id="skipBtn">Skip</button>
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <script type="module" src="../../javascript/level/workout.js"></script>
+</body>
+
+</html>

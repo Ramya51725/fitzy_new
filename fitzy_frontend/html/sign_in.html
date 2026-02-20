@@ -1,66 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Fitzy</title>
-    <link rel="icon" href="../Assets/logo.png" type="image/x-icon">
 
-    <link rel="stylesheet" href="../css/sign_in.css" />
-  </head>
-  <body>
-    <div class="home">
-      <a href="/index.html">
-        <img src="../Assets/logo.png" width="50" height="50" />
-        Fitzy <span>Lift.Sweat.Repeat</span>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fitzy</title>
+  <link rel="icon" href="../Assets/logo.png" type="image/x-icon">
+  <link rel="stylesheet" href="../css/sign_in.css" />
+</head>
+
+<body>
+  <div class="home">
+    <a href="../index.html">
+      <img src="../Assets/logo.png" width="50" height="50" />
+      Fitzy <span>Lift.Sweat.Repeat</span>
+    </a>
+  </div>
+
+  <div class="bmi_calculation">
+    <div class="login">
+      <a href="sign_up.html">
+        <div class="sign_up">Sign Up</div>
+      </a>
+      <a href="sign_in.html">
+        <div class="sign_in">Sign In</div>
       </a>
     </div>
 
-    <div class="bmi_calculation">
-      <div class="login">
-        <a href="sign_up.html"><div class="sign_up">Sign Up</div></a>
-        <a href="sign_in.html"><div class="sign_in">Sign In</div></a>
+    <form class="get_details" id="signinForm" novalidate>
+      <div class="set1">
+        <div>
+          <label for="mail">Enter your Mail:</label><br />
+          <input class="enter" type="email" id="mail" name="email" required />
+        </div>
+
+        <div>
+          <label for="pass">Enter your Password:</label><br />
+          <input class="enter" type="password" id="pass" name="password" required />
+        </div>
       </div>
 
-      <form class="get_details" id="signinForm" novalidate>
-        <div class="set1">
-          <div>
-            <label for="mail">Enter your Mail:</label><br />
-            <input
-              class="enter"
-              type="email"
-              id="mail"
-              name="email"
-              required
-            />
-          </div>
+      <div class="submit">
+        <button type="submit" class="btn">Continue</button>
+      </div>
 
-          <div>
-            <label for="pass">Enter your Password:</label><br />
-            <input
-              class="enter"
-              type="password"
-              id="pass"
-              name="password"
-              required
-            />
-          </div>
-        </div>
+      <p id="message" class="error"></p>
+    </form>
+  </div>
 
-        <div class="submit">
-          <button type="submit" class="btn">Continue</button>
-        </div>
-
-        <p id="message" class="error"></p>
-
-  
-      </form>
-    </div>
-
-    <footer>
-      <p>&copy; Fitzy Lift Sweat Repeat 2025</p>
-    </footer>
+  <footer>
+    <p>&copy; Fitzy Lift Sweat Repeat 2025</p>
+  </footer>
 
   <script type="module" src="../javascript/signin.js"></script>
-  </body>
+</body>
+
 </html>

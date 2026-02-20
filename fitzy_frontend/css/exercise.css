@@ -1,90 +1,137 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Georgia, serif;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Georgia, serif;
 }
-body{
-background: linear-gradient(to top, #fad0c43d 0%, #ffd1ffd5 100%);
 
+h1,
+h2,
+h3,
+.topic {
+  font-family: 'Outfit', sans-serif;
 }
-.home{
-  padding-top: 30px;
-  padding-left: 30px;
-  font-size: 50px;
-  color: black;
+
+body {
+  background: linear-gradient(to top, #fad0c43d 0%, #ffd1ff 100%);
+  height: 100vh;
+  overflow: hidden;
+  color: #333;
+}
+
+.home {
   display: flex;
-}
-.home p{
-  font-size: 40px;
-  margin-top: 20px;
-  margin-left: 200px;
-}
-span{
-  margin-top: 25px;
-  font-size: 25px;
-  color: rgb(129, 59, 129);
-}  
-.nav{
-    border-radius: 10px;
-    padding-top: 55px;
-    padding-left: 10px;
-    margin-top: 60px;
-    margin-left: 30px;
-    border: 1px solid black;
-    display: flex;
-    flex-direction: column;
-    gap: 100px;
-    width: 100px;
-    padding-bottom: 30px;
-}
-.move{
-    margin-left: 15px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  background: linear-gradient(to right, #e9d5ff, #fbcfe8);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
-.arranging_exercise_flex{
-    display: flex;
-    padding-bottom: 100px;
-}
-.exercise{
-    margin-top: 100px;
-    margin-left: 80px;
-    display: flex;
-    gap: 60px;
+.home .home-left-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.exe_name{
-    margin-left: 50px;
-    font-size: 20px;
-    border: 1px solid black;
-    border-radius: 30px;
-    background: white;
+.home h2 {
+  font-size: 30px;
+  margin: 0;
+  color: #6b21a8;
 }
 
-.topic{
+.home span {
+  font-size: 23px;
+  color: #555;
+  margin-top: 0;
+}
+
+.home p {
+  font-weight: bold;
+  background: white;
+  padding: 8px 15px;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  color: #6b21a8;
+  border: 1px solid #e9d5ff;
+  font-size: 22px;
+  margin-top: 0;
+  margin-left: 0;
+}
+
+.nav {
+  border: 1px solid #d8b4fe;
+  border-radius: 50px;
+  width: 75px;
+  height: 520px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 80px;
+  margin-left: 30px;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.nav-icon {
+  font-size: 30px;
+  color: #6b21a8;
+  transition: all 0.3s ease;
+}
+
+.nav-icon:hover {
+  color: #9333ea;
+  transform: scale(1.1);
+}
+
+.arranging_exercise_flex {
+  display: flex;
+  padding-bottom: 100px;
+}
+
+.exercise {
+  margin-top: 100px;
+  margin-left: 80px;
+  display: flex;
+  gap: 60px;
+}
+
+.exe_name {
+  margin-left: 50px;
+  font-size: 20px;
+  border: 1px solid black;
+  border-radius: 30px;
+  background: white;
+}
+
+.topic {
   font-size: 20px;
   margin-left: 60px;
   margin-top: 20px;
 }
 
-.days_plans{
-    border: 1px solid black; 
-    margin-left: 120px; 
-    margin-top: 80px;
+.days_plans {
+  border: 1px solid black;
+  margin-left: 120px;
+  margin-top: 80px;
 }
 
 footer {
   position: fixed;
-  bottom: 0;
-  left: 0;
+  bottom: 0px;
   width: 100%;
-  background-color: #222;
-  color: #fff;
+  background-color: #111;
+  color: white;
   text-align: center;
-  padding: 10px;
-  font-size: 18px;
-  z-index: 9999;
-  opacity: 1;
+  padding: 8px;
+  font-size: 0.85rem;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  z-index: 2000;
 }
 
 body {
@@ -92,11 +139,12 @@ body {
 }
 
 
-footer p{
+footer p {
   display: flex;
   justify-content: center;
 }
-.image{
+
+.image {
   margin-left: 20px;
 }
 
@@ -111,24 +159,29 @@ footer p{
     padding-left: 15px;
     align-items: center;
   }
+
   .home img {
     width: 40px;
     height: 40px;
   }
+
   .home span {
     font-size: 18px;
     margin-left: 0;
     margin-top: 5px;
   }
+
   .home p {
     font-size: 26px;
     margin-left: 0;
     margin-top: 10px;
   }
+
   .arranging_exercise_flex {
     flex-direction: column;
   }
-.nav {
+
+  .nav {
     border: 1px solid black;
     border-radius: 10px;
     width: 90%;
@@ -140,10 +193,12 @@ footer p{
     align-items: center;
     gap: 15px;
     margin-top: 60px;
-  } 
+  }
+
   .move {
     margin-left: 0;
   }
+
   .exercise {
     margin-left: 0;
     margin-top: 40px;
@@ -151,24 +206,29 @@ footer p{
     gap: 20px;
     flex-wrap: wrap;
   }
+
   .exe_name {
     width: 120px;
     height: 140px;
     margin-left: 0;
   }
+
   .topic {
     text-align: center;
     margin-left: 0;
     font-size: 16px;
   }
+
   .days_plans {
     width: 90%;
     margin-left: auto;
     margin-right: auto;
   }
+
   .image {
     width: 90%;
   }
+
   footer {
     font-size: 16px;
   }

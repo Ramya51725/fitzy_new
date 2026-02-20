@@ -5,41 +5,55 @@
   font-family: Georgia, serif;
 }
 
+h1,
+h2,
+h3 {
+  font-family: 'Outfit', sans-serif;
+}
+
 body {
-  font-family: Georgia, serif;
-  background: linear-gradient(to top, #fad0c43d 0%, #ffd1ffd5 100%);
+  background: linear-gradient(to top, #fad0c43d 0%, #ffd1ff 100%);
+  height: 100vh;
+  overflow: hidden;
+  color: #333;
 }
 
-.header{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 40px;
-    background: linear-gradient(to right, #e9d5ff, #fbcfe8);
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  background: linear-gradient(to right, #e9d5ff, #fbcfe8);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
-.header-left{
-    display: flex;
-    align-items: center;
-    gap: 12px;
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.header-left h2{
+.header-left h2 {
   font-size: 30px;
-    margin: 0;
+  margin: 0;
+  color: #6b21a8;
 }
 
-.header-left span{
-    font-size: 20px;
-    color: #555;
+.header-left span {
+  font-size: 23px;
+  color: #555;
 }
 
-.header-right{
-    font-weight: bold;
-    background: white;
-    padding: 8px 15px;
-    border-radius: 20px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+.header-right {
+  font-weight: bold;
+  background: white;
+  padding: 8px 15px;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  color: #6b21a8;
+  border: 1px solid #e9d5ff;
 }
 
 
@@ -54,30 +68,32 @@ body {
 
 
 
-.nav{
-    border: 1px solid black;
-    border-radius: 20px;
-    width: 90px;
-    height: 520px;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-
-    margin-top: 50px; 
+.nav {
+  border: 1px solid #d8b4fe;
+  border-radius: 50px;
+  width: 75px;
+  height: 520px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 80px;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
-.nav-icon{
-    font-size: 30px;     
-    color: black;        
-    transition: 0.3s;
+.nav-icon {
+  font-size: 30px;
+  color: #6b21a8;
+  transition: all 0.3s ease;
 }
 
-.nav-icon:hover{
-    color: purple;      
-    transform: scale(1.2);
+.nav-icon:hover {
+  color: #9333ea;
+  transform: scale(1.1);
 }
+
 .exercise-grid {
   display: grid;
   grid-template-columns: repeat(3, 160px);
@@ -107,8 +123,10 @@ body {
 
 .divider {
   height: 80%;
-  background: black;
-  width: 1px;
+  background: #333;
+  /* Darker divider */
+  width: 2px;
+  /* Slightly thicker */
 }
 
 
@@ -158,23 +176,29 @@ body {
 
 #exerciseStartBtn {
   padding: 10px 28px;
-  border-radius: 25px;
-  border: none;
-  background: purple;
-  color: white;
+  border-radius: 12px;
+  border: 1.5px solid #9333ea;
+  background: transparent;
+  color: #9333ea;
   font-size: 16px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: bold;
   cursor: pointer;
-  transition: 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 #exerciseStartBtn:hover {
-  background: #7a007a;
+  background: #9333ea;
+  color: white;
+  box-shadow: 0 4px 12px rgba(147, 51, 234, 0.3);
 }
 
 
 
 .completed {
-  color: green;
+  color: #16a34a;
+  font-weight: bold;
+  font-family: 'Outfit', sans-serif;
 }
 
 
@@ -234,141 +258,152 @@ body {
 
 footer {
   position: fixed;
-  bottom: 0;
-  left: 0;
+  bottom: 0px;
   width: 100%;
-  background-color: #222;
-  color: #fff;
+  background-color: #111;
+  /* Solid dark bar */
+  color: white;
   text-align: center;
-  padding: 10px;
-  font-size: 18px;
-  z-index: 9999;
-  opacity: 1;
+  padding: 8px;
+  font-size: 0.85rem;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  z-index: 2000;
 }
 
 body {
-  padding-bottom: 60px;
+  padding-bottom: 40px;
+  /* Adjusted padding */
 }
 
 
 
 .warmup-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
 }
 
 .warmup-box {
-    width: 600px;
-    max-width: 95%;
-    background: white;
-    padding: 35px;
-    border-radius: 25px;
-    text-align: center;
-    box-shadow: 0 30px 70px rgba(0,0,0,0.3);
+  width: 600px;
+  max-width: 95%;
+  background: white;
+  padding: 35px;
+  border-radius: 25px;
+  text-align: center;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.3);
 }
 
 
 .exercise-section {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 25px;
-    margin: 15px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+  margin: 15px 0;
 }
 
 .exercise-section h3 {
-    font-size: 24px;
-    min-width: 200px;
-    text-align: center;
+  font-size: 24px;
+  min-width: 200px;
+  text-align: center;
 }
 
 .arrow {
-    background: none;
-    border: none;
-    font-size: 22px;
-    cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
 }
 
 
 
 .warmup-video {
-    position: relative;   
-    width: 100%;
-    height: 260px;
-    margin: 20px 0;
+  position: relative;
+  width: 100%;
+  height: 260px;
+  margin: 20px 0;
 }
 
 #warmupVideo {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    border-radius: 20px;
-    background: #f3f3f3;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 20px;
+  background: #f3f3f3;
 }
 
 .break-screen {
-    position: absolute;
-    inset: 0;
-    background: rgba(255, 240, 240, 0.95);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    border-radius: 20px;
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 240, 240, 0.95);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 20px;
 }
 
 .break-icon {
-    font-size: 65px;
-    color: red;
-    animation: pulse 1s infinite;
+  font-size: 65px;
+  color: red;
+  animation: pulse 1s infinite;
 }
 
 .break-screen p {
-    font-size: 24px;
-    font-weight: bold;
-    color: red;
-    margin-top: 10px;
+  font-size: 24px;
+  font-weight: bold;
+  color: red;
+  margin-top: 10px;
 }
 
 /* Animation */
 @keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.2); }
-    100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 
 
 #timer {
-    font-size: 50px;
-    font-weight: bold;
-    margin: 15px 0;
+  font-size: 50px;
+  font-weight: bold;
+  margin: 15px 0;
 }
 
 
 
 .warmup-buttons button {
-    padding: 12px 30px;
-    border-radius: 30px;
-    border: none;
-    font-size: 16px;
-    cursor: pointer;
-    margin: 0 10px;
+  padding: 12px 30px;
+  border-radius: 30px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 0 10px;
 }
 
 #startWarmup {
-    background: purple;
-    color: white;
+  background: purple;
+  color: white;
 }
 
 #skipBtn {
-    background: #ddd;
+  background: #ddd;
 }
+
 .exercise-section-wrapper {
   margin-top: 100px;
   display: flex;
@@ -395,23 +430,23 @@ body {
   background: #1e7e34;
 }
 
-.day-completed{
-    background: linear-gradient(135deg,#28a745,#00c851);
-    color: white;
-    box-shadow: 0 5px 15px rgba(0,200,80,0.4);
+.day-completed {
+  background: linear-gradient(135deg, #28a745, #00c851);
+  color: white;
+  box-shadow: 0 5px 15px rgba(0, 200, 80, 0.4);
 }
 
 .circle.completed {
-    background-color: #28a745;
-    color: white;
-    border: none;
+  background-color: #28a745;
+  color: white;
+  border: none;
 }
 
 
 @media (max-width: 768px) {
 
 
-  .header{
+  .header {
     display: flex;
     flex-wrap: wrap;
   }
@@ -482,7 +517,7 @@ body {
 
   .focus-pill {
     font-size: 15px;
-  
+
   }
 
   .header {

@@ -4,78 +4,80 @@ const dayContainer = document.getElementById("dayContainer");
 const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
 
-let globalCurrentMonth = 1;
+let progressState = {
+    currentMonth: 1,
+    currentWeek: 1,
+    currentDay: 1,
+    completedMonths: 0,
+    completedDays: 0
+};
 
-const userId = localStorage.getItem("user_id");
-const categoryId = localStorage.getItem("category_id");
-const level = localStorage.getItem("level") || "level1";
-
-if (!userId) {
-    alert("Please login first");
-    window.location.href = "../sign_in.html";
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-    loadProgress();
+document.addEventListener("DOMContentLoaded", async () => {
+    await initProgress();
     setCategoryName();
+    updateMonthTitles(progressState.currentMonth);
+    handleLevels(progressState.currentMonth);
+    handleWeeks(progressState.currentMonth, progressState.currentWeek);
+    renderDays(progressState.currentDay);
     typeEffect();
 });
 
-async function loadProgress() {
+async function initProgress() {
+    const userId = localStorage.getItem("user_id");
+    const categoryId = localStorage.getItem("category_id");
 
-    try {
-        if (!userId || !level || !categoryId) {
-            console.error("Missing required data for progress fetch");
-            return;
-        }
-
-        const response = await fetch(
-            `${API_BASE_URL}/progress/${userId}/${level}/${categoryId}`
-        );
-
-        if (!response.ok) {
-            console.error("Progress not found");
-            renderDays(1);
-            updateMonthTitles(1);
-            handleLevels(1);
-            handleWeeks(1, 1);
-            return;
-        }
-
-        const data = await response.json();
-
-        const currentDay = data.current_day || 1;
-        const currentMonth = data.current_month || 1;
-        const currentWeek = data.current_week || 1;
-
-        globalCurrentMonth = currentMonth;
-
-        updateMonthTitles(currentMonth);
-        handleLevels(currentMonth);
-        handleWeeks(currentMonth, currentWeek);
-        renderDays(currentDay);
-
-    } catch (error) {
-        console.error("Progress fetch error:", error);
-        renderDays(1);
-        updateMonthTitles(1);
-        handleLevels(1);
-        handleWeeks(1, 1);
+    if (!userId || !categoryId) {
+        alert("Please login again.");
+        window.location.href = "../sign_in.html";
+        return;
     }
-}
 
+    // 🔥 Sync with Backend
+    try {
+        const res = await fetch(`${API_BASE_URL}/progress/${userId}/fitzy/${categoryId}`);
+        if (res.ok) {
+            const pData = await res.json();
+            progressState = {
+                currentMonth: pData.current_month || 1,
+                currentWeek: pData.current_week || 1,
+                currentDay: pData.current_day || 1,
+                completedMonths: pData.completed_months || 0,
+                completedDays: pData.completed_days || 0
+            };
+            localStorage.setItem("fitzy_progress", JSON.stringify(progressState));
+            console.log("Dashboard synced with Supabase ✅");
+        } else if (res.status === 404) {
+            // No progress found, ensure localStorage has defaults
+            const stored = localStorage.getItem("fitzy_progress");
+            if (stored) {
+                progressState = JSON.parse(stored);
+            } else {
+                localStorage.setItem("fitzy_progress", JSON.stringify(progressState));
+            }
+        }
+    } catch (err) {
+        console.error("Dashboard Sync Error:", err);
+        const stored = localStorage.getItem("fitzy_progress");
+        if (stored) {
+            progressState = JSON.parse(stored);
+            alert("Unable to sync with cloud. Using locally saved progress.");
+        } else {
+            alert("Unable to load progress. Please check your internet connection and make sure the server is running.");
+        }
+    }
+
+    console.log("Progress State Loaded ✅", progressState);
+}
 
 /* ================= MONTH TITLE LOGIC ================= */
 
 function updateMonthTitles(currentMonth) {
-
     const monthTitle1 = document.getElementById("monthTitle1");
     const monthTitle2 = document.getElementById("monthTitle2");
 
     if (!monthTitle1 || !monthTitle2) return;
 
     let startMonth;
-
     if (currentMonth <= 2) startMonth = 1;
     else if (currentMonth <= 4) startMonth = 3;
     else if (currentMonth <= 6) startMonth = 5;
@@ -88,47 +90,77 @@ function updateMonthTitles(currentMonth) {
 /* ================= HANDLE LEVEL LOGIC ================= */
 
 function handleLevels(currentMonth) {
+    // Ensure currentMonth is a number
+    currentMonth = Number(currentMonth) || 1;
+    console.log("handleLevels called for currentMonth:", currentMonth);
 
     const beginner = document.getElementById("beginnerCard");
     const intermediate = document.getElementById("intermediateCard");
     const advanced = document.getElementById("advancedCard");
     const expert = document.getElementById("expertCard");
 
-    document.querySelectorAll(".foundation_week").forEach(card => {
-        card.classList.remove("active-level", "completed-level", "unlocked");
-        card.classList.add("locked");
-        card.style.pointerEvents = "none";
+    const cards = [
+        { el: beginner, start: 1, end: 2, name: "Beginner" },
+        { el: intermediate, start: 3, end: 4, name: "Intermediate" },
+        { el: advanced, start: 5, end: 6, name: "Advanced" },
+        { el: expert, start: 7, end: 8, name: "Expert" }
+    ];
+
+    cards.forEach(card => {
+        if (!card.el) return;
+        const startBtn = card.el.querySelector(".week1") || card.el.querySelector(".start-btn");
+
+        card.el.classList.remove("active-level", "completed-level", "unlocked", "locked");
+        card.el.style.pointerEvents = "none";
+
+        const statusEl = card.el.querySelector(".status");
+
+        if (currentMonth >= card.start) {
+            // UNLOCKED (Either Active or Completed)
+            card.el.classList.add("unlocked");
+            card.el.style.pointerEvents = "auto";
+
+            // Remove lock icon
+            const lockIcon = card.el.querySelector(".lock-overlay");
+            if (lockIcon) lockIcon.style.display = "none";
+
+            if (currentMonth >= card.start && currentMonth <= card.end) {
+                // ACTIVE
+                card.el.classList.add("active-level");
+                if (statusEl) statusEl.textContent = "🔥 In Progress";
+            } else if (currentMonth > card.end) {
+                // COMPLETED
+                card.el.classList.add("completed-level");
+                if (statusEl) statusEl.textContent = "✅ Completed";
+            }
+
+            if (startBtn) {
+                startBtn.onclick = () => {
+                    window.location.href = `../levels/workout.html`;
+                };
+            }
+        } else {
+            // LOCKED
+            card.el.classList.add("locked");
+            if (statusEl) statusEl.textContent = "🔒 Locked";
+
+            // Add lock icon overlay if missing
+            let lockIcon = card.el.querySelector(".lock-overlay");
+            if (!lockIcon) {
+                lockIcon = document.createElement("div");
+                lockIcon.className = "lock-overlay";
+                lockIcon.innerHTML = '<i class="fa-solid fa-lock"></i>';
+                card.el.appendChild(lockIcon);
+            } else {
+                lockIcon.style.display = "block";
+            }
+        }
     });
-
-    if (currentMonth <= 2) {
-        beginner.classList.remove("locked");
-        beginner.classList.add("active-level", "unlocked");
-        beginner.style.pointerEvents = "auto";
-    }
-
-    if (currentMonth >= 3 && currentMonth <= 4) {
-        intermediate.classList.remove("locked");
-        intermediate.classList.add("active-level", "unlocked");
-        intermediate.style.pointerEvents = "auto";
-    }
-
-    if (currentMonth >= 5 && currentMonth <= 6) {
-        advanced.classList.remove("locked");
-        advanced.classList.add("active-level", "unlocked");
-        advanced.style.pointerEvents = "auto";
-    }
-
-    if (currentMonth >= 7) {
-        expert.classList.remove("locked");
-        expert.classList.add("active-level", "unlocked");
-        expert.style.pointerEvents = "auto";
-    }
 }
 
 /* ================= HANDLE WEEKS ================= */
 
 function handleWeeks(currentMonth, currentWeek) {
-
     const levelMonth = ((currentMonth - 1) % 2) + 1;
     const totalWeek = ((levelMonth - 1) * 4) + currentWeek;
 
@@ -154,25 +186,46 @@ function handleWeeks(currentMonth, currentWeek) {
 /* ================= DAY BUTTONS ================= */
 
 function renderDays(currentDay) {
-
+    if (!dayContainer) return;
     dayContainer.innerHTML = "";
+    const currentLevel = "level" + progressState.currentMonth;
 
     for (let i = 1; i <= 7; i++) {
+        // Wrap each day in a container for the arrow marker
+        const dayWrap = document.createElement("div");
+        dayWrap.className = "day-wrap";
+
+        // Arrow marker for current day
+        if (i === Number(currentDay)) {
+            const arrow = document.createElement("div");
+            arrow.className = "day-arrow";
+            arrow.innerHTML = "▼";
+            dayWrap.appendChild(arrow);
+        }
 
         const btn = document.createElement("button");
         btn.classList.add("day-btn");
-        btn.innerText = "Day " + i;
 
         if (i < currentDay) {
             btn.classList.add("day-completed");
+            btn.innerHTML = `<span class="day-check">✓</span> Day ${i}`;
+        } else if (i === Number(currentDay)) {
+            btn.classList.add("active");
+            btn.innerHTML = `<span class="day-fire">🔥</span> Day ${i}`;
+        } else {
+            btn.classList.add("disabled");
+            btn.disabled = true;
+            btn.innerHTML = `Day ${i}`;
         }
 
         btn.addEventListener("click", () => {
+            if (i > currentDay) return; // Extra safety guard
             localStorage.setItem("selected_day", i);
-            window.location.href = `../levels/${level}.html`;
+            window.location.href = `../levels/workout.html`;
         });
 
-        dayContainer.appendChild(btn);
+        dayWrap.appendChild(btn);
+        dayContainer.appendChild(dayWrap);
     }
 }
 
@@ -193,16 +246,28 @@ if (prevBtn) {
 /* ================= CATEGORY NAME ================= */
 
 function setCategoryName() {
-
     const categoryId = Number(localStorage.getItem("category_id"));
     const categorySpan = document.getElementById("categoryName");
+    const categoryDisplay = document.getElementById("categoryDisplay");
+    const levelDisplay = document.getElementById("levelDisplay");
 
-    if (!categorySpan) return;
+    let categoryText = "Unknown";
+    if (categoryId === 1) categoryText = "Underweight";
+    else if (categoryId === 2) categoryText = "Normal weight";
+    else if (categoryId === 3) categoryText = "Overweight";
 
-    if (categoryId === 1) categorySpan.innerText = "Underweight";
-    else if (categoryId === 2) categorySpan.innerText = "Normal weight";
-    else if (categoryId === 3) categorySpan.innerText = "Overweight";
-    else categorySpan.innerText = "Unknown";
+    if (categorySpan) categorySpan.innerText = categoryText;
+    if (categoryDisplay) categoryDisplay.innerText = categoryText;
+
+    // 🔥 Dynamic Level Name
+    if (levelDisplay) {
+        let levelText = "Beginner";
+        const m = Number(progressState.currentMonth) || 1;
+        if (m >= 7) levelText = "Expert";
+        else if (m >= 5) levelText = "Advanced";
+        else if (m >= 3) levelText = "Intermediate";
+        levelDisplay.innerText = levelText;
+    }
 }
 
 /* ================= TYPING EFFECT ================= */
@@ -234,8 +299,7 @@ function typeEffect() {
 
 function eraseEffect() {
     if (charIndex > 0) {
-        quoteElement.innerHTML =
-            quotes[quoteIndex].substring(0, charIndex - 1);
+        quoteElement.innerHTML = quotes[quoteIndex].substring(0, charIndex - 1);
         charIndex--;
         setTimeout(eraseEffect, 40);
     } else {
@@ -243,286 +307,3 @@ function eraseEffect() {
         setTimeout(typeEffect, 500);
     }
 }
-
-
-// // Create 7 buttons
-
-// const currentDayText = document.getElementById("currentDay");
-
-// const dayContainer = document.getElementById("dayContainer");
-// const totalDays = 7;
-
-// for (let i = 1; i <= totalDays; i++) {
-
-//     const btn = document.createElement("button");
-//     btn.classList.add("day-btn");
-//     btn.textContent = "Day " + i;
-
-//     btn.addEventListener("click", () => {
-
-//         // Remove active class
-//         document.querySelectorAll(".day-btn")
-//             .forEach(b => b.classList.remove("active"));
-
-//         btn.classList.add("active");
-
-//         // 🔥 SAVE SELECTED DAY
-//         localStorage.setItem("selected_day", i);
-
-//         // 🔥 Navigate
-//         window.location.href = "../levels/level1.html";
-//     });
-
-//     dayContainer.appendChild(btn);
-// }
-
-
-
-// const userId = localStorage.getItem("user_id")
-// const level = "Beginner"
-
-// async function loadProgress() {
-
-//     const userId = localStorage.getItem("user_id")
-//     const level = "Beginner"
-
-//     if (!userId) return
-
-//     try {
-
-//         const response = await fetch(
-//             `http://localhost:8000/progress/${userId}/${level}`
-//         )
-
-//         if (!response.ok) return
-
-//         const data = await response.json()
-//         const completedDays = data.completed_days || 0
-
-//         const container = document.getElementById("dayContainer")
-//         container.innerHTML = ""
-
-//         for (let i = 1; i <= 7; i++) {
-
-//             const btn = document.createElement("button")
-//             btn.classList.add("day-btn")
-//             btn.innerText = "Day " + i
-
-//             // ✅ Completed days
-//             if (i <= completedDays) {
-//                 btn.classList.add("day-completed")
-//             }
-
-//             // 🔒 Lock future days
-//             if (i > completedDays + 1) {
-//                 btn.disabled = true
-//                 btn.classList.add("day-disabled")
-//             }
-
-//             // 🔥 Click event
-//             btn.addEventListener("click", () => {
-//                 localStorage.setItem("selected_day", i)
-//                 window.location.href = "../levels/level1.html"
-//             })
-
-//             container.appendChild(btn)
-//         }
-
-//     } catch (error) {
-//         console.error("Progress fetch error:", error)
-//     }
-
-//     const completedDays = data.completed_days || 0;
-//     updateWeekProgress(completedDays);
-
-
-// }
-
-// loadProgress()
-
-
-// function updateWeekProgress(completedDays) {
-
-//   const totalWeeks = Math.floor(completedDays / 7);
-//   const currentWeekIndex = Math.floor(completedDays / 7);
-
-//   const weeks = [
-//     "m1w1","m1w2","m1w3","m1w4",
-//     "m2w1","m2w2","m2w3","m2w4"
-//   ];
-
-//   // Reset all
-//   weeks.forEach(id => {
-//     const el = document.getElementById(id);
-//     if (el) el.classList.remove("completed", "active");
-//   });
-
-//   weeks.forEach((id, index) => {
-//     const el = document.getElementById(id);
-//     if (!el) return;
-
-//     if (index < totalWeeks) {
-//       el.classList.add("completed");
-//     }
-//     else if (index === currentWeekIndex) {
-//       el.classList.add("active");
-//     }
-//   });
-// }
-
-
-
-
-
-// // Scroll only
-// nextBtn.addEventListener("click", () => {
-//     dayContainer.scrollBy({
-//         left: 100,
-//         behavior: "smooth"
-//     });
-// });
-
-// prevBtn.addEventListener("click", () => {
-//     dayContainer.scrollBy({
-//         left: -100,
-//         behavior: "smooth"
-//     });
-// });
-
-// const quotes = [
-//   "Stay strong always.",
-//   "Push beyond limits.",
-//   "Never skip workouts.",
-//   "Consistency builds success.",
-//   "Progress over perfection.",
-//   "Train with purpose.",
-//   "Discipline beats motivation.",
-//   "Earn your results.",
-//   "Focus. Work. Win.",
-//   "Stronger every day."
-// ];
-
-
-// const typingText = document.getElementById("typing-text");
-
-// let quoteIndex = 0;
-// let charIndex = 0;
-
-// function typeQuote() {
-
-//   if (charIndex < quotes[quoteIndex].length) {
-//     typingText.textContent += quotes[quoteIndex].charAt(charIndex);
-//     charIndex++;
-//     setTimeout(typeQuote, 120);
-//   } 
-//   else {
-//     // Wait 2 seconds after full quote
-//     setTimeout(() => {
-//       quoteIndex = (quoteIndex + 1) % quotes.length;
-//       typingText.textContent = "";
-//       charIndex = 0;
-//       typeQuote();
-//     }, 1000);
-//   }
-// }
-
-
-// function eraseQuote() {
-
-//   if (charIndex > 0) {
-//     typingText.textContent = quotes[quoteIndex].substring(0, charIndex - 1);
-//     charIndex--;
-//     setTimeout(eraseQuote, 30);
-//   } else {
-//     quoteIndex = (quoteIndex + 1) % quotes.length;
-//     setTimeout(typeQuote, 300);
-//   }
-// }
-
-// typeQuote();
-
-
-// async function loadHomeProgress() {
-
-//   const userId = localStorage.getItem("user_id");
-//   const level = "level1";
-
-//   const res = await fetch(`${API_BASE_URL}/progress/${userId}/${level}`);
-//   const progress = await res.json();
-
-//   const completedDays = progress.completed_days;
-
-//   for (let i = 1; i <= completedDays; i++) {
-//     const dayBtn = document.getElementById(`day${i}`);
-//     if (dayBtn) {
-//       dayBtn.classList.add("day-completed");
-//     }
-//   }
-// }
-
-// loadHomeProgress();
-
-
-document.addEventListener("DOMContentLoaded", () => {
-
-    const categoryId = Number(localStorage.getItem("category_id"));
-    const categorySpan = document.getElementById("categoryName");
-
-    if (!categoryId) {
-        alert("Please login again.");
-        window.location.href = "../sign_in.html";
-        return;
-    }
-
-    if (!categorySpan) return;
-
-    if (categoryId === 1) {
-        categorySpan.innerText = "Underweight";
-    } else if (categoryId === 2) {
-        categorySpan.innerText = "Normal weight";
-    } else if (categoryId === 3) {
-        categorySpan.innerText = "Overweight";
-    } else {
-        categorySpan.innerText = "Unknown";
-    }
-
-    loadProgress();
-    typeEffect();
-
-});
-
-
-
-
-// document.addEventListener("DOMContentLoaded", () => {
-
-//   const token = localStorage.getItem("token");
-//   const categoryId = Number(localStorage.getItem("category_id"));
-//   const categorySpan = document.getElementById("categoryName");
-
-//   if (!token || !categoryId) {
-//     alert("Session expired. Please login again.");
-//     window.location.href = "../sign_in.html";
-//     return;
-//   }
-
-//   if (!categorySpan) return;
-
-//   if (categoryId === 1) {
-//     categorySpan.innerText = "Underweight";
-//   } else if (categoryId === 2) {
-//     categorySpan.innerText = "Normal weight";
-//   } else if (categoryId === 3) {
-//     categorySpan.innerText = "Overweight";
-//   } else {
-//     categorySpan.innerText = "Unknown";
-//   }
-
-// });
-
-
-
-
-
-
-

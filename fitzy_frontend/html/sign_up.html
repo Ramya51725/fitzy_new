@@ -1,27 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fitzy - Sign Up</title>
-    <link rel="stylesheet" href="../css/sign_up.css"/>
+    <link rel="stylesheet" href="../css/sign_up.css" />
     <link rel="icon" href="../Assets/logo.png" type="image/x-icon">
-
 </head>
+
 <body>
     <div class="home">
         <a href="../index.html">
-            <img class="logo" src="../Assets/logo.png" width="50" height="50"/> 
+            <img class="logo" src="../Assets/logo.png" width="50" height="50" />
             Fitzy <span>Lift.Sweat.Repeat</span>
         </a>
     </div>
 
-    <div class="bmi_calculation"> 
+    <div class="bmi_calculation">
         <div>
-            <p>Unlock Your Perfect Plan</p> 
+            <p>Unlock Your Perfect Plan</p>
             <div class="login">
-                <a href="sign_up.html"><div class="sign_up active">Sign Up</div></a>
-                <a href="sign_in.html"><div class="sign_in">Sign In</div></a>
+                <a href="sign_up.html">
+                    <div class="sign_up active">Sign Up</div>
+                </a>
+                <a href="sign_in.html">
+                    <div class="sign_in">Sign In</div>
+                </a>
             </div>
             <div class="form">
                 <h2>Create Account</h2>
@@ -29,54 +34,53 @@
             </div>
 
             <form class="get_details" id="signupForm" novalidate>
-
                 <div class="set1">
                     <div>
-                        <label for="name">Enter your Name:</label><br/>
-                        <input class="enter" type="text" id="name" name="name" required><br/>
+                        <label for="name">Enter your Name:</label><br />
+                        <input class="enter" type="text" id="name" name="name" required><br />
                         <span id="name_error" class="error"></span>
                     </div>
                     <div>
-                        <label for="age">Enter your Age:</label><br/>
-                        <input class="enter" type="number" id="age" name="age" required><br/>
+                        <label for="age">Enter your Age:</label><br />
+                        <input class="enter" type="number" id="age" name="age" required><br />
                         <span id="age_error" class="error"></span>
                     </div>
                 </div>
 
                 <div class="set1">
                     <div>
-                        <label for="height">Enter your Height:</label><br/>
-                        <input class="enter" type="number" id="height" name="height" required><br/>
+                        <label for="height">Enter your Height:</label><br />
+                        <input class="enter" type="number" id="height" name="height" required><br />
                         <span id="height_error" class="error"></span>
                     </div>
                     <div>
-                        <label for="weight">Enter your Weight:</label><br/>
-                        <input class="enter" type="number" id="weight" name="weight" required><br/>
+                        <label for="weight">Enter your Weight:</label><br />
+                        <input class="enter" type="number" id="weight" name="weight" required><br />
                         <span id="weight_error" class="error"></span>
                     </div>
                 </div>
 
                 <div class="set1">
                     <div>
-                        <label for="email">Enter your Email:</label><br/>
-                        <input class="enter" type="email" id="email" name="email" required><br/>
+                        <label for="email">Enter your Email:</label><br />
+                        <input class="enter" type="email" id="email" name="email" required><br />
                         <span id="mail_error" class="error"></span>
                     </div>
                     <div>
-                        <label for="pass">Enter Your Password:</label><br/>
-                        <input class="enter" type="password" id="pass" name="password" required minlength="8"><br/>
+                        <label for="password">Enter Your Password:</label><br />
+                        <input class="enter" type="password" id="pass" name="password" required minlength="8"><br />
                         <span id="pass_error" class="error"></span>
                     </div>
                 </div>
 
                 <div class="set1">
                     <div>
-                        <label for="confirm">Confirm Password:</label><br/>
-                        <input class="enter" type="password" id="confirm" name="confirm" required><br/>
+                        <label for="confirm">Confirm Password:</label><br />
+                        <input class="enter" type="password" id="confirm" name="confirm" required><br />
                         <span id="confirm_error" class="error"></span>
                     </div>
                     <div class="gender">
-                        <label>Select Gender:</label><br/>
+                        <label>Select Gender:</label><br />
                         <input type="radio" name="gender" id="male" value="male">
                         <label for="male">Male</label>
 
@@ -96,8 +100,7 @@
         <p>&copy; Fitzy Lift Sweat Repeat 2025</p>
     </footer>
 
-    <script  type="module"  src="../javascript/signup.js"></script>
+    <script type="module" src="../javascript/signup.js"></script>
 </body>
+
 </html>
-
-

@@ -1,0 +1,162 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Georgia, serif;
+}
+body{
+background: linear-gradient(to top, #fad0c43d 0%, #ffd1ffd5 100%);
+
+}
+.home{
+  padding-top: 30px;
+  padding-left: 30px;
+  font-size: 50px;
+  color: black;
+  display: flex;
+}
+.home p{
+  font-size: 40px;
+  margin-top: 20px;
+  margin-left: 200px;
+}
+span{
+  margin-top: 25px;
+  font-size: 25px;
+  color: rgb(129, 59, 129);
+}  
+.nav{
+    border-radius: 10px;
+    padding-top: 55px;
+    padding-left: 10px;
+    margin-top: 60px;
+    margin-left: 30px;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    gap: 100px;
+    width: 100px;
+    padding-bottom: 30px;
+}
+.move{
+    margin-left: 15px;
+}
+
+.arranging_exercise_flex{
+    display: flex;
+    padding-bottom: 100px;
+}
+.exercise{
+    margin-top: 100px;
+    margin-left: 80px;
+    display: flex;
+    gap: 60px;
+}
+.exe_name{
+    margin-left: 50px;
+    font-size: 20px;
+    border: 1px solid black;
+    border-radius: 30px;
+    background: white;
+}
+.topic{
+  font-size: 20px;
+  margin-left: 60px;
+  margin-top: 20px;
+}
+
+.days_plans{
+    border: 1px solid black; 
+    margin-left: 120px; 
+    margin-top: 80px;
+}
+footer {
+  bottom: 0;
+  width: 100%;
+  font-size: 20px;
+  background-color: #222;
+  color: white;
+  text-align: center;
+  padding: 10px;
+}
+footer p{
+  display: flex;
+  justify-content: center;
+}
+.image{
+  margin-left: 20px;
+}
+
+
+
+@media (max-width: 768px) {
+  .home {
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 32px;
+    padding-left: 15px;
+  }
+  .home img {
+    width: 40px;
+    height: 40px;
+  }
+  .home span {
+    font-size: 18px;
+    margin-left: 0;
+    margin-top: 5px;
+  }
+  .home p {
+    font-size: 26px;
+    margin-left: 0;
+    margin-top: 10px;
+  }
+  .arranging_exercise_flex {
+    flex-direction: column;
+  }
+.nav {
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 90%;
+    margin: 20px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    gap: 15px;
+    margin-top: 60px;
+  } 
+  .move {
+    margin-left: 0;
+  }
+  .exercise {
+    margin-left: 0;
+    margin-top: 40px;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .exe_name {
+    width: 120px;
+    height: 140px;
+    margin-left: 0;
+  }
+  .topic {
+    text-align: center;
+    margin-left: 0;
+    font-size: 16px;
+  }
+  .days_plans {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .image {
+    width: 90%;
+    margin: 20px auto;
+    display: block;
+  }
+  footer {
+    font-size: 16px;
+  }
+}

@@ -7,8 +7,7 @@
   <title>Fitzy</title>
   <link rel="icon" href="../../Assets/logo.png" type="image/x-icon">
   <link rel="stylesheet" href="../../css/home.css" />
-  <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 </head>
 
 <body>
@@ -24,9 +23,9 @@
     </div>
 
     <div class="home-right">
-      <p class="decide">
+      <div class="decide">
         Category: <span id="categoryName"></span>
-      </p>
+      </div>
     </div>
   </div>
 
@@ -50,7 +49,7 @@
         <!-- ROW 1 -->
         <div class="arranging_weeks_flex">
 
-          <!-- BEGINNER (UNLOCKED DEFAULT) -->
+          <!-- BEGINNER -->
           <div class="foundation_week unlocked" id="beginnerCard">
             <h2>Beginner</h2>
             <h3>Foundation Month</h3>
@@ -58,7 +57,7 @@
             <div class="week1">Start</div>
           </div>
 
-          <!-- INTERMEDIATE (LOCKED DEFAULT) -->
+          <!-- INTERMEDIATE -->
           <div class="foundation_week locked" id="intermediateCard">
             <div class="lock-overlay">
               <i class="fa-solid fa-lock"></i>
@@ -109,17 +108,15 @@
     <!-- RIGHT SIDE -->
     <div class="days_plans">
 
-<div class="quote-container">
-  <h2 id="quote" class="typing"></h2>
-</div>
-
-
-
-      <div class="image-git">
-        <div class="motivation_img">
-          <img src="../../Assets/level1.png" width="200">
-        </div>
+      <div class="right_header">
+        <div class="header_bar"></div>
+        <h3><span id="levelDisplay"></span>:</h3>
       </div>
+
+      <div class="quote-container">
+        <h2 id="quote" class="typing"></h2>
+      </div>
+
 
       <!-- DAY SCROLL -->
       <div class="start_day">
@@ -163,16 +160,16 @@
           <div class="circle" id="m2w4">W4</div>
         </div>
       </div>
-
     </div>
-
   </div>
+
 
   <footer>
     <p>&copy; fitzy Lift Sweat Repeat 2025</p>
   </footer>
 
-  <script type ="module"  src="../../javascript/home.js"></script>
+  <script type="module" src="../../javascript/home.js"></script>
 
 </body>
+
 </html>

@@ -5,31 +5,49 @@
   font-family: Georgia, serif;
 }
 
+h1,
+h2,
+h3 {
+  font-family: 'Outfit', sans-serif;
+}
+
 body {
-  background: linear-gradient(to top, #fad0c43d 0%, #ffd1ffd5 100%);
+  background: linear-gradient(to top, #fad0c43d 0%, #ffd1ff 100%);
+  height: 100vh;
+  overflow: hidden;
+  color: #333;
 }
 
 .header {
-  height: 80px;
-  padding: 20px 40px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 10px;
+  padding: 15px 40px;
+  background: linear-gradient(to right, #e9d5ff, #fbcfe8);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
-.Completed-btn {
-  display: block;
-  margin: 20px 0 0 auto;
-  padding: 10px 18px;
-  background-color: rgb(197, 161, 231);
-  border: 1px solid rgb(75, 8, 75);
-  border-radius: 10px;
-  cursor: pointer;
+.header h2 {
+  font-size: 30px;
+  margin: 0;
+  color: #6b21a8;
 }
 
-span {
-  font-size: 25px;
-  color: rgb(129, 59, 129);
+.header span {
+  font-size: 23px;
+  color: #555;
+}
+
+.header h3 {
+  font-weight: bold;
+  background: white;
+  padding: 8px 15px;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  color: #6b21a8;
+  border: 1px solid #e9d5ff;
 }
 
 .arranging_diet_flex {
@@ -39,25 +57,38 @@ span {
 }
 
 .diet_box1.active {
-  background-color: rgb(197, 161, 231);
+  background-color: #f3e8ff;
   font-weight: bold;
-  border: 1px solid rgb(75, 8, 75);
+  border: 1.5px solid #9333ea;
+  color: #6b21a8;
+  box-shadow: 0 4px 12px rgba(147, 51, 234, 0.2);
 }
 
 .nav {
-  border-radius: 10px;
-  padding: 55px 10px 30px;
-  margin-top: 60px;
-  margin-left: 30px;
-  border: 1px solid black;
+  border: 1px solid #d8b4fe;
+  border-radius: 50px;
+  width: 75px;
+  height: 520px;
   display: flex;
   flex-direction: column;
-  gap: 80px;
-  width: 100px;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 80px;
+  margin-left: 30px;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
-.move {
-  margin-left: 15px;
+.nav-icon {
+  font-size: 30px;
+  color: #6b21a8;
+  transition: all 0.3s ease;
+}
+
+.nav-icon:hover {
+  color: #9333ea;
+  transform: scale(1.1);
 }
 
 .diet {
@@ -73,15 +104,20 @@ span {
 }
 
 .diet_box1 {
-  border: 1px solid black;
-  border-radius: 10px;
+  border: 1.5px solid #d8b4fe;
+  border-radius: 12px;
   padding: 15px;
   text-align: center;
   cursor: pointer;
+  background: white;
+  font-family: 'Outfit', sans-serif;
+  transition: all 0.3s ease;
 }
 
 .diet_box1:hover {
-  transform: scale(1.05);
+  transform: translateY(-3px);
+  border-color: #9333ea;
+  box-shadow: 0 4px 12px rgba(147, 51, 234, 0.1);
 }
 
 .first {
@@ -94,9 +130,10 @@ span {
 }
 
 .diet_box1.completed {
-  background-color: rgb(73, 187, 73);
-  border: 2px solid rgb(7, 53, 7);
+  background: linear-gradient(135deg, #22c55e, #16a34a);
   color: white;
+  border: 1.5px solid #16a34a;
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
 }
 
 .diet_box1.disabled {
@@ -108,10 +145,12 @@ span {
 .food_type {
   display: flex;
   gap: 20px;
-  border: 1px solid black;
+  border: 1.5px solid #d8b4fe;
   padding: 10px 25px;
-  border-radius: 10px;
+  border-radius: 15px;
   width: fit-content;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .food_explaination {
@@ -120,17 +159,30 @@ span {
 }
 
 #backround_color {
-  background-color: rgb(197, 161, 231);
+  background-color: #f3e8ff;
   font-weight: bold;
-  border: 1px solid rgb(75, 8, 75);
+  border: 1.5px solid #9333ea;
+  color: #6b21a8;
 }
 
 .veg_food,
 .Nonveg_food {
-  border: 1px solid black;
+  border: 1.5px solid #9333ea;
   padding: 10px 25px;
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
+  font-family: 'Outfit', sans-serif;
+  font-weight: bold;
+  color: #9333ea;
+  transition: all 0.3s ease;
+  background: transparent;
+}
+
+.veg_food:hover,
+.Nonveg_food:hover {
+  background: #9333ea;
+  color: white;
+  box-shadow: 0 4px 12px rgba(147, 51, 234, 0.3);
 }
 
 .diet_content {
@@ -151,23 +203,44 @@ span {
   font-size: 20px;
 }
 
+.Completed-btn {
+  margin-top: 30px;
+  padding: 12px 35px;
+  border-radius: 12px;
+  border: 1.5px solid #9333ea;
+  background: transparent;
+  color: #9333ea;
+  font-family: 'Outfit', sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: block;
+}
+
+.Completed-btn:hover {
+  background: #9333ea;
+  color: white;
+  box-shadow: 0 4px 12px rgba(147, 51, 234, 0.3);
+}
+
 a {
   text-decoration: none;
-  color: black;
+  color: inherit;
 }
 
 footer {
   position: fixed;
-  bottom: 0;
-  left: 0;
+  bottom: 0px;
   width: 100%;
-  background-color: #222;
-  color: #fff;
+  background-color: #111;
+  color: white;
   text-align: center;
-  padding: 10px;
-  font-size: 18px;
-  z-index: 9999;
-  opacity: 1;
+  padding: 8px;
+  font-size: 0.85rem;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  z-index: 2000;
 }
 
 body {
@@ -183,20 +256,24 @@ body {
     display: flex;
     gap: 10px;
   }
+
   .food_type {
     display: flex;
     gap: 20px;
-    border: 1px solid black;
+    border: 1.5px solid #d8b4fe;
     padding: 10px 25px;
-    border-radius: 10px;
+    border-radius: 15px;
     width: fit-content;
     margin-left: 30px;
+    background: white;
   }
+
   .arranging_diet_flex {
     display: flex;
     flex-direction: column;
     gap: 20px;
   }
+
   .diet_content {
     width: 100%;
   }

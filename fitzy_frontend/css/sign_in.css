@@ -1,100 +1,107 @@
-*{
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
   font-family: Georgia, serif;
 }
-.home{
+
+.home {
   padding-top: 30px;
   padding-left: 30px;
   font-size: 50px;
-  color:black;
+  color: black;
 }
 
-span{
+span {
   font-size: 25px;
-  color:rgb(129, 59, 129) ;
+  color: rgb(129, 59, 129);
 }
+
 body {
- background-image: url('../Assets/backround_image.jpg'); 
- background-size: cover; 
- z-index: -1;
-}
-.bmi_calculation{
-    background-color:hsla(210, 20%, 98%, 0.256);;
-    margin-top: 200px;
-    margin-left: 100px;
-    border: 2px solid black ;
-    border-radius: 30px;
-    width: 45%;   
+  background-image: url('../Assets/backround_image.jpg');
+  background-size: cover;
+  z-index: -1;
 }
 
-.login{
-    display: flex;
-    justify-content: space-around;
-    border: 1px solid black;
-    border-radius: 10px;
-    width: 500px;
-    margin-bottom: 20px;
-    margin-top: 30px;
-    margin-left: 100px;
+.bmi_calculation {
+  background-color: hsla(210, 20%, 98%, 0.256);
+  ;
+  margin-top: 200px;
+  margin-left: 100px;
+  border: 2px solid black;
+  border-radius: 30px;
+  width: 45%;
 }
 
-.sign_up{
+.login {
+  display: flex;
+  justify-content: space-around;
+  border: 1px solid black;
+  border-radius: 10px;
+  width: 500px;
+  margin-bottom: 20px;
+  margin-top: 30px;
+  margin-left: 100px;
+}
+
+.sign_up {
   border: 1px solid black;
   border-radius: 5px;
   padding: 10px 25px;
   font-size: 25px;
   margin: 20px 20px;
-
 }
 
-a{
-   text-decoration: none;
-   color: black;
+a {
+  text-decoration: none;
+  color: black;
 }
 
-.sign_in{
-background-color:hsla(210, 20%, 98%, 0.622) ;
- border: 1px solid black;
- font-size: 25px;
- padding: 10px 25px;
+.sign_in {
+  background-color: hsla(210, 20%, 98%, 0.622);
+  border: 1px solid black;
+  font-size: 25px;
+  padding: 10px 25px;
   border-radius: 5px;
- margin: 20px 20px;
+  margin: 20px 20px;
 }
 
-.set1{
-  margin-top: 35px ;
-   margin-left: 100px;
-    display: flex;
-    gap:60px ;
-    font-size: 24px;
+.set1 {
+  margin-top: 35px;
+  margin-left: 100px;
+  display: flex;
+  gap: 60px;
+  font-size: 24px;
 }
 
-.enter{
-    margin-top: 10px;
-    width: 200px;
-    height: 35px;
-    background-color:rgba(255, 255, 255, 0.593);
-    border-radius: 20px;
-    color: black;
-    font-size: 15px;
-    margin-bottom: 20px;
+.enter {
+  margin-top: 10px;
+  width: 200px;
+  height: 35px;
+  background-color: rgba(255, 255, 255, 0.593);
+  border-radius: 20px;
+  color: black;
+  font-size: 15px;
+  margin-bottom: 20px;
 }
-.submit{
+
+.submit {
   margin-left: 20px;
   color: black;
   display: flex;
   justify-content: center;
   padding: 30px;
 }
-input{
+
+input {
   padding: 20px;
 }
-.btn{
+
+.btn {
   padding: 8px;
   border-radius: 10px;
 }
+
 footer {
   position: fixed;
   bottom: 0;
@@ -113,9 +120,13 @@ body {
   padding-bottom: 60px;
 }
 
-footer p{
+footer p {
   display: flex;
   justify-content: center;
+}
+
+label {
+  cursor: default;
 }
 
 @media (max-width: 768px) {
@@ -123,50 +134,59 @@ footer p{
     width: 35px;
     height: 35px;
   }
-  label{
+
+  label {
     font-size: 17px;
   }
+
   .home {
     padding: 15px;
     font-size: 28px;
   }
+
   span {
     font-size: 14px;
   }
+
   .bmi_calculation {
     width: 85%;
-    margin: 20px ;
-    padding:  10px 15px;
+    margin: 20px;
+    padding: 10px 15px;
   }
 
   .login {
     flex-direction: row;
     width: 90%;
-    margin: 15px ;
+    margin: 15px;
   }
+
   .sign_in {
     font-size: 14px;
     padding: 6px 1px;
   }
-  .sign_up{
+
+  .sign_up {
     font-size: 14px;
     padding: 6px 1px;
   }
+
   .set1 {
     flex-direction: column;
     gap: 10px;
     margin: 10px 20px;
   }
+
   .btn {
     font-size: 14px;
     padding: 6px 15px;
   }
+
   footer {
     font-size: 14px;
     margin-top: 20px;
   }
-  .password{
+
+  .password {
     font-size: 22px;
   }
 }
-  

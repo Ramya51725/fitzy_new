@@ -5,13 +5,20 @@
     font-family: Georgia, serif;
 }
 
+h1,
+h2,
+h3,
+.decide {
+    font-family: 'Outfit', sans-serif;
+}
+
 body {
     background: linear-gradient(to top, #fad0c43d 0%, #ffd1ff 100%);
     height: 100vh;
     overflow: hidden;
     /* 🔥 This removes scrolling */
+    color: var(--text-main);
 }
-
 
 /* HEADER */
 .home {
@@ -20,6 +27,9 @@ body {
     align-items: center;
     padding: 15px 40px;
     background: linear-gradient(to right, #e9d5ff, #fbcfe8);
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
 /* Left Side */
@@ -32,6 +42,7 @@ body {
 .home-left h2 {
     font-size: 30px;
     margin: 0;
+    color: var(--primary);
 }
 
 .home-left span {
@@ -46,6 +57,8 @@ body {
     padding: 8px 15px;
     border-radius: 20px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    color: var(--primary);
+    border: 1px solid var(--primary-light);
 }
 
 
@@ -59,6 +72,8 @@ body {
     justify-content: space-between;
     align-items: flex-start;
     padding: 40px 60px;
+    height: calc(100vh - 80px);
+    gap: 3rem;
 }
 
 /* LEFT SECTION */
@@ -68,36 +83,45 @@ body {
     margin-left: 10px;
     align-items: center;
     /* 🔥 vertically center with boxes */
+    flex: 1;
+    gap: 2.5rem;
 }
 
-
+/* NAVIGATION SIDEBAR */
 .nav {
-    border: 1px solid black;
-    border-radius: 20px;
-    width: 90px;
+    border: 1px solid #d8b4fe;
+    border-radius: 50px;
+    /* More pill-shaped */
+    width: 75px;
+    /* Slightly narrower */
     height: 520px;
-
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-
-    margin-top: 50px;
-    /* 🔥 keezha varum */
+    margin-top: 80px;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 .nav-icon {
     font-size: 30px;
-    /* 🔥 Bigger size */
-    color: black;
-    /* 🔥 Black color */
-    transition: 0.3s;
+    color: #6b21a8;
+    /* Deep purple instead of black */
+    transition: all 0.3s ease;
+}
+
+.nav-icon:hover {
+    color: #9333ea;
+    transform: scale(1.1);
 }
 
 .nav-icon:hover {
     color: purple;
     /* Optional hover effect */
     transform: scale(1.2);
+    background: var(--primary-light);
 }
 
 
@@ -108,42 +132,91 @@ body {
 .plans {
     margin-left: 100px;
     width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.plans h1 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 0.5rem;
 }
 
 .arranging_weeks_flex {
     display: flex;
-    gap: 60px;
-    margin-top: 60px;
+    gap: 40px;
+    /* Reduced gap */
+    margin-top: 20px;
+    /* Moved cards up */
 }
 
+/* LEVEL CARDS */
 .foundation_week {
-    border: 1px solid black;
-    padding: 20px;
-    border-radius: 12px;
+    border: 1px solid rgba(147, 51, 234, 0.2);
+    /* Discrete purple border */
+    padding: 24px;
+    border-radius: 24px;
+    /* More rounded for modern look */
     width: 270px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.879);
-    transition: all 0.3s ease;
-    /* 🔥 Smooth animation */
+    /* Refined width */
+    background: rgba(255, 255, 255, 0.8);
+    /* Glass effect base */
+    backdrop-filter: blur(12px);
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.04),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.foundation_week::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.4),
+            transparent);
+    transform: skewX(-20deg);
+    transition: 0.7s;
+}
+
+.foundation_week:hover::after {
+    left: 120%;
 }
 
 .quote-container {
-  height: 40px;   /* Fix height */
-  display: flex;
-  align-items: center;
+    height: 40px;
+    /* Fix height */
+    display: flex;
+    align-items: center;
 }
 
 .typing {
-  font-size: 28px;
-  font-weight: bold;
-  color: purple;
-  border-right: 3px solid purple;
-  white-space: nowrap;
+    font-size: 28px;
+    font-weight: bold;
+    color: purple;
+    border-right: 3px solid purple;
+    white-space: nowrap;
+    font-family: 'Outfit', sans-serif;
 }
 
 
 @keyframes blink {
-  50% { border-color: transparent; }
+    50% {
+        border-color: transparent;
+    }
 }
 
 
@@ -162,39 +235,56 @@ body {
 
 /* 🔥 Hover Effect */
 .foundation_week:hover {
-    transform: translateY(-10px) scale(1.03);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(147, 51, 234, 0.15);
+    border-color: #9333ea;
 }
 
 
 .foundation_week h2 {
     font-size: 20px;
     margin-bottom: 10px;
+    color: var(--text-main);
 }
 
+.foundation_week h3 {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
 
 .status {
-    border: 1px solid black;
-    border-radius: 10px;
-    width: 150px;
-    margin: 10px 0;
-    padding: 3px;
+    border: 1px solid #a0a0a0;
+    border-radius: 25px;
+    /* Pill shaped input-like */
+    width: 100%;
+    padding: 8px 15px;
+    background: #fff;
+    color: #333;
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-align: left;
 }
 
 .week1 {
-    border: 2px solid black;
-    width: 100px;
-    padding: 6px;
-    border-radius: 10px;
+    border: 1.5px solid #9333ea;
+    width: 100%;
+    padding: 10px;
+    border-radius: 12px;
     text-align: center;
     background-color: transparent;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: all 0.3s ease;
+    color: #9333ea;
+    font-weight: bold;
+    font-family: 'Outfit', sans-serif;
+    cursor: pointer;
 }
 
 /* 🔥 When hovering the entire card */
 .foundation_week:hover .week1 {
-    background-color: purple;
+    background-color: #9333ea;
     color: white;
+    box-shadow: 0 4px 12px rgba(147, 51, 234, 0.3);
 }
 
 img {
@@ -247,45 +337,41 @@ img {
 
 /* Month Timeline */
 .circle {
-    width: 40px;
-    height: 40px;
-    border: 2px solid black;
+    width: 42px;
+    height: 42px;
+    border: 2px solid #d8b4fe;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-
-    /* ✨ Soft Shadow for all 4 months */
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
-    transition: 0.3s ease;
+    background: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
 }
 
-/* ✨ Hover Lift Effect */
 .circle:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 22px rgba(0, 0, 0, 0.35);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(147, 51, 234, 0.15);
 }
 
-/* 🔥 Active Month */
 .circle.active {
-    background-color: purple;
+    background-color: #9333ea;
     color: white;
-
-    /* Jump Animation */
-    animation: jump 1s infinite ease-in-out;
-
-    /* Purple Glow Shadow */
-    box-shadow: 0 12px 25px rgba(128, 0, 128, 0.6);
+    border-color: #9333ea;
+    box-shadow: 0 8px 20px rgba(147, 51, 234, 0.4);
+    animation: jump 2s infinite ease-in-out;
 }
 
 
 
 /* DIVIDER */
 .divider {
-    width: 1px;
+    width: 2px;
+    /* Thicker solid line */
     margin-top: 40px;
     height: 550px;
-    background-color: black;
+    background-color: #333;
+    /* Dark as seen in screenshot */
 }
 
 .day-buttons {
@@ -293,72 +379,190 @@ img {
     gap: 12px;
     overflow-x: auto;
     scroll-behavior: smooth;
-    width: 240px;
+    width: 330px;
+    padding: 15px 10px;
+    /* Side padding to prevent clipping */
+    align-items: flex-end;
 }
 
 .day-buttons::-webkit-scrollbar {
     display: none;
 }
 
+/* Day wrapper for arrow positioning */
+.day-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    padding-top: 20px;
+    /* Space for the floating arrow */
+}
+
+/* Bouncing arrow above current day */
+.day-arrow {
+    position: absolute;
+    top: 0;
+    color: #9333ea;
+    font-size: 14px;
+    animation: bounceArrow 1s ease-in-out infinite;
+    text-shadow: 0 2px 6px rgba(147, 51, 234, 0.4);
+}
+
+@keyframes bounceArrow {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-4px);
+    }
+}
+
 .day-btn {
+    width: 80px;
     min-width: 80px;
-    padding: 8px 12px;
-    border: 2px solid black;
-    border-radius: 10px;
-    background-color: #f3d3df;
-    transition: 0.3s;
+    height: 40px;
+    padding: 0;
+    border: 2px solid #333;
+    /* Darker rectangular border */
+    border-radius: 8px;
+    /* Less rounded */
+    background: #fff;
+    color: #333;
+    font-weight: 500;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.day-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(147, 51, 234, 0.12);
+    border-color: #9333ea;
+    color: #9333ea;
 }
 
 .image-git {
     display: flex;
 }
 
+/* Active day (current) */
 .day-btn.active {
-    background-color: purple;
+    background: linear-gradient(135deg, #9333ea, #7c3aed);
     color: white;
+    font-weight: bold;
+    border: 2px solid #7c3aed;
+    box-shadow: 0 4px 14px rgba(147, 51, 234, 0.4);
+}
+
+.day-fire {
+    margin-right: 2px;
+    font-size: 11px;
+}
+
+/* Completed day */
+.day-btn.day-completed {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: white;
+    border: 2px solid #16a34a;
+    box-shadow: 0 2px 8px rgba(34, 197, 94, 0.25);
+}
+
+.day-check {
+    margin-right: 2px;
     font-weight: bold;
 }
 
+/* Disabled/future day */
 .day-btn.disabled {
-    opacity: 0.8;
+    opacity: 0.6;
     cursor: not-allowed;
+    background: #f0ecf5;
+    border-color: #ddd;
 }
 
 /* RIGHT SECTION */
 .days_plans {
     width: 35%;
-    padding-left: 40px;
+    padding-left: 20px;
+    /* Reduced padding */
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
-/* Motivational Section */
-.motivation {
-    font-size: 26px;
-    margin-bottom: 20px;
+.right_header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+
+.header_bar {
+    width: 4px;
+    height: 30px;
+    background-color: #ff00ff;
+    /* Magenta bar */
+    border-radius: 10px;
+}
+
+.right_header h3 {
+    font-size: 1.5rem;
+    color: #333;
+    font-weight: 600;
 }
 
 .motivation_img {
     margin-bottom: 20px;
+    background: #fff;
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    justify-content: center;
+    border: 1px solid var(--primary-light);
 }
 
 .start_day {
     display: flex;
     align-items: center;
-    gap: 20px;
-    margin: 30px 0;
-}
-
-.day_box {
-    border: 2px solid black;
-    padding: 10px 30px;
-    border-radius: 10px;
-    font-weight: bold;
+    justify-content: center;
+    gap: 12px;
+    margin: 24px 0;
+    background: #fff;
+    padding: 10px 20px;
+    border-radius: 25px;
+    border: 1px solid #e9d5ff;
+    box-shadow: 0 4px 15px rgba(147, 51, 234, 0.05);
 }
 
 .arrow {
-    border: none;
-    background: none;
-    font-size: 25px;
+    border: 1.5px solid #d8b4fe;
+    background: #fff;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+    font-size: 14px;
     cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+    color: #9333ea;
+}
+
+.arrow:hover {
+    background: #9333ea;
+    color: #fff;
+    border-color: #9333ea;
 }
 
 /* Month Timeline */
@@ -373,130 +577,290 @@ img {
     margin-top: 15px;
 }
 
-.circle {
-    width: 40px;
-    height: 40px;
-    border: 2px solid black;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.circle.active {
-    background-color: purple;
-    color: white;
-}
-
 .line {
-    width: 40px;
+    width: 30px;
+    /* Shorter lines */
     height: 2px;
-    background-color: black;
+    background-color: #333;
+    /* Darker lines */
 }
 
 /* FOOTER */
 footer {
     position: fixed;
-    bottom: 0;
+    bottom: 0px;
+    /* Force to bottom edge */
     width: 100%;
-    background-color: #222;
+    background-color: #111;
+    /* Solid dark bar */
     color: white;
     text-align: center;
-    padding: 10px;
-    font-size: 16px;
+    padding: 8px;
+    /* Reduced padding from 12px */
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    z-index: 2000;
+    /* Ensure it's above everything */
 }
+
 .circle.completed {
-    background-color: #28a745;  /* green */
+    background-color: #22c55e;
+    /* Bright green */
     color: white;
     border: none;
+    box-shadow: 0 4px 10px rgba(34, 197, 94, 0.3);
 }
-/* LOCKED CARD */
+
+.circle.active {
+    background-color: #800080;
+    color: white;
+    border: none;
+    box-shadow: 0 0 15px rgba(128, 0, 128, 0.5);
+}
+
+/* ================= ORIGINAL LAYOUT CLASSES ================= */
+.four_weeks_plan {
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+}
+
+.Weeks {
+    /* Baseline container */
+}
+
+.levels {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin-left: 50px;
+}
+
+.level1 {
+    border: 1px solid #d8b4fe;
+    border-radius: 20px;
+    padding: 30px;
+    width: 400px;
+    background: #fff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.about_level {
+    font-size: 35px;
+    font-weight: bold;
+    margin-left: 50px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.name_of_level {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.quate {
+    font-size: 18px;
+    margin-bottom: 15px;
+    display: block;
+    color: #555;
+    font-style: normal;
+}
+
+i.quate {
+    font-style: italic;
+    color: #777;
+}
+
+.images_button {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.level-btn {
+    background: #800080;
+    color: white;
+    padding: 10px 25px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    text-align: center;
+}
+
+.level-btn:hover {
+    background: #9333ea;
+}
+
+.images {
+    object-fit: contain;
+}
+
+/* ================= LOCKED CARD ================= */
 .foundation_week.locked {
-    opacity: 0.6;
+    opacity: 0.75;
     pointer-events: none;
     position: relative;
+    background: #f5f3f7;
+    border: 1px solid #d4d0d8;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    filter: grayscale(40%);
 }
 
-/* LOCK ICON */
+.foundation_week.locked h2,
+.foundation_week.locked h3 {
+    color: #a09aa8;
+}
+
+.foundation_week.locked .week1 {
+    background: #ccc;
+    color: #888;
+    border-color: #bbb;
+    cursor: not-allowed;
+}
+
+.foundation_week.locked .status {
+    background: #e0dce5;
+    color: #999;
+    border-color: #c8c4cc;
+    font-weight: normal;
+}
+
+/* ================= LOCK ICON ================= */
 .lock-overlay {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 22px;
-    color: black;
+    top: 15px;
+    right: 15px;
+    /* Positioned top-right as in screenshot */
+    font-size: 18px;
+    color: #666;
+    z-index: 2;
 }
 
-/* UNLOCKED */
+/* Hide lock on unlocked cards */
+.foundation_week.unlocked .lock-overlay {
+    display: none;
+}
+
+/* ================= UNLOCKED CARD ================= */
 .foundation_week.unlocked {
     opacity: 1;
     pointer-events: auto;
+    background: linear-gradient(135deg, #f8f0ff, #ffe8f5);
+    border: 2px solid #d8b4fe;
+    filter: none;
 }
 
-/* COMPLETED STATUS GREEN */
-.status.completed {
-    background-color: #28a745;
+/* ================= ACTIVE LEVEL (Current) ================= */
+.foundation_week.active-level {
+    background: #fff !important;
+    border: 3px solid #800080 !important;
+    /* Thick purple border */
+    transform: scale(1.05) !important;
+    box-shadow: 0 0 30px rgba(128, 0, 128, 0.4) !important;
+    /* Strong purple glow */
+    opacity: 1 !important;
+    filter: none !important;
+}
+
+.foundation_week.active-level .status {
+    border-color: #333;
+}
+
+.foundation_week.active-level .week1 {
+    background: #800080;
     color: white;
+    border: none;
+}
+
+.foundation_week.active-level:hover {
+    transform: translateY(-14px) scale(1.09) !important;
+    box-shadow:
+        0 28px 65px rgba(147, 51, 234, 0.55),
+        0 0 70px rgba(147, 51, 234, 0.35) !important;
+}
+
+.foundation_week.active-level .week1 {
+    background: linear-gradient(135deg, #9333ea, #7c3aed);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 15px rgba(147, 51, 234, 0.4);
+    animation: pulseBtn 1.5s ease-in-out infinite;
+}
+
+@keyframes pulseBtn {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.foundation_week.active-level .status {
+    background: linear-gradient(135deg, #d8b4fe, #e9d5ff);
+    color: #6b21a8;
+    border: none;
     font-weight: bold;
 }
 
-/* 🔥 Beginner Always Hover Effect (Without Hovering) */
-
-/* 🔥 Beginner Always Hover Effect (Permanent) */
-
-/* ================= ACTIVE LEVEL GLOW ================= */
-
-.active-level {
-    transform: translateY(-12px) scale(1.05);
-    border: 2px solid #9333ea;
-    box-shadow:
-        0 20px 50px rgba(0, 0, 0, 0.5),
-        0 0 60px rgba(160, 32, 240, 0.6);
+.foundation_week.active-level h2 {
+    color: #6b21a8;
 }
 
-.active-level .week1 {
-    background-color: purple;
-    color: white;
+@keyframes pulseBtn {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.foundation_week.active-level .status {
+    background: linear-gradient(135deg, #d8b4fe, #e9d5ff);
+    color: #6b21a8;
+    border: none;
+    font-weight: bold;
+}
+
+.foundation_week.active-level h2 {
+    color: #6b21a8;
 }
 
 /* ================= COMPLETED LEVEL ================= */
-
 .foundation_week.completed-level {
-    transform: none;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-    border: 1px solid #28a745;
-}
-
-/* Completed badge stronger */
-.status.completed {
-    background-color: #28a745;
-    color: white;
-    font-weight: bold;
-}
-
-/* Purple Start Button Always */
-#beginnerCard .week1 {
-    background-color: purple;
-    color: white;
-}
-
-/* COMPLETED LEVEL STYLE */
-
-.completed-level {
+    background: linear-gradient(135deg, #ecfdf5, #d1fae5);
     border: 2px solid #28a745 !important;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3) !important;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15) !important;
     transform: none !important;
+    opacity: 1;
+    pointer-events: auto;
+    filter: none;
 }
 
-.completed-level .week1 {
-    background-color: #28a745 !important;
-    color: white !important;
+.foundation_week.completed-level .status {
+    background: #d1fae5;
+    color: #10b981;
 }
-.foundation_week.locked {
-    opacity: 0.6;
-    pointer-events: none;
+
+.foundation_week.completed-level .week1 {
+    background: #10b981;
 }
-.lock-overlay {
-    display: none !important;
+
+/* ================= BEGINNER CARD DEFAULT ================= */
+#beginnerCard .week1 {
+    background: linear-gradient(135deg, #9333ea, #7c3aed);
+    color: white;
+    border: none;
 }
 
 
@@ -668,21 +1032,54 @@ footer {
         font-size: 40px;
     }
 
-    footer {
-        text-align: center;
-        padding: 12px;
-        font-size: 16px;
-        margin-top: 40px;
+}
+
+
+/* RESPONSIVE - Clean UI Mobile */
+@media (max-width: 1024px) {
+    .Arrranging_weeks_and_plans {
+        padding: 2rem;
+        flex-direction: column;
+        height: auto;
+        overflow-y: auto;
     }
 
-    .log_out,
-    .log_out1 {
-        width: 50%;
-        padding: 8px;
-        font-size: 16px;
+    .left_section {
+        flex-direction: column;
     }
 
-    footer p {
-        justify-content: center;
+    .nav {
+        width: 100%;
+        height: 60px;
+        flex-direction: row;
+        padding: 0 1rem;
+    }
+
+    .days_plans {
+        width: 100%;
+        padding: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .home {
+        padding: 1rem 1.5rem;
+    }
+
+    .home-left h2 {
+        font-size: 1.4rem;
+    }
+
+    .arranging_weeks_flex {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .foundation_week {
+        width: 100%;
+    }
+
+    .plans h1 {
+        font-size: 1.75rem;
     }
 }

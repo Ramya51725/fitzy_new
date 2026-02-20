@@ -3,22 +3,25 @@
   margin: 0;
   padding: 0;
 }
+
 body {
-  background-image: url("../fitzy_frontend/Assets/backround_image.jpg"); 
-  background-size: cover; 
+  background-image: url("../fitzy_frontend/Assets/backround_image.jpg");
+  background-size: cover;
   z-index: -1;
-  
 }
+
 .home {
   padding-top: 30px;
   padding-left: 30px;
   font-size: 50px;
   color: black;
 }
+
 span {
   font-size: 25px;
   color: rgb(129, 59, 129);
 }
+
 .fitzy {
   margin-top: 150px;
   margin-left: 200px;
@@ -29,9 +32,11 @@ span {
   width: 400px;
   box-shadow: 10px 10px 5px rgb(20, 24, 25);
 }
+
 .fitzy:hover {
   transform: scale(1.08);
 }
+
 a {
   text-decoration: none;
 }
@@ -40,15 +45,18 @@ a {
   padding-left: 20px;
   font-size: 70px;
 }
+
 .fitzy h2 {
   padding-left: 20px;
   font-size: 40px;
 }
+
 .fitzy p {
   padding-left: 20px;
   margin-top: 30px;
   font-size: 30px;
 }
+
 button {
   margin-left: 20px;
   margin-top: 20px;
@@ -65,10 +73,8 @@ footer {
   font-size: 20px;
   padding: 8px;
 }
+
 footer p {
   display: flex;
   justify-content: center;
 }
-
-
-

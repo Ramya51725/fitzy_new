@@ -1,27 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Fitzy | Settings</title>
   <link rel="icon" href="../Assets/logo.png" type="image/x-icon">
-
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="stylesheet" href="../css/setting.css" />
 </head>
 
 <body>
   <div class="home">
-    <img src="../Assets/logo.png" width="50" height="50" />
-    Fitzy <span>Lift.Sweat.Repeat</span>
+    <div class="home-left" style="display: flex; align-items: center; gap: 12px;">
+      <img src="../Assets/logo.png" width="50" height="50" />
+      <div>
+        <h2 style="font-family: 'Outfit', sans-serif; font-size: 30px; margin: 0; color: #6b21a8; font-weight: bold;">
+          Fitzy</h2>
+        <span style="font-size: 20px; color: #555;">Lift.Sweat.Repeat</span>
+      </div>
+    </div>
   </div>
 
   <div class="arranging_setting">
 
     <div class="nav">
-      <a href="../landing/beginner.html"><i class="fa-solid fa-house nav-icon"></i></a>
-      <a href="../veg.html"><i class="fa-solid fa-bowl-food nav-icon"></i></i></a>
-      <a href="../exercises/chest.html"><i class="fa-solid fa-dumbbell nav-icon"></i></a>
-      <a href="../settings.html"><i class="fa-solid fa-gear nav-icon"></i></a>
+      <a href="./landing/beginner.html"><i class="fa-solid fa-house nav-icon"></i></a>
+      <a href="./veg.html"><i class="fa-solid fa-bowl-food nav-icon"></i></a>
+      <a href="./exercises/chest.html"><i class="fa-solid fa-dumbbell nav-icon"></i></a>
+      <a href="./settings.html"><i class="fa-solid fa-gear nav-icon"></i></a>
     </div>
 
     <div class="setting">
@@ -63,10 +71,12 @@
           <div class="log_out1">
             Your current BMI is <strong id="bmiValue">-</strong>
           </div>
-         <div class="delete">
-          <div class="log_out" id="logoutBtn">Delete Account</div>
-          <a href="../../index.html"><div class="log_out log">Log out</div></a>
-         </div>
+          <div class="delete">
+            <div class="log_out" id="logoutBtn">Delete Account</div>
+            <a href="../../index.html">
+              <div class="log_out log">Log out</div>
+            </a>
+          </div>
         </div>
       </div>
 
@@ -76,7 +86,8 @@
           About Fitzy
         </div>
         <p>
-           This website is for people who want to maintain their body fitness, their perfect diet , and find exercises for their body.<br/>Students or young professionals who want quick routines.
+          This website is for people who want to maintain their body fitness, their perfect diet , and find exercises
+          for their body.<br />Students or young professionals who want quick routines.
         </p>
       </div>
     </div>
@@ -86,7 +97,7 @@
     <p>&copy; Fitzy Lift Sweat Repeat 2025</p>
   </footer>
 
-  <script type="module"  src="../javascript/setting.js"></script>
+  <script type="module" src="../javascript/setting.js"></script>
 </body>
-</html>
 
+</html>
