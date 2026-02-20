@@ -129,6 +129,14 @@ label {
   cursor: default;
 }
 
+.error {
+  color: red;
+  text-align: center;
+  font-weight: bold;
+  margin-top: 10px;
+  min-height: 20px;
+}
+
 @media (max-width: 768px) {
   .logo {
     width: 35px;
