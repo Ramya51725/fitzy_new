@@ -93,7 +93,7 @@ form.addEventListener("submit", async function (e) {
     if (err.message.includes("Email")) {
       document.getElementById("mail_error").innerText = "Email already exists";
     } else {
-      alert("Signup failed. Please try again.");
+      alert("Signup failed: " + err.message);
     }
   }
 });

@@ -85,21 +85,26 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
     db.refresh(new_user)
 
     # 🔥 INITIALIZE PROGRESS FOR NEW USER
-    new_progress = ExerciseProgress(
-        user_id=new_user.user_id,
-        level="fitzy",
-        category_id=new_user.category_id,
-        current_month=1,
-        current_week=1,
-        current_day=1,
-        completed_days=0,
-        completed_months=0,
-        completed_exercises=0,
-        is_month_completed=False,
-        is_level_completed=False
-    )
-    db.add(new_progress)
-    db.commit()
+    try:
+        new_progress = ExerciseProgress(
+            user_id=new_user.user_id,
+            level="fitzy",
+            category_id=new_user.category_id,
+            current_month=1,
+            current_week=1,
+            current_day=1,
+            completed_days=0,
+            completed_months=0,
+            completed_exercises=0,
+            is_month_completed=False,
+            is_level_completed=False
+        )
+        db.add(new_progress)
+        db.commit()
+        print(f"DEBUG: Progress initialized for User {new_user.user_id}")
+    except Exception as e:
+        print(f"DEBUG: Failed to initialize progress for User {new_user.user_id}: {e}")
+        db.rollback() # Rollback if progress fails, but user is already committed
 
     return {
         "user_id": new_user.user_id,
