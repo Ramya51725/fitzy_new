@@ -3,7 +3,7 @@
     "rewrites": [
         {
             "source": "/api/(.*)",
-            "destination": "backend/main.py"
+            "destination": "Fitzy-changes-backend/main.py"
         }
     ]
 }

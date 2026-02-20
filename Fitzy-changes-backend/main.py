@@ -1,3 +1,9 @@
+import sys
+import os
+
+# 🔥 ADD CURRENT DIRECTORY TO PATH FOR VERCEL
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 from fastapi import FastAPI, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 from database.db import Base, engine
@@ -14,7 +20,7 @@ from routers import exercise_progress
 
 app = FastAPI()
 
-# Allow all for CORS in production/vercel
+# Allow all for CORS
 origins = ["*"]
 
 app.add_middleware(
@@ -25,7 +31,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# 🔥 CREATE AN API ROUTER TO HANDLE /api PREFIX
+# Root route
+@app.get("/")
+def get_home():
+    return {"msg": "Welcome to Fitzy API"}
+
+# API prefix router
 api_router = APIRouter(prefix="/api")
 
 api_router.include_router(exercise_progress.router)
@@ -37,19 +48,9 @@ api_router.include_router(nonveg_diet.router)
 api_router.include_router(exercise.router)
 api_router.include_router(category.router)
 
-# Include the api_router into the main app
 app.include_router(api_router)
 
-# Base route for testing
-@app.get("/")
-def get_home():
-    return {"msg": "Welcome to Fitzy API on Vercel!"}
-
-@app.get("/api")
-def get_api_home():
-    return {"msg": "Fitzy API is live! 🔥"}
-
-# Table creation (Note: In serverless, this might run often, but it's safe if tables exist)
+# Table creation
 try:
     Base.metadata.create_all(bind=engine)
 except Exception as e:
