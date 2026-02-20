@@ -85,23 +85,7 @@ form.addEventListener("submit", async function (e) {
     // ✅ Clear any old user data
     localStorage.clear();
 
-    // ✅ Store user info
-    localStorage.setItem("user_id", data.user_id);
-    localStorage.setItem("category_id", data.category_id);
-    localStorage.setItem("name", data.name || "");
-    localStorage.setItem("level", "level1");
-
-    // ✅ New user always starts from Beginner (Month 1, Week 1, Day 1)
-    const freshProgress = {
-      currentMonth: 1,
-      currentWeek: 1,
-      currentDay: 1,
-      completedMonths: 0,
-      completedDays: 0
-    };
-    localStorage.setItem("fitzy_progress", JSON.stringify(freshProgress));
-
-    window.location.href = "../html/landing/beginner.html";
+    window.location.href = "sign_in.html";
 
   } catch (err) {
     console.error(err);
