@@ -50,26 +50,30 @@ api_router.include_router(category.router)
 
 app.include_router(api_router)
 
-# Table creation and manual migrations
-try:
-    Base.metadata.create_all(bind=engine)
-    
-    # 🔥 MANUAL MIGRATIONS (Ensure new columns exist)
-    from sqlalchemy import text
-    with engine.connect() as conn:
-        # 1. Update user_progress
-        try:
-            conn.execute(text("ALTER TABLE user_progress ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ DEFAULT NOW();"))
-            conn.commit()
-        except Exception: pass
-
-        # 2. Update exercise_progress
-        try:
-            conn.execute(text("ALTER TABLE exercise_progress ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ DEFAULT NOW();"))
-            conn.execute(text("ALTER TABLE exercise_progress ADD COLUMN IF NOT EXISTS last_completed_date TIMESTAMPTZ;"))
-            conn.commit()
-        except Exception: pass
+# 🔥 Tables & Migrations on Startup
+@app.on_event("startup")
+def startup_event():
+    try:
+        Base.metadata.create_all(bind=engine)
         
-    print("Database synced successfully ✅")
-except Exception as e:
-    print(f"Database sync error: {e}")
+        # 🔥 MANUAL MIGRATIONS (Ensure new columns exist)
+        from sqlalchemy import text
+        with engine.connect() as conn:
+            # 1. Update user_progress
+            try:
+                conn.execute(text("ALTER TABLE user_progress ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ DEFAULT NOW();"))
+                conn.commit()
+            except Exception as e:
+                print(f"Migration 1 error: {e}")
+
+            # 2. Update exercise_progress
+            try:
+                conn.execute(text("ALTER TABLE exercise_progress ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ DEFAULT NOW();"))
+                conn.execute(text("ALTER TABLE exercise_progress ADD COLUMN IF NOT EXISTS last_completed_date TIMESTAMPTZ;"))
+                conn.commit()
+            except Exception as e:
+                print(f"Migration 2 error: {e}")
+            
+        print("Database synced successfully ✅")
+    except Exception as e:
+        print(f"Database sync error during startup: {e}")
