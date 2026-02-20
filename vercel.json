@@ -12,8 +12,7 @@
             "dest": "Fitzy-changes-backend/main.py"
         },
         {
-            "src": "/(config.js|index.html|fitzy_frontend/.*)",
-            "dest": "/$1"
+            "handle": "filesystem"
         },
         {
             "src": "/(.*)",
