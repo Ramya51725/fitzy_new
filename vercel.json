@@ -1,22 +1,8 @@
 {
-    "version": 2,
-    "builds": [
+    "rewrites": [
         {
-            "src": "Fitzy-changes-backend/main.py",
-            "use": "@vercel/python"
-        }
-    ],
-    "routes": [
-        {
-            "src": "/api/(.*)",
-            "dest": "Fitzy-changes-backend/main.py"
-        },
-        {
-            "handle": "filesystem"
-        },
-        {
-            "src": "/(.*)",
-            "dest": "/index.html"
+            "source": "/api/(.*)",
+            "destination": "Fitzy-changes-backend/main.py"
         }
     ]
 }
