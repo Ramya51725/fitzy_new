@@ -107,7 +107,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const nextDayIndex = selectedDay; // index of Day (selectedDay + 1)
       if (dayButtons[nextDayIndex]) {
         dayButtons[nextDayIndex].classList.add("disabled");
-        dayButtons[nextDayIndex].title = "You have completed a diet plan for today. Please come back tomorrow for Day " + (nextDayIndex + 1) + "!";
+        dayButtons[nextDayIndex].addEventListener("click", () => {
+          alert(`Diet completed for today. Day ${nextDayIndex + 1} will unlock tomorrow.`);
+        });
       }
     } catch (err) {
       console.error(err);
@@ -164,7 +166,9 @@ document.addEventListener("DOMContentLoaded", () => {
       if (nextBtn) {
         if (finishedToday) {
           nextBtn.classList.add("disabled");
-          nextBtn.title = "You have already completed a diet plan for today. Come back tomorrow!";
+          nextBtn.addEventListener("click", () => {
+            alert(`Diet completed for today. Day ${maxCompletedDay + 1} will unlock tomorrow.`);
+          });
         } else {
           nextBtn.classList.remove("disabled");
           nextBtn.click();

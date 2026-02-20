@@ -229,24 +229,24 @@ function renderDays(currentDay) {
         } else if (i === Number(currentDay)) {
             if (finishedToday) {
                 btn.classList.add("disabled", "wait-tomorrow");
-                btn.disabled = true;
                 btn.innerHTML = `Day ${i} (Locked)`;
-                btn.title = "You have completed your workout for today. Come back tomorrow for Day " + i + "!";
+                btn.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    alert(`Exercise completed for today. Day ${i + 1} will unlock tomorrow.`);
+                });
             } else {
                 btn.classList.add("active");
                 btn.innerHTML = `<span class="day-fire">🔥</span> Day ${i}`;
+                btn.addEventListener("click", () => {
+                    localStorage.setItem("selected_day", i);
+                    window.location.href = `../levels/workout.html`;
+                });
             }
         } else {
             btn.classList.add("disabled");
             btn.disabled = true;
             btn.innerHTML = `Day ${i}`;
         }
-
-        btn.addEventListener("click", () => {
-            if (i > currentDay) return; // Extra safety guard
-            localStorage.setItem("selected_day", i);
-            window.location.href = `../levels/workout.html`;
-        });
 
         dayWrap.appendChild(btn);
         dayContainer.appendChild(dayWrap);
