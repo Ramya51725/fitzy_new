@@ -76,7 +76,14 @@ form.addEventListener("submit", async function (e) {
       body: JSON.stringify(userData)
     });
 
-    const data = await res.json();
+    let data;
+    const contentType = res.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
+      data = await res.json();
+    } else {
+      const text = await res.text();
+      throw new Error(`Server returned non-JSON response: ${text || res.statusText}`);
+    }
 
     if (!res.ok) {
       throw new Error(data.detail || "Signup failed");

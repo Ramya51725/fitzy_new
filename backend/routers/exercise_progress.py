@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
+from typing import Optional
 from sqlalchemy.orm import Session
 from dependencies import get_db
 from models.exercise_progress import ExerciseProgress
