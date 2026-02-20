@@ -16,6 +16,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const API_URL = `${API_BASE_URL}/nonveg/diet/by-category-day`;
   const PROGRESS_API = `${API_BASE_URL}/progress`;
 
+  // 🔥 Update Header with Current Month
+  const progressData = JSON.parse(localStorage.getItem("fitzy_progress"));
+  const currentMonth = progressData ? progressData.currentMonth : 1;
+  const dietHeader = document.getElementById("dietTypeHeader");
+  if (dietHeader) {
+    dietHeader.innerText = `NonVeg - Month ${currentMonth}`;
+  }
+
   const dayContainer = document.getElementById("dayButtons");
   const completedBtn = document.querySelector(".Completed-btn");
 
