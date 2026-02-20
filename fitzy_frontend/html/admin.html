@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,115 +9,113 @@
   <link rel="icon" href="../Assets/logo.png" type="image/x-icon">
   <link rel="stylesheet" href="../css/admin.css" />
 
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    crossorigin="anonymous"
-  />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    crossorigin="anonymous" />
 </head>
 
 <body>
 
-<div class="header">
-  <div class="header-left">
-    <img src="../Assets/logo.png" width="45" height="45" />
-    <div class="brand">
-      <h2>Fitzy</h2>
-      <span>Lift.Sweat.Repeat</span>
+  <div class="header">
+    <div class="header-left">
+      <img src="../Assets/logo.png" width="45" height="45" />
+      <div class="brand">
+        <h2>Fitzy</h2>
+        <span>Lift.Sweat.Repeat</span>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <span>Admin Dashboard</span>
+      <button id="logoutBtn">Logout</button>
     </div>
   </div>
 
-  <div class="header-right">
-    <span>Admin Dashboard</span>
-    <button id="logoutBtn">Logout</button>
-  </div>
-</div>
 
+  <h1 class="page-title">Welcome to Admin Dashboard</h1>
 
-<h1 class="page-title">Welcome to Admin Dashboard</h1>
+  <div class="admin-main">
 
-<div class="admin-main">
+    <div class="admin-box">
+      <h3>Admin Actions</h3>
 
-  <div class="admin-box">
-    <h3>Admin Actions</h3>
-
-    <button class="admin-btn active">
-      <i class="fa-solid fa-dumbbell"></i> Post Exercise
-    </button>
-
-    <a href="admindiet.html">
-      <button class="admin-btn">
-        <i class="fa-solid fa-apple-whole"></i> Post Diet
-      </button>
-    </a>
-  </div>
-
-  <div class="form-container">
-    <h2>Post Exercise</h2>
-
-    <form id="exerciseForm" enctype="multipart/form-data">
-
-      <div class="form-row">
-        <div>
-          <label>Level</label>
-          <select id="level" required>
-            <option value="">Select Level</option>
-            <option>Level 1</option>
-            <option>Level 2</option>
-            <option>Level 3</option>
-            <option>Level 4</option>
-            <option>Level 5</option>
-            <option>Level 6</option>
-          </select>
-        </div>
-
-        <div>
-          <label>Category</label>
-          <select id="category" required>
-            <option value="">Select Category</option>
-            <option value="1">Underweight</option>
-            <option value="2">Normal</option>
-            <option value="3">Overweight</option>
-          </select>
-        </div>
-      </div>
-
-      <label>Exercise Title</label>
-      <input id="title" type="text" required>
-
-      <div class="form-row">
-        <div>
-          <label>Exercise Image</label>
-          <input id="image" type="file" accept="image/*" required>
-        </div>
-
-        <div>
-          <label>Exercise Video</label>
-          <input id="video" type="file" accept="video/*" required>
-        </div>
-      </div>
-
-      <label>Instructions</label>
-      <textarea id="instruction" required></textarea>
-
-      <label>Breathing Tip</label>
-      <textarea id="breathing"></textarea>
-
-      <label>Focus Area</label>
-      <input id="focus" type="text" placeholder="Chest, Arms, Core">
-
-      <button type="submit" class="submit-btn">
-        Post Exercise
+      <button class="admin-btn active">
+        <i class="fa-solid fa-dumbbell"></i> Upload Exercise
       </button>
 
-    </form>
+      <a href="admindiet.html">
+        <button class="admin-btn">
+          <i class="fa-solid fa-apple-whole"></i> Update Diet
+        </button>
+      </a>
+    </div>
+
+    <div class="form-container">
+      <h2>Upload Exercise</h2>
+
+      <form id="exerciseForm" enctype="multipart/form-data">
+
+        <div class="form-row">
+          <div>
+            <label>Level</label>
+            <select id="level" required>
+              <option value="">Select Level</option>
+              <option>Level 1</option>
+              <option>Level 2</option>
+              <option>Level 3</option>
+              <option>Level 4</option>
+              <option>Level 5</option>
+              <option>Level 6</option>
+            </select>
+          </div>
+
+          <div>
+            <label>Category</label>
+            <select id="category" required>
+              <option value="">Select Category</option>
+              <option value="1">Underweight</option>
+              <option value="2">Normal</option>
+              <option value="3">Overweight</option>
+            </select>
+          </div>
+        </div>
+
+        <label>Exercise Title</label>
+        <input id="title" type="text" required>
+
+        <div class="form-row">
+          <div>
+            <label>Exercise Image</label>
+            <input id="image" type="file" accept="image/*" required>
+          </div>
+
+          <div>
+            <label>Exercise Video</label>
+            <input id="video" type="file" accept="video/*" required>
+          </div>
+        </div>
+
+        <label>Instructions</label>
+        <textarea id="instruction" required></textarea>
+
+        <label>Breathing Tip</label>
+        <textarea id="breathing"></textarea>
+
+        <label>Focus Area</label>
+        <input id="focus" type="text" placeholder="Chest, Arms, Core">
+
+        <button type="submit" class="submit-btn">
+          Upload Exercise
+        </button>
+
+      </form>
+    </div>
   </div>
-</div>
 
-<footer>
-  <p>&copy; Fitzy Lift Sweat Repeat 2025</p>
-</footer>
+  <footer>
+    <p>&copy; Fitzy Lift Sweat Repeat 2025</p>
+  </footer>
 
-<script  type="module"   src="../javascript/adminexercise.js"></script>
+  <script type="module" src="../javascript/adminexercise.js"></script>
 </body>
+
 </html>
