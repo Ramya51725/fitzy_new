@@ -140,6 +140,7 @@ function handleLevels(currentMonth) {
                 if (statusEl) statusEl.textContent = "✅ Completed";
                 if (startBtn) {
                     startBtn.innerText = "Finished";
+                    startBtn.classList.add("finished-btn");
                     startBtn.onclick = (e) => {
                         e.preventDefault();
                         e.stopPropagation();

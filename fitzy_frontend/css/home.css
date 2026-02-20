@@ -287,6 +287,13 @@ body {
     box-shadow: 0 4px 12px rgba(147, 51, 234, 0.3);
 }
 
+.finished-btn {
+    background-color: #22c55e !important;
+    color: white !important;
+    border-color: #22c55e !important;
+    cursor: default !important;
+}
+
 img {
     margin-left: 50px;
 }
