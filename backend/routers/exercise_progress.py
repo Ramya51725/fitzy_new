@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from datetime import datetime, date
 from dependencies import get_db
 from models.exercise_progress import ExerciseProgress
+from models.progress import UserProgress
 from schemas.exercise_progress import (
     ProgressCreate,
     ProgressUpdate,
@@ -26,7 +27,28 @@ def get_level_name(month: int) -> str:
         return "Expert"
 
 
-# =========================================
+def sync_diet_progress(user_id: int, completed_workout_days: int, db: Session):
+    """
+    Ensures that for every workout day completed, the corresponding 
+    diet day (up to day 30) is also marked as completed.
+    """
+    # We only have 30 days of diet plans in the current system
+    max_diet_days = min(completed_workout_days, 30)
+    
+    for day in range(1, max_diet_days + 1):
+        existing_diet = db.query(UserProgress).filter(
+            UserProgress.user_id == user_id,
+            UserProgress.day == day
+        ).first()
+        
+        if not existing_diet:
+            db.add(UserProgress(user_id=user_id, day=day, status="completed"))
+        elif existing_diet.status != "completed":
+            existing_diet.status = "completed"
+    
+    db.commit()
+
+
 # 🔥 COMPLETE DAY
 # =========================================
 @router.post("/complete-day", response_model=ProgressResponse)
@@ -69,6 +91,10 @@ def complete_day(progress: ProgressCreate, db: Session = Depends(get_db)):
 
         db.commit()
         db.refresh(existing)
+
+        # 🔥 Sync Diet Progress
+        sync_diet_progress(existing.user_id, existing.completed_days, db)
+
         return existing
 
     # If no progress → create new
@@ -218,6 +244,9 @@ def update_progress(
 
     db.commit()
     db.refresh(progress)
+
+    # 🔥 Sync Diet Progress
+    sync_diet_progress(progress.user_id, progress.completed_days, db)
 
     return progress
 
