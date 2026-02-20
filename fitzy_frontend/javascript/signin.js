@@ -65,8 +65,21 @@ document.addEventListener("DOMContentLoaded", () => {
           localStorage.setItem("fitzy_progress", JSON.stringify(progressState));
           console.log("Progress synced from Supabase 🔋");
         } else if (progressRes.status === 404) {
-          // New user → no progress in DB yet. Start fresh from Beginner
-          console.log("No progress found → starting fresh from Beginner (Month 1)");
+          // New user → no progress in DB yet. Create fresh Beginner record
+          console.log("No progress found → Initialising Beginner record in DB...");
+
+          // Create the exercise_progress record in DB
+          await fetch(`${API_BASE_URL}/progress/init`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              user_id: Number(userId),
+              level: "fitzy",
+              category_id: Number(categoryId)
+            })
+          });
+
+          // Set localStorage defaults
           const freshProgress = {
             currentMonth: 1,
             currentWeek: 1,

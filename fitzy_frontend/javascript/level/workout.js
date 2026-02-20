@@ -70,12 +70,12 @@ async function saveProgress() {
             body: JSON.stringify(payload)
         });
 
-        // 🔥 If no record (404) → Create first, then update
+        // 🔥 If no record (404) → Create fresh record first, then update
         if (res.status === 404) {
-            console.log("No progress record found → Creating new record for this user...");
+            console.log("No progress record found → Initialising new record...");
 
-            // Create initial record via complete-day (acts as upsert)
-            await fetch(`${API_BASE_URL}/progress/complete-day`, {
+            // Create initial Beginner record using /init (safe upsert — won't skip Day 1)
+            await fetch(`${API_BASE_URL}/progress/init`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
