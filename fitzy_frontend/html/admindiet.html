@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,111 +8,102 @@
 
   <link rel="icon" href="../Assets/logo.png" type="image/x-icon">
 
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-  />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <link rel="stylesheet" href="../css/admin.css" />
 </head>
 
 <body>
 
-<div class="header">
-  <div class="header-left">
-    <img src="../Assets/logo.png" width="45" height="45" />
-    <div class="brand">
-      <h2>Fitzy</h2>
-      <span>Lift.Sweat.Repeat</span>
+  <div class="header">
+    <div class="header-left">
+      <img src="../Assets/logo.png" width="45" height="45" />
+      <div class="brand">
+        <h2>Fitzy</h2>
+        <span>Lift.Sweat.Repeat</span>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <span>Admin Dashboard</span>
+      <button id="logoutBtn">Logout</button>
     </div>
   </div>
 
-  <div class="header-right">
-    <span>Admin Dashboard</span>
-    <button id="logoutBtn">Logout</button>
-  </div>
-</div>
+  <h1 class="page-title">Welcome to Admin Dashboard</h1>
 
-<h1 class="page-title">Welcome to Admin Dashboard</h1>
+  <div class="admin-main">
 
-<div class="admin-main">
+    <div class="admin-box">
+      <h3>Admin Actions</h3>
 
-  <div class="admin-box">
-    <h3>Admin Actions</h3>
+      <a href="admin.html">
+        <button class="admin-btn">
+          <i class="fa-solid fa-dumbbell"></i> Upload Exercise
+        </button>
+      </a>
 
-    <a href="admin.html">
-      <button class="admin-btn">
-        <i class="fa-solid fa-dumbbell"></i> Post Exercise
-      </button>
-    </a>
+      <a href="admindiet.html">
+        <button class="admin-btn active">
+          <i class="fa-solid fa-apple-whole"></i> Update Diet
+        </button>
+      </a>
+    </div>
 
-    <a href="admindiet.html">
-      <button class="admin-btn active">
-        <i class="fa-solid fa-apple-whole"></i> Post Diet
-      </button>
-    </a>
-  </div>
+    <div class="form-container">
+      <h2 id="formTitle">Update Diet</h2>
 
-  <div class="form-container">
-    <h2>Post Diet</h2>
+      <form id="dietForm">
 
-    <form id="dietForm">
+        <div class="form-row">
+          <div>
+            <label>Day</label>
+            <input id="day" type="number" min="1" placeholder="Day" required />
+          </div>
 
-      <div class="form-row">
-        <div>
-          <label>Day</label>
-          <input
-            id="day"
-            type="number"
-            min="1"
-            placeholder="Enter day number (eg: 1, 30)"
-            required
-          />
+          <div>
+            <label>Diet Type</label>
+            <select id="dietType" required>
+              <option value="">Select Type</option>
+              <option value="veg">Veg</option>
+              <option value="nonveg">Non-Veg</option>
+            </select>
+          </div>
         </div>
 
-        <div>
-          <label>Diet Type</label>
-          <select id="dietType" required>
-            <option value="">Select Type</option>
-            <option value="veg">Veg</option>
-            <option value="nonveg">Non-Veg</option>
-          </select>
-        </div>
-      </div>
+        <label>Breakfast</label>
+        <textarea id="breakfast" required></textarea>
 
-      <label>Breakfast</label>
-      <textarea id="breakfast" required></textarea>
+        <label>Lunch</label>
+        <textarea id="lunch" required></textarea>
 
-      <label>Lunch</label>
-      <textarea id="lunch" required></textarea>
+        <label>Dinner</label>
+        <textarea id="dinner" required></textarea>
 
-      <label>Dinner</label>
-      <textarea id="dinner" required></textarea>
+        <label>Category</label>
+        <select id="category" required>
+          <option value="">Select Category</option>
+          <option value="1">Underweight</option>
+          <option value="2">Normal</option>
+          <option value="3">Overweight</option>
+        </select>
 
-      <label>Category</label>
-      <select id="category" required>
-        <option value="">Select Category</option>
-        <option value="1">Underweight</option>
-        <option value="2">Normal</option>
-        <option value="3">Overweight</option>
-      </select>
+        <button type="submit" class="submit-btn" id="submitBtn">
+          Update / Post Diet
+        </button>
 
-      <button type="submit" class="submit-btn">
-        Post Diet
-      </button>
+      </form>
+    </div>
 
-    </form>
   </div>
 
-</div>
+  <footer>
+    <p>&copy; Fitzy Lift Sweat Repeat 2025</p>
+  </footer>
 
-<footer>
-  <p>&copy; Fitzy Lift Sweat Repeat 2025</p>
-</footer>
-
-<script   type="module"  src="../javascript/admindiet.js"></script>
+  <script type="module" src="../javascript/admindiet.js"></script>
 
 </body>
+
 </html>
