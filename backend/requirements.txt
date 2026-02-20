@@ -3,11 +3,10 @@ uvicorn
 SQLAlchemy
 psycopg2-binary
 python-dotenv
-passlib
+passlib[argon2]
 argon2-cffi
 cloudinary
 python-multipart
 python-jose[cryptography]
-
-
-
+pydantic[email]
+email-validator
