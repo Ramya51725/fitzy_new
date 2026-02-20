@@ -34,6 +34,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let activeBtn = null;
   let selectedDay = 1;
+  let maxCompletedDay = 0;
+  let finishedToday = false;
   const dayButtons = [];
 
   for (let day = 1; day <= 30; day++) {
@@ -42,7 +44,12 @@ document.addEventListener("DOMContentLoaded", () => {
     btn.innerText = `Day ${day}`;
 
     btn.onclick = () => {
-      if (btn.classList.contains("disabled")) return;
+      if (btn.classList.contains("disabled")) {
+        if (finishedToday && day === maxCompletedDay + 1) {
+          alert(`Diet completed for today. Day ${day} will unlock tomorrow.`);
+        }
+        return;
+      }
 
       if (activeBtn) activeBtn.classList.remove("active");
       btn.classList.add("active");
@@ -114,9 +121,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const nextDayIndex = selectedDay;
       if (dayButtons[nextDayIndex]) {
         dayButtons[nextDayIndex].classList.add("disabled");
-        dayButtons[nextDayIndex].addEventListener("click", () => {
-          alert(`Diet completed for today. Day ${nextDayIndex + 1} will unlock tomorrow.`);
-        });
+        finishedToday = true;
+        maxCompletedDay = Math.max(maxCompletedDay, selectedDay);
       }
 
     } catch (err) {
@@ -158,7 +164,8 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!res.ok) return;
 
       const data = await res.json();
-      let finishedToday = false;
+      finishedToday = false;
+      maxCompletedDay = 0;
       const today = new Date().toISOString().split('T')[0];
 
       data.forEach(p => {
@@ -172,14 +179,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const nextBtn = dayButtons[maxCompletedDay];
       if (nextBtn) {
-        if (finishedToday) {
-          nextBtn.classList.add("disabled");
-          nextBtn.addEventListener("click", () => {
-            alert(`Diet completed for today. Day ${maxCompletedDay + 1} will unlock tomorrow.`);
-          });
-        } else {
+        if (!finishedToday) {
           nextBtn.classList.remove("disabled");
           nextBtn.click();
+        } else {
+          nextBtn.classList.add("disabled");
         }
       }
 
