@@ -232,7 +232,7 @@ function renderDays(currentDay) {
                 btn.innerHTML = `Day ${i} (Locked)`;
                 btn.addEventListener("click", (e) => {
                     e.preventDefault();
-                    alert(`Exercise completed for today. Day ${i + 1} will unlock tomorrow.`);
+                    alert(`Exercise completed for today. Day ${i} will unlock tomorrow.`);
                 });
             } else {
                 btn.classList.add("active");
