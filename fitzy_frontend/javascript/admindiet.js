@@ -27,6 +27,13 @@ async function fetchExistingDiet() {
     return;
   }
 
+  // 🔥 VALIDATION: Day must not be > 30
+  if (Number(day) > 30) {
+    alert("Invalid day! Day must be between 1 and 30.");
+    dayInput.value = "";
+    return;
+  }
+
   let url = "";
   if (dietType === "veg") {
     url = `${API_BASE_URL}/veg/diet/by-category-day?category_id=${categoryId}&day=${day}`;
@@ -73,8 +80,16 @@ form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const dietType = dietTypeSelect.value;
+  const dayValue = Number(dayInput.value);
+
+  // 🔥 VALIDATION before submit
+  if (dayValue > 30 || dayValue < 1) {
+    alert("Invalid day! Diet plan is only for 30 days.");
+    return;
+  }
+
   const dietData = {
-    day: Number(dayInput.value),
+    day: dayValue,
     breakfast: breakfastInput.value.trim(),
     lunch: lunchInput.value.trim(),
     dinner: dinnerInput.value.trim(),

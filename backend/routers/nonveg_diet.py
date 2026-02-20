@@ -35,6 +35,8 @@ def get_diet_by_id(diet_id: int, db: Session = Depends(get_db)):
 
 @router.post("/nonveg")
 def create_diet(diet: NonDietCreate, db: Session = Depends(get_db)):
+    if diet.day > 30:
+        raise HTTPException(status_code=400, detail="Invalid day. Max 30 days allowed.")
     new_diet = DietNonVeg(
         day=diet.day,
         breakfast=diet.breakfast,
