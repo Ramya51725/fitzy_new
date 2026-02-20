@@ -1,6 +1,3 @@
-// const API_BASE_URL = "https://fitzy-changes-backend.vercel.app";
-const API_BASE_URL = "http://127.0.0.1:8000";
-
-
+const API_BASE_URL = window.location.origin + "/api";
 
 export default API_BASE_URL;
