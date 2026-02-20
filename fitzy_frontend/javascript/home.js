@@ -152,6 +152,7 @@ function handleLevels(currentMonth) {
                     e.preventDefault();
                     e.stopPropagation();
                 };
+                card.el.style.cursor = "default";
             }
         } else {
             // LOCKED
