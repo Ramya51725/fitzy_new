@@ -5,17 +5,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Fitzy | Admin Diet</title>
-
   <link rel="icon" href="../Assets/logo.png" type="image/x-icon">
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-
   <link rel="stylesheet" href="../css/admin.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 </head>
 
 <body>
 
+  <!-- HEADER -->
   <div class="header">
     <div class="header-left">
       <img src="../Assets/logo.png" width="45" height="45" />
@@ -24,44 +21,53 @@
         <span>Lift.Sweat.Repeat</span>
       </div>
     </div>
-
     <div class="header-right">
       <span>Admin Dashboard</span>
       <button id="logoutBtn">Logout</button>
     </div>
   </div>
 
-  <h1 class="page-title">Welcome to Admin Dashboard</h1>
-
+  <!-- MAIN SECTION -->
   <div class="admin-main">
 
-    <div class="admin-box">
-      <h3>Admin Actions</h3>
+    <!-- LEFT SIDE -->
+    <div class="left_section">
+      <div class="nav">
+        <a href="admin.html"><i class="fa-solid fa-dumbbell"></i></a>
+        <a href="admindiet.html" class="active"><i class="fa-solid fa-bowl-food"></i></a>
+        <a href="admin.html"><i class="fa-solid fa-gear"></i></a>
+      </div>
 
-      <a href="admin.html">
-        <button class="admin-btn">
-          <i class="fa-solid fa-dumbbell"></i> Upload Exercise
-        </button>
-      </a>
+      <div class="plans">
+        <h1>Dashboard Control</h1>
 
-      <a href="admindiet.html">
-        <button class="admin-btn active">
-          <i class="fa-solid fa-apple-whole"></i> Update Diet
-        </button>
-      </a>
+        <a href="admin.html" class="admin-card">
+          <h2>Upload Exercise</h2>
+          <p>Add or update workout routines and videos.</p>
+          <div class="action-label">Switch to Exercise</div>
+        </a>
+
+        <a href="admindiet.html" class="admin-card active">
+          <h2>Update Diet</h2>
+          <p>Manage meal plans for categories.</p>
+          <div class="action-label">Selected</div>
+        </a>
+      </div>
     </div>
 
-    <div class="form-container">
+    <!-- DIVIDER -->
+    <div class="divider"></div>
+
+    <!-- RIGHT SIDE (FORM) -->
+    <div class="form_section">
       <h2 id="formTitle">Update Diet</h2>
 
       <form id="dietForm">
-
         <div class="form-row">
           <div>
             <label>Day</label>
-            <input id="day" type="number" min="1" placeholder="Day" required />
+            <input id="day" type="number" min="1" placeholder="Day (e.g. 1)" required />
           </div>
-
           <div>
             <label>Diet Type</label>
             <select id="dietType" required>
@@ -81,25 +87,22 @@
         </select>
 
         <label>Breakfast</label>
-        <textarea id="breakfast" required></textarea>
+        <textarea id="breakfast" placeholder="Breakfast details..." required></textarea>
 
         <label>Lunch</label>
-        <textarea id="lunch" required></textarea>
+        <textarea id="lunch" placeholder="Lunch details..." required></textarea>
 
         <label>Dinner</label>
-        <textarea id="dinner" required></textarea>
+        <textarea id="dinner" placeholder="Dinner details..." required></textarea>
 
-        <button type="submit" class="submit-btn" id="submitBtn">
-          Update / Post Diet
-        </button>
-
+        <button type="submit" class="submit-btn" id="submitBtn">Update Diet</button>
       </form>
     </div>
 
   </div>
 
   <footer>
-    <p>&copy; Fitzy Lift Sweat Repeat 2025</p>
+    <p>&copy; fitzy Lift Sweat Repeat 2025</p>
   </footer>
 
   <script type="module" src="../javascript/admindiet.js"></script>

@@ -4,17 +4,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fitzy | Admin Dashboard</title>
-
+  <title>Fitzy | Admin Exercises</title>
   <link rel="icon" href="../Assets/logo.png" type="image/x-icon">
   <link rel="stylesheet" href="../css/admin.css" />
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 </head>
 
 <body>
 
+  <!-- HEADER -->
   <div class="header">
     <div class="header-left">
       <img src="../Assets/logo.png" width="45" height="45" />
@@ -23,37 +21,48 @@
         <span>Lift.Sweat.Repeat</span>
       </div>
     </div>
-
     <div class="header-right">
       <span>Admin Dashboard</span>
       <button id="logoutBtn">Logout</button>
     </div>
   </div>
 
-
-  <h1 class="page-title">Welcome to Admin Dashboard</h1>
-
+  <!-- MAIN SECTION -->
   <div class="admin-main">
 
-    <div class="admin-box">
-      <h3>Admin Actions</h3>
+    <!-- LEFT SIDE -->
+    <div class="left_section">
+      <div class="nav">
+        <a href="admin.html" class="active"><i class="fa-solid fa-dumbbell"></i></a>
+        <a href="admindiet.html"><i class="fa-solid fa-bowl-food"></i></a>
+        <a href="admin.html"><i class="fa-solid fa-gear"></i></a>
+      </div>
 
-      <button class="admin-btn active">
-        <i class="fa-solid fa-dumbbell"></i> Upload Exercise
-      </button>
+      <div class="plans">
+        <h1>Dashboard Control</h1>
 
-      <a href="admindiet.html">
-        <button class="admin-btn">
-          <i class="fa-solid fa-apple-whole"></i> Update Diet
-        </button>
-      </a>
+        <a href="admin.html" class="admin-card active">
+          <h2>Upload Exercise</h2>
+          <p>Add or update workout routines and videos.</p>
+          <div class="action-label">Selected</div>
+        </a>
+
+        <a href="admindiet.html" class="admin-card">
+          <h2>Update Diet</h2>
+          <p>Manage meal plans for categories.</p>
+          <div class="action-label">Switch to Diet</div>
+        </a>
+      </div>
     </div>
 
-    <div class="form-container">
+    <!-- DIVIDER -->
+    <div class="divider"></div>
+
+    <!-- RIGHT SIDE (FORM) -->
+    <div class="form_section">
       <h2>Upload Exercise</h2>
 
       <form id="exerciseForm" enctype="multipart/form-data">
-
         <div class="form-row">
           <div>
             <label>Level</label>
@@ -67,7 +76,6 @@
               <option>Level 6</option>
             </select>
           </div>
-
           <div>
             <label>Category</label>
             <select id="category" required>
@@ -80,14 +88,13 @@
         </div>
 
         <label>Exercise Title</label>
-        <input id="title" type="text" required>
+        <input id="title" type="text" placeholder="e.g. Push Ups" required>
 
         <div class="form-row">
           <div>
             <label>Exercise Image</label>
             <input id="image" type="file" accept="image/*" required>
           </div>
-
           <div>
             <label>Exercise Video</label>
             <input id="video" type="file" accept="video/*" required>
@@ -95,27 +102,26 @@
         </div>
 
         <label>Instructions</label>
-        <textarea id="instruction" required></textarea>
+        <textarea id="instruction" placeholder="Steps to perform..." required></textarea>
 
         <label>Breathing Tip</label>
-        <textarea id="breathing"></textarea>
+        <textarea id="breathing" placeholder="Breathe in, breathe out..."></textarea>
 
         <label>Focus Area</label>
         <input id="focus" type="text" placeholder="Chest, Arms, Core">
 
-        <button type="submit" class="submit-btn">
-          Upload Exercise
-        </button>
-
+        <button type="submit" class="submit-btn">Upload Exercise</button>
       </form>
     </div>
+
   </div>
 
   <footer>
-    <p>&copy; Fitzy Lift Sweat Repeat 2025</p>
+    <p>&copy; fitzy Lift Sweat Repeat 2025</p>
   </footer>
 
   <script type="module" src="../javascript/adminexercise.js"></script>
+
 </body>
 
 </html>
