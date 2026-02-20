@@ -50,8 +50,26 @@ api_router.include_router(category.router)
 
 app.include_router(api_router)
 
-# Table creation
+# Table creation and manual migrations
 try:
     Base.metadata.create_all(bind=engine)
+    
+    # 🔥 MANUAL MIGRATIONS (Ensure new columns exist)
+    from sqlalchemy import text
+    with engine.connect() as conn:
+        # 1. Update user_progress
+        try:
+            conn.execute(text("ALTER TABLE user_progress ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ DEFAULT NOW();"))
+            conn.commit()
+        except Exception: pass
+
+        # 2. Update exercise_progress
+        try:
+            conn.execute(text("ALTER TABLE exercise_progress ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ DEFAULT NOW();"))
+            conn.execute(text("ALTER TABLE exercise_progress ADD COLUMN IF NOT EXISTS last_completed_date TIMESTAMPTZ;"))
+            conn.commit()
+        except Exception: pass
+        
+    print("Database synced successfully ✅")
 except Exception as e:
-    print(f"Database creation error: {e}")
+    print(f"Database sync error: {e}")
