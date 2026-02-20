@@ -94,14 +94,14 @@ async function saveProgress() {
         }
 
         if (!res.ok) {
-            const errorText = await res.text();
-            throw new Error(`Server Error: ${res.status} - ${errorText}`);
+            const errorData = await res.json();
+            throw new Error(errorData.detail || "Server Error");
         }
 
         console.log("Progress synced with backend ✅");
     } catch (err) {
         console.error("Cloud Sync Error:", err);
-        // Don't alert user — progress is safely saved locally
+        alert(err.message);
         console.warn("Progress saved locally only. Cloud sync failed:", err.message);
     }
 }

@@ -96,8 +96,11 @@ document.addEventListener("DOMContentLoaded", () => {
         })
       });
 
-      if (!res.ok) throw new Error();
-      markGreen(selectedDay);
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.detail || "Failed to save progress");
+      }
+      markGreen(selectedDay, false); // Don't unlock next day for today!
 
       // Check if 30 days are completed
       if (selectedDay === 30) {
@@ -107,15 +110,16 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
 
-      // 🔥 Auto-select next day
+      // 🔥 Block auto-select next day (Wait until tomorrow)
       const nextDayIndex = selectedDay;
       if (dayButtons[nextDayIndex]) {
-        dayButtons[nextDayIndex].click();
+        dayButtons[nextDayIndex].classList.add("disabled");
+        dayButtons[nextDayIndex].title = "You have completed a diet plan for today. Come back tomorrow!";
       }
 
     } catch (err) {
       console.error(err);
-      alert("Failed to save progress");
+      alert(err.message);
     }
   });
 
@@ -152,19 +156,27 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!res.ok) return;
 
       const data = await res.json();
-      let maxCompletedDay = 0;
+      let finishedToday = false;
+      const today = new Date().toISOString().split('T')[0];
 
       data.forEach(p => {
         if (p.status === "completed") {
-          markGreen(p.day);
+          const isToday = p.updated_at && p.updated_at.split('T')[0] === today;
+          markGreen(p.day, !isToday);
           maxCompletedDay = Math.max(maxCompletedDay, p.day);
+          if (isToday) finishedToday = true;
         }
       });
 
       const nextBtn = dayButtons[maxCompletedDay];
       if (nextBtn) {
-        nextBtn.classList.remove("disabled");
-        nextBtn.click(); // 🔥 Auto-select the next available day on load
+        if (finishedToday) {
+          nextBtn.classList.add("disabled");
+          nextBtn.title = "You have already completed a diet plan for today. Come back tomorrow!";
+        } else {
+          nextBtn.classList.remove("disabled");
+          nextBtn.click();
+        }
       }
 
     } catch (err) {
@@ -172,15 +184,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function markGreen(day) {
+  function markGreen(day, unlockNext = true) {
     const btn = dayButtons[day - 1];
     if (!btn) return;
 
     btn.classList.add("completed");
     btn.classList.remove("disabled");
 
-    const nextBtn = dayButtons[day];
-    if (nextBtn) nextBtn.classList.remove("disabled");
+    if (unlockNext) {
+      const nextBtn = dayButtons[day];
+      if (nextBtn) nextBtn.classList.remove("disabled");
+    }
   }
 
   loadDiet(1);

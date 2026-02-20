@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional
+from datetime import datetime
 
 
 # 🔥 CREATE
@@ -35,6 +36,7 @@ class ProgressResponse(BaseModel):
     completed_months: int
     is_month_completed: bool
     is_level_completed: bool
+    last_completed_date: Optional[datetime] = None
 
     class Config:
         from_attributes = True   # ✅ Pydantic V2

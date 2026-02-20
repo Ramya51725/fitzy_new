@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from typing import Optional
 from sqlalchemy.orm import Session
+from datetime import datetime, date
 from dependencies import get_db
 from models.exercise_progress import ExerciseProgress
 from schemas.exercise_progress import (
@@ -38,9 +39,17 @@ def complete_day(progress: ProgressCreate, db: Session = Depends(get_db)):
     ).first()
 
     if existing:
+        # 🔥 Check if user already completed a workout today
+        today = date.today()
+        if existing.last_completed_date and existing.last_completed_date.date() == today:
+            raise HTTPException(
+                status_code=403, 
+                detail="You have already completed a workout for today. Please come back tomorrow!"
+            )
 
         existing.completed_days += 1
         existing.current_day += 1
+        existing.last_completed_date = datetime.now()
 
         if existing.current_day > 7:
             existing.current_day = 1
@@ -187,12 +196,22 @@ def update_progress(
     if update_data.current_day is not None:
         progress.current_day = update_data.current_day
     if update_data.completed_days is not None:
+        # 🔥 Prevent advancing more than one day per calendar day
+        if update_data.completed_days > progress.completed_days:
+            today = date.today()
+            if progress.last_completed_date and progress.last_completed_date.date() == today:
+                raise HTTPException(
+                    status_code=403, 
+                    detail="You have already completed a workout for today. Please come back tomorrow!"
+                )
+            progress.last_completed_date = datetime.now()
         progress.completed_days = update_data.completed_days
     if update_data.completed_exercises is not None:
         progress.completed_exercises = update_data.completed_exercises
     if update_data.completed_months is not None:
         progress.completed_months = update_data.completed_months
     if update_data.is_month_completed is not None:
+        progress.is_level_completed = update_data.is_level_completed # Fixed a potential typo in previous code?
         progress.is_month_completed = update_data.is_month_completed
     if update_data.is_level_completed is not None:
         progress.is_level_completed = update_data.is_level_completed

@@ -1,6 +1,6 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-
+from datetime import datetime, date
 from dependencies import get_db
 from models.progress import UserProgress
 from schemas.progress import ProgressCreate
@@ -13,6 +13,19 @@ router = APIRouter(
 
 @router.post("/complete")
 def mark_completed(progress: ProgressCreate, db: Session = Depends(get_db)):
+    # 🔥 Check if user already completed a diet today
+    today = date.today()
+    last_completed = db.query(UserProgress).filter(
+        UserProgress.user_id == progress.user_id,
+        UserProgress.status == "completed"
+    ).order_by(UserProgress.updated_at.desc()).first()
+
+    if last_completed and last_completed.updated_at.date() == today:
+        if last_completed.day != progress.day: # Allow re-saving same day, but not mark NEW day
+             raise HTTPException(
+                status_code=403, 
+                detail="You can only complete one diet plan per day. Please come back tomorrow!"
+            )
 
     existing = db.query(UserProgress).filter(
         UserProgress.user_id == progress.user_id,
@@ -44,7 +57,8 @@ def get_user_progress(user_id: int, db: Session = Depends(get_db)):
     return [
         {
             "day": p.day,
-            "status": p.status
+            "status": p.status,
+            "updated_at": p.updated_at
         }
         for p in progress
     ]

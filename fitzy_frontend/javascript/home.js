@@ -42,7 +42,8 @@ async function initProgress() {
                 currentWeek: pData.current_week || 1,
                 currentDay: pData.current_day || 1,
                 completedMonths: pData.completed_months || 0,
-                completedDays: pData.completed_days || 0
+                completedDays: pData.completed_days || 0,
+                lastCompletedDate: pData.last_completed_date || null
             };
             localStorage.setItem("fitzy_progress", JSON.stringify(progressState));
             console.log("Dashboard synced with Supabase ✅");
@@ -201,7 +202,10 @@ function handleWeeks(currentMonth, currentWeek) {
 function renderDays(currentDay) {
     if (!dayContainer) return;
     dayContainer.innerHTML = "";
-    const currentLevel = "level" + progressState.currentMonth;
+
+    const today = new Date().toISOString().split('T')[0];
+    const lastDone = progressState.lastCompletedDate ? new Date(progressState.lastCompletedDate).toISOString().split('T')[0] : null;
+    const finishedToday = (lastDone === today);
 
     for (let i = 1; i <= 7; i++) {
         // Wrap each day in a container for the arrow marker
@@ -223,8 +227,15 @@ function renderDays(currentDay) {
             btn.classList.add("day-completed");
             btn.innerHTML = `<span class="day-check">✓</span> Day ${i}`;
         } else if (i === Number(currentDay)) {
-            btn.classList.add("active");
-            btn.innerHTML = `<span class="day-fire">🔥</span> Day ${i}`;
+            if (finishedToday) {
+                btn.classList.add("disabled", "wait-tomorrow");
+                btn.disabled = true;
+                btn.innerHTML = `Day ${i} (Locked)`;
+                btn.title = "You have completed your workout for today. Come back tomorrow for Day " + i + "!";
+            } else {
+                btn.classList.add("active");
+                btn.innerHTML = `<span class="day-fire">🔥</span> Day ${i}`;
+            }
         } else {
             btn.classList.add("disabled");
             btn.disabled = true;
