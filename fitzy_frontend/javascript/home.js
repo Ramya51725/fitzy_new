@@ -28,7 +28,7 @@ async function initProgress() {
 
     if (!userId || !categoryId) {
         alert("Please login again.");
-        window.location.href = "../sign_in.html";
+        window.location.href = "sign_in.html";
         return;
     }
 

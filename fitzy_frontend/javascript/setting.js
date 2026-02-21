@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!userId) {
     alert("Please login first");
-    window.location.href = "/html/sign_in.html";
+    window.location.href = "sign_in.html";
     return;
   }
 
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(() => {
           localStorage.clear();
           alert("Account deleted successfully");
-          window.location.href = "/index.html";
+          window.location.href = "../../index.html";
         })
         .catch(err => {
           console.error("DELETE ERROR:", err);
@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 //   fetch(`${API_BASE_URL}/users/${userId}`, {
 //     headers: {
-//       "Authorization": `Bearer ${token}`   
+//       "Authorization": `Bearer ${token}`
 //     }
 //   })
 //     .then(res => {
@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
 //       fetch(`${API_BASE_URL}/users/delete/${userId}`, {
 //         method: "DELETE",
 //         headers: {
-//           "Authorization": `Bearer ${token}`  
+//           "Authorization": `Bearer ${token}`
 //         }
 //       })
 //         .then(res => {
