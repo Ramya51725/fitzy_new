@@ -34,7 +34,7 @@ async function initProgress() {
 
     // 🔥 Sync with Backend
     try {
-        const res = await fetch(`${API_BASE_URL}/exercise-progress/${userId}/fitzy/${categoryId}`);
+        const res = await fetch(`${API_BASE_URL}/progress/${userId}/fitzy/${categoryId}`);
         if (res.ok) {
             const pData = await res.json();
             progressState = {

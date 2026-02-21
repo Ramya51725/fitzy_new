@@ -7,7 +7,7 @@ from models.exercise_progress import ExerciseProgress
 from schemas.progress import ProgressCreate
 
 router = APIRouter(
-    prefix="/diet-progress",
+    prefix="/progress",
     tags=["User Progress"]
 )
 

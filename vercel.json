@@ -8,7 +8,7 @@
     ],
     "rewrites": [
         {
-            "source": "/(users|exercise-progress|diet-progress|exercise|category|veg|nonveg|exercise-log)(/.*)?",
+            "source": "/(users|progress|exercise|category|veg|nonveg|exercise-log)(/.*)?",
             "destination": "backend/main.py"
         }
     ]

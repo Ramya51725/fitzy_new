@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const API_URL = `${API_BASE_URL}/nonveg/diet/by-category-day`;
-  const PROGRESS_API = `${API_BASE_URL}/diet-progress`;
+  const PROGRESS_API = `${API_BASE_URL}/progress`;
 
   // 🔥 Update Header with Current Month
   const progressData = JSON.parse(localStorage.getItem("fitzy_progress"));
