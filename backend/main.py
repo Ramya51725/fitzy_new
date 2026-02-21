@@ -34,7 +34,7 @@ app.add_middleware(
 # Root route
 @app.get("/")
 def get_home():
-    return {"msg": "Welcome to Fitzy API"}
+    return {"msg": "Welcome to Fitzy New"}
 
 # API prefix router
 api_router = APIRouter(prefix="/backend")
