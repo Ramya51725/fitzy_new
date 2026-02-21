@@ -16,16 +16,12 @@
     ],
     "routes": [
         {
-            "src": "/fitzy_frontend/(.*)",
-            "dest": "/fitzy_frontend/$1"
-        },
-        {
-            "src": "/index.html",
-            "dest": "/index.html"
-        },
-        {
-            "src": "/((?!fitzy_frontend|index\\.html).*)",
+            "src": "/api/(.*)",
             "dest": "backend/main.py"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/$1"
         }
     ]
 }
