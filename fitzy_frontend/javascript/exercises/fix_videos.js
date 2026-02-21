@@ -32,20 +32,35 @@ document.addEventListener("DOMContentLoaded", () => {
         "Cat cow pose": "https://res.cloudinary.com/djek05t0d/video/upload/v1765822780/cat_cow_pose_sefkfk.mp4"
     };
 
+    const normalizedMapping = {};
+    for (const key in videoMapping) {
+        normalizedMapping[key.toLowerCase()] = videoMapping[key];
+    }
+
     const videos = document.querySelectorAll("video");
     videos.forEach(video => {
+        // Ensure standard video properties
+        video.setAttribute("playsinline", "true");
+        video.muted = true;
+
         const topicLabel = video.parentElement.querySelector(".topic");
         if (topicLabel) {
-            const exerciseName = topicLabel.innerText.trim();
-            if (videoMapping[exerciseName]) {
+            const exerciseName = topicLabel.innerText.trim().toLowerCase();
+            if (normalizedMapping[exerciseName]) {
+                const videoUrl = normalizedMapping[exerciseName];
+                console.log(`✅ Fixing video for: ${exerciseName}`);
+
+                // Update source if exists, otherwise set video src directly
                 const source = video.querySelector("source");
                 if (source) {
-                    console.log(`Fixing video for: ${exerciseName}`);
-                    source.src = videoMapping[exerciseName];
-                    video.load(); // Reload video with new source
+                    source.src = videoUrl;
                 }
+                video.src = videoUrl; // Fallback/Overwrite for robustness
+
+                video.load();
+                video.play().catch(e => console.warn("Auto-play blocked:", e));
             } else {
-                console.warn(`No video mapping found for: ${exerciseName}`);
+                console.warn(`🛑 No video mapping found for: "${exerciseName}"`);
             }
         }
     });

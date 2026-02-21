@@ -101,7 +101,7 @@ async function loadProgress() {
     }
 
     // 🔥 DYNAMIC LEVEL MAPPING: Month 1 -> Level 1, Month 2 -> Level 2, etc.
-    level = "Level " + progressState.currentMonth;
+    level = "Level " + (progressState.currentMonth || 1);
 
     console.log(`Current ${level} Progress:`, progressState);
     if (headerDay) headerDay.textContent = `Your current day: Day ${progressState.currentDay} 🔥`;
@@ -176,18 +176,27 @@ async function saveProgress() {
 async function loadExercisesForDay() {
     try {
         const catId = Number(localStorage.getItem("category_id")) || 1;
-        const month = progressState.currentMonth;
+        const month = progressState.currentMonth || 1;
 
-        console.log(`Loading Exercises for Level: ${level}, Category: ${catId}, Month: ${month}`);
+        console.log(`🚀 Fetching Exercises for: Level=${level}, Category=${catId}, Month ${month}`);
 
+        // Encode the level parameter to handle spaces (e.g., "Level 1")
         const res = await fetch(
-            `${API_BASE_URL}/exercise/by-category-level?category_id=${catId}&level=${level}`
+            `${API_BASE_URL}/exercise/by-category-level?category_id=${catId}&level=${encodeURIComponent(level)}`
         );
 
+        if (!res.ok) {
+            console.error(`❌ Fetch failed with status: ${res.status}`);
+            container.innerHTML = `<p>Error fetching exercises (Status: ${res.status})</p>`;
+            return;
+        }
+
         const data = await res.json();
+        console.log("📦 Exercises found:", data);
 
         if (!data || !data.length) {
-            container.innerHTML = "<p>No exercises found</p>";
+            console.warn(`🛑 No exercises found for Level: "${level}" and Category: ${catId}`);
+            container.innerHTML = `<p>No exercises found for your current level and category. Please check the Admin Panel to ensure exercises are uploaded for "${level}".</p>`;
             return;
         }
 
@@ -197,8 +206,8 @@ async function loadExercisesForDay() {
         renderExercises(monthlyExercises);
 
     } catch (err) {
-        console.error("Exercise Load Error:", err);
-        container.innerHTML = "<p>Error loading exercises. Check console.</p>";
+        console.error("🔥 Exercise Load Error:", err);
+        container.innerHTML = "<p>Error loading exercises. Please check your connection.</p>";
     }
 }
 
@@ -422,7 +431,7 @@ async function initWarmup() {
         console.log(`Warmup: Using ${warmupLevel} exercises (current month: ${currentMonth})`);
 
         const res = await fetch(
-            `${API_BASE_URL}/exercise/by-category-level?category_id=${catId}&level=${warmupLevel}`
+            `${API_BASE_URL}/exercise/by-category-level?category_id=${catId}&level=${encodeURIComponent(warmupLevel)}`
         );
         const data = await res.json();
 

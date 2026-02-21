@@ -26,9 +26,15 @@ def get_exercise_by_category_and_level(
     level: str,
     db: Session = Depends(get_db)
 ):
+    # Normalize level for more flexible matching
+    # e.g., "Level 1", "level 1", "level1" will all work
+    normalized_level = level.strip().lower()
+    
     return db.query(Exercise).filter(
         Exercise.category_id == category_id,
-        Exercise.level == level
+        (Exercise.level.ilike(level)) | 
+        (Exercise.level.ilike(normalized_level)) | 
+        (Exercise.level.ilike(normalized_level.replace(" ", "")))
     ).all()
 
 
