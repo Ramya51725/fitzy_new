@@ -14,7 +14,8 @@ h3 {
 body {
   background: linear-gradient(to top, #fad0c43d 0%, #ffd1ff 100%);
   height: 100vh;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   color: #333;
 }
 
@@ -58,7 +59,8 @@ body {
 
 
 .main-container {
-  height: calc(100vh - 140px);
+  min-height: calc(100vh - 140px);
+  height: auto;
   display: grid;
   grid-template-columns: 90px 1fr 1px 420px;
   align-items: center;

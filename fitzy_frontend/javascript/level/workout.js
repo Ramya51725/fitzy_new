@@ -118,11 +118,12 @@ async function saveProgress() {
     // 2. 🔥 Sync with Backend
     try {
         const payload = {
-            current_month: Number(progressState.currentMonth),
-            current_week: Number(progressState.currentWeek),
-            current_day: Number(progressState.currentDay),
-            completed_months: Number(progressState.completedMonths),
-            completed_days: Number(progressState.completedDays)
+            current_month: Number(progressState.currentMonth) || 1,
+            current_week: Number(progressState.currentWeek) || 1,
+            current_day: Number(progressState.currentDay) || 1,
+            completed_months: Number(progressState.completedMonths) || 0,
+            completed_days: Number(progressState.completedDays) || 0,
+            completed_exercises: Number(completedCount) || 0
         };
 
         // Try to UPDATE existing record
@@ -313,28 +314,62 @@ async function updateProgressAfterExercise() {
     completedCount++;
     if (currentExercise) await logExerciseToHistory(currentExercise);
     if (completedCount >= 6) {
-        setTimeout(() => { moveToNextDay(); }, 1500);
+        await moveToNextDay();
     }
 }
 
-if (completeBtn) completeBtn.addEventListener("click", () => { moveToNextDay(); });
+if (completeBtn) {
+    console.log("Mark Day Complete button found and listener attached ✅");
+    completeBtn.addEventListener("click", async () => {
+        console.log("Mark Day Complete clicked! ⚡");
+        await moveToNextDay();
+    });
+} else {
+    console.error("CRITICAL: completeDayBtn NOT found in DOM! ❌");
+}
 
 async function moveToNextDay() {
-    progressState.currentDay = Number(progressState.currentDay) + 1;
-    progressState.completedDays = Number(progressState.completedDays || 0) + 1;
+    console.log("moveToNextDay() started. Current State:", progressState);
 
-    if (progressState.currentDay > 7) {
-        progressState.currentDay = 1;
-        progressState.currentWeek = Number(progressState.currentWeek) + 1;
+    if (completeBtn) {
+        completeBtn.disabled = true;
+        completeBtn.innerText = "Saving...";
     }
-    if (progressState.currentWeek > 4) {
-        progressState.currentWeek = 1;
-        progressState.currentMonth = Number(progressState.currentMonth) + 1;
-        progressState.completedMonths = Number(progressState.completedMonths || 0) + 1;
+
+    try {
+        progressState.currentDay = Number(progressState.currentDay || 1) + 1;
+        progressState.completedDays = Number(progressState.completedDays || 0) + 1;
+
+        if (progressState.currentDay > 7) {
+            progressState.currentDay = 1;
+            progressState.currentWeek = Number(progressState.currentWeek || 1) + 1;
+        }
+        if (progressState.currentWeek > 4) {
+            progressState.currentWeek = 1;
+            progressState.currentMonth = Number(progressState.currentMonth || 1) + 1;
+            progressState.completedMonths = Number(progressState.completedMonths || 0) + 1;
+        }
+
+        console.log("New State calculated:", progressState);
+
+        // Save locally first so user doesn't lose progress if network fails
+        localStorage.setItem("fitzy_progress", JSON.stringify(progressState));
+
+        // Sync with cloud
+        await saveProgress();
+
+        alert("Day Completed Successfully! 🔥");
+        window.location.href = "../landing/beginner.html";
+    } catch (err) {
+        console.error("Error in moveToNextDay:", err);
+        alert("Saved locally, but cloud sync failed. You can continue!");
+        window.location.href = "../landing/beginner.html";
+    } finally {
+        if (completeBtn) {
+            completeBtn.disabled = false;
+            completeBtn.innerText = "Mark Day Complete";
+        }
     }
-    await saveProgress();
-    alert("Day Completed Successfully! 🔥");
-    window.location.href = "../landing/beginner.html";
 }
 
 async function logExerciseToHistory(ex) {
