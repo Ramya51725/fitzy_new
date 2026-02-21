@@ -128,19 +128,14 @@ function handleLevels(currentMonth) {
             if (currentMonth >= card.start && currentMonth <= card.end) {
                 // ACTIVE
                 card.el.classList.add("active-level");
-                card.el.style.cursor = "pointer";
+                card.el.style.cursor = "default";
                 if (statusEl) statusEl.textContent = "🔥 In Progress";
 
-                const navigate = () => {
-                    window.location.href = `../levels/workout.html`;
-                };
-
-                card.el.onclick = navigate;
+                card.el.onclick = null;
                 if (startBtn) {
                     startBtn.innerText = "Start";
                     startBtn.onclick = (e) => {
-                        e.stopPropagation(); // Prevent double navigation
-                        navigate();
+                        window.location.href = `../levels/workout.html`;
                     };
                 }
             } else if (currentMonth > card.end) {

@@ -1,16 +1,16 @@
-from sqlalchemy import create_all, text
+import os, sys
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from database.db import engine
+sys.path.append(os.getcwd())
+from database.db import DATABASE_URL
 from models.exemodel import Exercise
-
-def list_exercises():
-    Session = sessionmaker(bind=engine)
-    session = Session()
-    exercises = session.query(Exercise).all()
-    print("TOTAL EXERCISES:", len(exercises))
+engine = create_engine(DATABASE_URL)
+Session = sessionmaker(bind=engine)
+session = Session()
+missing = ["Burpees", "Cursty", "High", "In out", "Abdominal", "Rhomboid", "Reclained", "Dumbbell", "Learning", "Mount", "Curts"]
+for name in missing:
+    exercises = session.query(Exercise).filter(Exercise.title.ilike(f"%{name[:4]}%")).all()
     for ex in exercises:
-        print(f"| {ex.title} | {ex.exercise_video} |")
-    session.close()
-
-if __name__ == "__main__":
-    list_exercises()
+        print(f"TITLE:{ex.title}")
+        print(f"URL:{ex.exercise_video}")
+session.close()
