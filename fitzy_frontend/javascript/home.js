@@ -135,7 +135,8 @@ function handleLevels(currentMonth) {
                 if (startBtn) {
                     startBtn.innerText = "Start";
                     startBtn.onclick = (e) => {
-                        window.location.href = `../levels/workout.html`;
+                        e.preventDefault();
+                        e.stopPropagation();
                     };
                 }
             } else if (currentMonth > card.end) {
