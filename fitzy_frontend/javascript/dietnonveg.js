@@ -51,6 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
       activeBtn = btn;
       selectedDay = day;
       loadDiet(day);
+      updateButtonStatus();
     };
 
     dayButtons.push(btn);
@@ -119,6 +120,8 @@ document.addEventListener("DOMContentLoaded", () => {
         dayButtons[nextDayIndex].click();
       }
 
+      // Refresh button status
+      updateButtonStatus();
     } catch (err) {
       console.error(err);
       alert(err.message);
@@ -173,10 +176,31 @@ document.addEventListener("DOMContentLoaded", () => {
       if (nextBtn) {
         nextBtn.classList.remove("disabled");
         nextBtn.click();
+      } else {
+        // If all 30 days done, click the last one
+        dayButtons[dayButtons.length - 1].click();
       }
+
+      updateButtonStatus();
 
     } catch (err) {
       console.error(err);
+    }
+  }
+
+  function updateButtonStatus() {
+    if (!completedBtn) return;
+    const isCompleted = dayButtons[selectedDay - 1].classList.contains("completed");
+    if (isCompleted) {
+      completedBtn.innerText = "Finished ✅";
+      completedBtn.disabled = true;
+      completedBtn.style.opacity = "0.6";
+      completedBtn.style.cursor = "default";
+    } else {
+      completedBtn.innerText = "Completed";
+      completedBtn.disabled = false;
+      completedBtn.style.opacity = "1";
+      completedBtn.style.cursor = "pointer";
     }
   }
 
