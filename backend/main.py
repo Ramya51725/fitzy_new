@@ -33,6 +33,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Health check route
+@app.get("/health")
+def health_check():
+    return {"status": "ok", "version": "v1.2"}
+
 # Root route removed to avoid index.html conflict
 
 # API prefix router (no prefix — routes served at root level)
