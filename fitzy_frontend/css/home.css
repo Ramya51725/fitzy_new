@@ -12,6 +12,22 @@ h3,
     font-family: 'Outfit', sans-serif;
 }
 
+:root {
+    --bg-dark: #0f172a;
+    --bg-light: #f8fafc;
+    --primary: #22c55e;
+    --primary-dark: #16a34a;
+    --accent: #06b6d4;
+    --text-main: #0f172a;
+    --text-light: #f8fafc;
+    --text-muted: #64748b;
+    --card-bg: #ffffff;
+}
+body {
+    background: var(--bg-light);
+    min-height: 100vh;
+    color: var(--text-main);
+}
 body {
     background: linear-gradient(to top, #fad0c43d 0%, #ffd1ff 100%);
     height: 100vh;
@@ -26,7 +42,8 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 15px 40px;
-    background: linear-gradient(to right, #e9d5ff, #fbcfe8);
+    background: linear-gradient(to right, #0f172a, #1e293b);
+    color: var(--text-light);
     position: sticky;
     top: 0;
     z-index: 100;
@@ -53,11 +70,12 @@ body {
 /* Right Side Badge */
 .home-right .decide {
     font-weight: bold;
-    background: white;
+    background: #1e293b;
+    color: var(--primary);
+    border: 1px solid var(--primary);
     padding: 8px 15px;
     border-radius: 20px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    color: var(--primary);
     border: 1px solid var(--primary-light);
 }
 
@@ -100,20 +118,20 @@ body {
     justify-content: space-around;
     align-items: center;
     margin-top: 80px;
-    background: rgba(255, 255, 255, 0.6);
+    background: #111827;
     backdrop-filter: blur(10px);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
 
 .nav-icon {
     font-size: 30px;
-    color: #6b21a8;
+    color: var(--primary);
     /* Deep purple instead of black */
     transition: all 0.3s ease;
 }
 
 .nav-icon:hover {
-    color: #9333ea;
+    color: var(--accent);
     transform: scale(1.1);
 }
 
@@ -162,12 +180,12 @@ body {
     /* More rounded for modern look */
     width: 270px;
     /* Refined width */
-    background: rgba(255, 255, 255, 0.8);
+    background: var(--card-bg);
     /* Glass effect base */
-    backdrop-filter: blur(12px);
-    box-shadow:
-        0 10px 30px rgba(0, 0, 0, 0.04),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(12px);    
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+
+
     transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
     cursor: pointer;
     display: flex;
@@ -194,6 +212,11 @@ body {
 
 .foundation_week:hover::after {
     left: 120%;
+}
+.foundation_week:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(34,197,94,0.15);
+    border-color: var(--primary);
 }
 
 .quote-container {
@@ -272,9 +295,9 @@ body {
     padding: 10px;
     border-radius: 12px;
     text-align: center;
-    background-color: transparent;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
     transition: all 0.3s ease;
-    color: #9333ea;
+    color: white;
     font-weight: bold;
     font-family: 'Outfit', sans-serif;
     cursor: pointer;
@@ -395,10 +418,10 @@ img {
 }
 
 .circle.active {
-    background-color: #9333ea;
+    background-color: var(--primary);
     color: white;
-    border-color: #9333ea;
-    box-shadow: 0 8px 20px rgba(147, 51, 234, 0.4);
+    border-color: var(--primary);
+    box-shadow: 0 0 15px rgba(34,197,94,0.4);
     animation: jump 2s infinite ease-in-out;
 }
 
@@ -494,10 +517,10 @@ img {
 
 /* Active day (current) */
 .day-btn.active {
-    background: linear-gradient(135deg, #9333ea, #7c3aed);
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
     color: white;
+    border: none;
     font-weight: bold;
-    border: 2px solid #7c3aed;
     box-shadow: 0 4px 14px rgba(147, 51, 234, 0.4);
 }
 
@@ -508,9 +531,9 @@ img {
 
 /* Completed day */
 .day-btn.day-completed {
-    background: linear-gradient(135deg, #22c55e, #16a34a);
+    background: var(--primary-dark);
     color: white;
-    border: 2px solid #16a34a;
+    border: none;
     box-shadow: 0 2px 8px rgba(34, 197, 94, 0.25);
     cursor: default;
     pointer-events: none;
@@ -647,8 +670,7 @@ footer {
 }
 
 .circle.completed {
-    background-color: #22c55e;
-    /* Bright green */
+    background-color: var(--primary-dark);
     color: white;
     border: none;
     box-shadow: 0 4px 10px rgba(34, 197, 94, 0.3);
@@ -795,11 +817,10 @@ i.quate {
 
 /* ================= ACTIVE LEVEL (Current) ================= */
 .foundation_week.active-level {
-    background: #fff !important;
-    border: 3px solid #800080 !important;
+    border: 2px solid var(--primary) !important;
+    box-shadow: 0 0 25px rgba(34,197,94,0.3) !important;    border: 3px solid #800080 !important;
     /* Thick purple border */
     transform: scale(1.05) !important;
-    box-shadow: 0 0 30px rgba(128, 0, 128, 0.4) !important;
     /* Strong purple glow */
     opacity: 1 !important;
     filter: none !important;
