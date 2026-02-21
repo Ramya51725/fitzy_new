@@ -45,7 +45,7 @@ api_router = APIRouter()
 
 api_router.include_router(exercise_progress.router)
 api_router.include_router(progress.router)
-api_router.include_router(exercise_log.router)
+# api_router.include_router(exercise_log.router)
 api_router.include_router(user.router)
 api_router.include_router(diet.router)
 api_router.include_router(nonveg_diet.router)
