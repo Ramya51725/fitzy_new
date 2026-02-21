@@ -16,7 +16,7 @@
     ],
     "routes": [
         {
-            "src": "/api/(.*)",
+            "src": "/(users|progress|exercise|category|veg|nonveg|exercise-log)(/.*)?",
             "dest": "backend/main.py"
         },
         {

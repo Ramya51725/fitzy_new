@@ -36,12 +36,8 @@ app.add_middleware(
 def get_home():
     return {"msg": "Welcome to Fitzy New"}
 
-# API prefix router
-api_router = APIRouter(prefix="/api")
-
-@api_router.get("/status")
-def get_api_status():
-    return {"status": "ok", "version": "v2-api-prefix"}
+# API prefix router (no prefix — routes served at root level)
+api_router = APIRouter()
 
 api_router.include_router(exercise_progress.router)
 api_router.include_router(exercise_log.router)
