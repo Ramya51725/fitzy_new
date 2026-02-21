@@ -68,7 +68,7 @@ form.addEventListener("submit", async function (e) {
   if (!isValid) return;
 
   try {
-    const res = await fetch(`${API_BASE_URL}/users`, {
+    const res = await fetch(`${API_BASE_URL}/users/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
