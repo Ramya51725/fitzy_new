@@ -37,7 +37,7 @@ def get_home():
     return {"msg": "Welcome to Fitzy API"}
 
 # API prefix router
-api_router = APIRouter(prefix="/api")
+api_router = APIRouter(prefix="/backend")
 
 api_router.include_router(exercise_progress.router)
 api_router.include_router(exercise_log.router)
