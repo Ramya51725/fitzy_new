@@ -32,10 +32,55 @@ let level = "level1"; // Default, will be updated dynamically
    🔥 PROGRESS MANAGEMENT (Sync with Supabase)
 ===================================================== */
 
-function loadProgress() {
-    const stored = localStorage.getItem("fitzy_progress");
-    if (stored) {
-        progressState = JSON.parse(stored);
+async function loadProgress() {
+    try {
+        // 🔥 1. Try fetching progress from the backend first
+        const res = await fetch(`${API_BASE_URL}/progress/${userId}/fitzy/${categoryId}`);
+
+        if (res.ok) {
+            const data = await res.json();
+            // Map backend field names → frontend progressState
+            progressState = {
+                currentMonth: Number(data.current_month) || 1,
+                currentWeek: Number(data.current_week) || 1,
+                currentDay: Number(data.current_day) || 1,
+                completedMonths: Number(data.completed_months) || 0,
+                completedDays: Number(data.completed_days) || 0
+            };
+            // Keep localStorage in sync
+            localStorage.setItem("fitzy_progress", JSON.stringify(progressState));
+            console.log("Progress loaded from backend ✅", progressState);
+
+        } else if (res.status === 404) {
+            // 🔥 2. No backend record → check localStorage
+            console.warn("No backend progress found (404). Checking localStorage...");
+            const stored = localStorage.getItem("fitzy_progress");
+
+            if (stored) {
+                progressState = JSON.parse(stored);
+                console.log("Progress loaded from localStorage 📦", progressState);
+            } else {
+                // 🔥 3. Brand-new user → init a fresh record on the backend
+                console.log("No local progress either → initialising new backend record...");
+                await fetch(`${API_BASE_URL}/progress/init`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        user_id: Number(userId),
+                        level: "fitzy",
+                        category_id: Number(categoryId)
+                    })
+                });
+                // progressState stays at default (Month 1, Week 1, Day 1)
+            }
+        } else {
+            console.error("Unexpected response while fetching progress:", res.status);
+        }
+    } catch (err) {
+        // Network error → fall back to localStorage silently
+        console.error("Cloud fetch error, falling back to localStorage:", err);
+        const stored = localStorage.getItem("fitzy_progress");
+        if (stored) progressState = JSON.parse(stored);
     }
 
     // 🔥 DYNAMIC LEVEL MAPPING: Month 1 -> Level 1, Month 2 -> Level 2, etc.
