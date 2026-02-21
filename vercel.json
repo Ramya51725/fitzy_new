@@ -4,6 +4,14 @@
         {
             "src": "backend/main.py",
             "use": "@vercel/python"
+        },
+        {
+            "src": "index.html",
+            "use": "@vercel/static"
+        },
+        {
+            "src": "fitzy_frontend/**",
+            "use": "@vercel/static"
         }
     ],
     "rewrites": [
