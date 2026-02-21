@@ -39,6 +39,10 @@ def get_home():
 # API prefix router
 api_router = APIRouter(prefix="/api")
 
+@api_router.get("/status")
+def get_api_status():
+    return {"status": "ok", "version": "v2-api-prefix"}
+
 api_router.include_router(exercise_progress.router)
 api_router.include_router(exercise_log.router)
 api_router.include_router(progress.router)
