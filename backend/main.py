@@ -4,7 +4,9 @@ import os
 # 🔥 ENSURE BACKEND DIRECTORY IS IN PATH FOR VERCEL
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from fastapi import FastAPI, APIRouter
+from fastapi import FastAPI, APIRouter, Depends
+from sqlalchemy.orm import Session
+from dependencies import get_db
 from fastapi.middleware.cors import CORSMiddleware
 from database.db import Base, engine
 from models.category import Category
