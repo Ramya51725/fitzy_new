@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // ✅ Redirect
       if (email === "admin@gmail.com") {
-        window.location.href = "../html/admin.html";
+        window.location.href = "admin.html";
       } else {
         window.location.href = "../html/landing/beginner.html";
       }
