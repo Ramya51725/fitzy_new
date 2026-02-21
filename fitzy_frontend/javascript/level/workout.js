@@ -34,6 +34,11 @@ let level = "level1"; // Default, will be updated dynamically
 
 async function loadProgress() {
     try {
+        if (!userId || !categoryId) {
+            console.error("Missing userId or categoryId in localStorage");
+            return;
+        }
+
         // 🔥 1. Try fetching progress from the backend first
         const res = await fetch(`${API_BASE_URL}/exercise-progress/${userId}/fitzy/${categoryId}`);
 
@@ -62,7 +67,7 @@ async function loadProgress() {
             } else {
                 // 🔥 3. Brand-new user → init a fresh record on the backend
                 console.log("No local progress either → initialising new backend record...");
-                await fetch(`${API_BASE_URL}/exercise-progress/init`, {
+                const initRes = await fetch(`${API_BASE_URL}/exercise-progress/init`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
@@ -71,7 +76,19 @@ async function loadProgress() {
                         category_id: Number(categoryId)
                     })
                 });
-                // progressState stays at default (Month 1, Week 1, Day 1)
+
+                if (initRes.ok) {
+                    const data = await initRes.json();
+                    progressState = {
+                        currentMonth: Number(data.current_month) || 1,
+                        currentWeek: Number(data.current_week) || 1,
+                        currentDay: Number(data.current_day) || 1,
+                        completedMonths: Number(data.completed_months) || 0,
+                        completedDays: Number(data.completed_days) || 0
+                    };
+                    localStorage.setItem("fitzy_progress", JSON.stringify(progressState));
+                    console.log("Progress initialised and synced ✅", progressState);
+                }
             }
         } else {
             console.error("Unexpected response while fetching progress:", res.status);
