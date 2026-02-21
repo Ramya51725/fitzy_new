@@ -1,3 +1,3 @@
-const API_BASE_URL = "https://fullstack-backend-y73c.vercel.app";
+const API_BASE_URL = "https://fitzy-new.vercel.app";
 
 export default API_BASE_URL;
