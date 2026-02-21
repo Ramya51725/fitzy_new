@@ -12,7 +12,7 @@ from schemas.exercise_progress import (
 )
 
 router = APIRouter(
-    prefix="/progress",
+    prefix="/exercise-progress",
     tags=["Exercise Progress"]
 )
 
@@ -237,7 +237,6 @@ def update_progress(
     if update_data.completed_months is not None:
         progress.completed_months = update_data.completed_months
     if update_data.is_month_completed is not None:
-        progress.is_level_completed = update_data.is_level_completed # Fixed a potential typo in previous code?
         progress.is_month_completed = update_data.is_month_completed
     if update_data.is_level_completed is not None:
         progress.is_level_completed = update_data.is_level_completed

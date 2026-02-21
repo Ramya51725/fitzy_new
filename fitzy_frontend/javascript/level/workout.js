@@ -40,7 +40,7 @@ async function loadProgress() {
         }
 
         // 🔥 1. Try fetching progress from the backend first
-        const res = await fetch(`${API_BASE_URL}/progress/${userId}/fitzy/${categoryId}`);
+        const res = await fetch(`${API_BASE_URL}/exercise-progress/${userId}/fitzy/${categoryId}`);
 
         if (res.ok) {
             const data = await res.json();
@@ -67,7 +67,7 @@ async function loadProgress() {
             } else {
                 // 🔥 3. Brand-new user → init a fresh record on the backend
                 console.log("No local progress either → initialising new backend record...");
-                const initRes = await fetch(`${API_BASE_URL}/progress/init`, {
+                const initRes = await fetch(`${API_BASE_URL}/exercise-progress/init`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
@@ -127,7 +127,7 @@ async function saveProgress() {
         };
 
         // Try to UPDATE existing record
-        let res = await fetch(`${API_BASE_URL}/progress/update/${userId}/fitzy/${categoryId}`, {
+        let res = await fetch(`${API_BASE_URL}/exercise-progress/update/${userId}/fitzy/${categoryId}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)
@@ -138,7 +138,7 @@ async function saveProgress() {
             console.log("No progress record found → Initialising new record...");
 
             // Create initial Beginner record using /init (safe upsert — won't skip Day 1)
-            await fetch(`${API_BASE_URL}/progress/init`, {
+            await fetch(`${API_BASE_URL}/exercise-progress/init`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -149,7 +149,7 @@ async function saveProgress() {
             });
 
             // Now update with the correct progress values
-            res = await fetch(`${API_BASE_URL}/progress/update/${userId}/fitzy/${categoryId}`, {
+            res = await fetch(`${API_BASE_URL}/exercise-progress/update/${userId}/fitzy/${categoryId}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
