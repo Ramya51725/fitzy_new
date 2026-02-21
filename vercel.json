@@ -4,24 +4,12 @@
         {
             "src": "backend/main.py",
             "use": "@vercel/python"
-        },
-        {
-            "src": "index.html",
-            "use": "@vercel/static"
-        },
-        {
-            "src": "fitzy_frontend/**",
-            "use": "@vercel/static"
         }
     ],
-    "routes": [
+    "rewrites": [
         {
-            "src": "/(users|exercise-progress|diet-progress|exercise|category|veg|nonveg|exercise-log)(/.*)?",
-            "dest": "backend/main.py"
-        },
-        {
-            "src": "/(.*)",
-            "dest": "/$1"
+            "source": "/(users|exercise-progress|diet-progress|exercise|category|veg|nonveg|exercise-log)(/.*)?",
+            "destination": "backend/main.py"
         }
     ]
 }

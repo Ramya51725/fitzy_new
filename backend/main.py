@@ -33,10 +33,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Root route
-@app.get("/")
-def get_home():
-    return {"msg": "Welcome to Fitzy New"}
+# Root route removed to avoid index.html conflict
 
 # API prefix router (no prefix — routes served at root level)
 api_router = APIRouter()
