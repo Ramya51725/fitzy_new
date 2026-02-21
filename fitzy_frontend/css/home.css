@@ -1,13 +1,3 @@
-/* ================= ROOT COLORS ================= */
-:root {
-    --primary: #22c55e;
-    --primary-dark: #16a34a;
-    --primary-light: #bbf7d0;
-    --text-main: #0f172a;
-    --text-muted: #64748b;
-}
-
-/* ================= GLOBAL ================= */
 * {
     margin: 0;
     padding: 0;
@@ -23,24 +13,26 @@ h3,
 }
 
 body {
-    background: linear-gradient(to top, #f8fafc 0%, #e2e8f0 100%);
+    background: linear-gradient(to top, #fad0c43d 0%, #ffd1ff 100%);
     height: 100vh;
     overflow: hidden;
+    /* 🔥 This removes scrolling */
     color: var(--text-main);
 }
 
-/* ================= HEADER ================= */
+/* HEADER */
 .home {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 40px;
-    background: linear-gradient(to right, #0f172a, #1e293b);
+    background: linear-gradient(to right, #e9d5ff, #fbcfe8);
     position: sticky;
     top: 0;
     z-index: 100;
 }
 
+/* Left Side */
 .home-left {
     display: flex;
     align-items: center;
@@ -55,24 +47,26 @@ body {
 
 .home-left span {
     font-size: 23px;
-    color: #cbd5e1;
+    color: #555;
 }
 
+/* Right Side Badge */
 .home-right .decide {
     font-weight: bold;
-    background: #1e293b;
+    background: white;
     padding: 8px 15px;
     border-radius: 20px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     color: var(--primary);
-    border: 1px solid var(--primary);
+    border: 1px solid var(--primary-light);
 }
+
 
 .decide {
     font-size: 22px;
 }
 
-/* ================= MAIN LAYOUT ================= */
+/* MAIN LAYOUT */
 .Arrranging_weeks_and_plans {
     display: flex;
     justify-content: space-between;
@@ -82,43 +76,59 @@ body {
     gap: 3rem;
 }
 
-/* ================= LEFT SECTION ================= */
+/* LEFT SECTION */
 .left_section {
     display: flex;
     width: 60%;
     margin-left: 10px;
     align-items: center;
+    /* 🔥 vertically center with boxes */
     flex: 1;
     gap: 2.5rem;
 }
 
-/* ================= NAVIGATION SIDEBAR ================= */
+/* NAVIGATION SIDEBAR */
 .nav {
-    border: 1px solid var(--primary-light);
+    border: 1px solid #d8b4fe;
     border-radius: 50px;
+    /* More pill-shaped */
     width: 75px;
+    /* Slightly narrower */
     height: 520px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
     margin-top: 80px;
-    background: #111827;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 .nav-icon {
     font-size: 30px;
-    color: var(--primary);
+    color: #6b21a8;
+    /* Deep purple instead of black */
     transition: all 0.3s ease;
 }
 
 .nav-icon:hover {
-    color: #06b6d4;
-    transform: scale(1.2);
+    color: #9333ea;
+    transform: scale(1.1);
 }
 
-/* ================= PLANS ================= */
+.nav-icon:hover {
+    color: purple;
+    /* Optional hover effect */
+    transform: scale(1.2);
+    background: var(--primary-light);
+}
+
+
+.move {
+    margin-left: 10px;
+}
+
 .plans {
     margin-left: 100px;
     width: 100%;
@@ -138,18 +148,27 @@ body {
 .arranging_weeks_flex {
     display: flex;
     gap: 40px;
+    /* Reduced gap */
     margin-top: 20px;
+    /* Moved cards up */
 }
 
-/* ================= LEVEL CARDS ================= */
+/* LEVEL CARDS */
 .foundation_week {
-    border: 1px solid #e2e8f0;
+    border: 1px solid rgba(147, 51, 234, 0.2);
+    /* Discrete purple border */
     padding: 24px;
     border-radius: 24px;
+    /* More rounded for modern look */
     width: 270px;
-    background: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
-    transition: all 0.4s ease;
+    /* Refined width */
+    background: rgba(255, 255, 255, 0.8);
+    /* Glass effect base */
+    backdrop-filter: blur(12px);
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.04),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
     cursor: pointer;
     display: flex;
     flex-direction: column;
@@ -158,15 +177,74 @@ body {
     overflow: hidden;
 }
 
+.foundation_week::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.4),
+            transparent);
+    transform: skewX(-20deg);
+    transition: 0.7s;
+}
+
+.foundation_week:hover::after {
+    left: 120%;
+}
+
+.quote-container {
+    height: 40px;
+    /* Fix height */
+    display: flex;
+    align-items: center;
+}
+
+.typing {
+    font-size: 28px;
+    font-weight: bold;
+    color: purple;
+    border-right: 3px solid purple;
+    white-space: nowrap;
+    font-family: 'Outfit', sans-serif;
+}
+
+
+@keyframes blink {
+    50% {
+        border-color: transparent;
+    }
+}
+
+
+/* Cursor blinking */
+@keyframes blink {
+    50% {
+        border-color: transparent;
+    }
+}
+
+.day-completed {
+    background: #28a745 !important;
+    color: white !important;
+    border: none !important;
+}
+
+/* 🔥 Hover Effect */
 .foundation_week:hover {
     transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 20px 40px rgba(34, 197, 94, 0.2);
-    border-color: var(--primary);
+    box-shadow: 0 20px 40px rgba(147, 51, 234, 0.15);
+    border-color: #9333ea;
 }
+
 
 .foundation_week h2 {
     font-size: 20px;
     margin-bottom: 10px;
+    color: var(--text-main);
 }
 
 .foundation_week h3 {
@@ -175,110 +253,662 @@ body {
     font-weight: 500;
 }
 
-/* ================= STATUS ================= */
 .status {
-    border: 1px solid #cbd5e1;
+    border: 1px solid #a0a0a0;
     border-radius: 25px;
+    /* Pill shaped input-like */
     width: 100%;
     padding: 8px 15px;
     background: #fff;
-    color: #334155;
+    color: #333;
     font-weight: 500;
     font-size: 0.9rem;
+    text-align: left;
 }
 
-/* ================= BUTTON ================= */
 .week1 {
-    border: 1.5px solid var(--primary);
+    border: 1.5px solid #9333ea;
     width: 100%;
     padding: 10px;
     border-radius: 12px;
     text-align: center;
     background-color: transparent;
     transition: all 0.3s ease;
-    color: var(--primary);
+    color: #9333ea;
     font-weight: bold;
+    font-family: 'Outfit', sans-serif;
     cursor: pointer;
 }
 
+/* 🔥 When hovering the entire card */
 .foundation_week:hover .week1 {
-    background-color: var(--primary);
+    background-color: #9333ea;
+    color: white;
+    box-shadow: 0 4px 12px rgba(147, 51, 234, 0.3);
+}
+
+/* ✅ Keep finished button green even on card hover */
+.foundation_week:hover .finished-btn,
+.foundation_week.completed-level:hover .week1 {
+    background-color: #22c55e !important;
+    background: #22c55e !important;
+    color: white !important;
+    border-color: #22c55e !important;
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3) !important;
+}
+
+.finished-btn {
+    background-color: #22c55e !important;
+    background: #22c55e !important;
+    color: white !important;
+    border-color: #22c55e !important;
+    border: 2px solid #22c55e !important;
+    cursor: default !important;
+    pointer-events: none !important;
+    user-select: none;
+}
+
+.foundation_week.completed-level {
+    cursor: default !important;
+    pointer-events: auto;
+    /* We need pointer-events for the card to handle the click suppression in JS, but we change cursor */
+}
+
+/* Override hover effects for completed levels */
+.foundation_week.completed-level:hover {
+    transform: none !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04) !important;
+    border-color: rgba(147, 51, 234, 0.2) !important;
+}
+
+.finished-btn:hover {
+    background-color: #22c55e !important;
+    background: #22c55e !important;
+    color: white !important;
+}
+
+img {
+    margin-left: 50px;
+}
+
+.motivation {
+    width: 400px;
+    line-height: 1.5;
+}
+
+#typing-text {
+    border-right: 3px solid purple;
+    padding-right: 5px;
+    white-space: normal;
+    word-break: break-word;
+    animation: blink 0.7s infinite;
+}
+
+@keyframes blink {
+    50% {
+        border-color: transparent;
+    }
+}
+
+
+
+/* Hover Effect */
+.week1:hover::before {
+    width: 100%;
+}
+
+/* Change Text Color On Hover */
+.week1:hover {
     color: white;
 }
 
-/* ================= TIMELINE ================= */
+
+@keyframes jump {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+/* Month Timeline */
 .circle {
     width: 42px;
     height: 42px;
-    border: 2px solid var(--primary-light);
+    border: 2px solid #d8b4fe;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     background: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
 }
 
 .circle:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 15px rgba(34, 197, 94, 0.2);
+    box-shadow: 0 8px 15px rgba(147, 51, 234, 0.15);
 }
 
 .circle.active {
-    background-color: var(--primary);
+    background-color: #9333ea;
     color: white;
-    border-color: var(--primary);
-    box-shadow: 0 8px 20px rgba(34, 197, 94, 0.4);
+    border-color: #9333ea;
+    box-shadow: 0 8px 20px rgba(147, 51, 234, 0.4);
+    animation: jump 2s infinite ease-in-out;
+}
+
+
+
+/* DIVIDER */
+.divider {
+    width: 2px;
+    /* Thicker solid line */
+    margin-top: 40px;
+    height: 550px;
+    background-color: #333;
+    /* Dark as seen in screenshot */
+}
+
+.day-buttons {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    width: 330px;
+    padding: 15px 10px;
+    /* Side padding to prevent clipping */
+    align-items: flex-end;
+}
+
+.day-buttons::-webkit-scrollbar {
+    display: none;
+}
+
+/* Day wrapper for arrow positioning */
+.day-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    padding-top: 20px;
+    /* Space for the floating arrow */
+}
+
+/* Bouncing arrow above current day */
+.day-arrow {
+    position: absolute;
+    top: 0;
+    color: #9333ea;
+    font-size: 14px;
+    animation: bounceArrow 1s ease-in-out infinite;
+    text-shadow: 0 2px 6px rgba(147, 51, 234, 0.4);
+}
+
+@keyframes bounceArrow {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-4px);
+    }
+}
+
+.day-btn {
+    width: 80px;
+    min-width: 80px;
+    height: 40px;
+    padding: 0;
+    border: 2px solid #333;
+    /* Darker rectangular border */
+    border-radius: 8px;
+    /* Less rounded */
+    background: #fff;
+    color: #333;
+    font-weight: 500;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.day-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(147, 51, 234, 0.12);
+    border-color: #9333ea;
+    color: #9333ea;
+}
+
+.image-git {
+    display: flex;
+}
+
+/* Active day (current) */
+.day-btn.active {
+    background: linear-gradient(135deg, #9333ea, #7c3aed);
+    color: white;
+    font-weight: bold;
+    border: 2px solid #7c3aed;
+    box-shadow: 0 4px 14px rgba(147, 51, 234, 0.4);
+}
+
+.day-fire {
+    margin-right: 2px;
+    font-size: 11px;
+}
+
+/* Completed day */
+.day-btn.day-completed {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: white;
+    border: 2px solid #16a34a;
+    box-shadow: 0 2px 8px rgba(34, 197, 94, 0.25);
+    cursor: default;
+    pointer-events: none;
+}
+
+.day-check {
+    margin-right: 2px;
+    font-weight: bold;
+}
+
+/* Disabled/future day */
+.day-btn.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: #f0ecf5;
+    border-color: #ddd;
+}
+
+/* RIGHT SECTION */
+.days_plans {
+    width: 35%;
+    padding-left: 20px;
+    /* Reduced padding */
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.right_header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+
+.header_bar {
+    width: 4px;
+    height: 30px;
+    background-color: #ff00ff;
+    /* Magenta bar */
+    border-radius: 10px;
+}
+
+.right_header h3 {
+    font-size: 1.5rem;
+    color: #333;
+    font-weight: 600;
+}
+
+.motivation_img {
+    margin-bottom: 20px;
+    background: #fff;
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    justify-content: center;
+    border: 1px solid var(--primary-light);
+}
+
+.start_day {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 24px 0;
+    background: #fff;
+    padding: 10px 20px;
+    border-radius: 25px;
+    border: 1px solid #e9d5ff;
+    box-shadow: 0 4px 15px rgba(147, 51, 234, 0.05);
+}
+
+.arrow {
+    border: 1.5px solid #d8b4fe;
+    background: #fff;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+    color: #9333ea;
+}
+
+.arrow:hover {
+    background: #9333ea;
+    color: #fff;
+    border-color: #9333ea;
+}
+
+/* Month Timeline */
+.month {
+    margin-top: 40px;
+}
+
+.weeks_line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.line {
+    width: 30px;
+    /* Shorter lines */
+    height: 2px;
+    background-color: #333;
+    /* Darker lines */
+}
+
+/* FOOTER */
+footer {
+    position: fixed;
+    bottom: 0px;
+    /* Force to bottom edge */
+    width: 100%;
+    background-color: #111;
+    /* Solid dark bar */
+    color: white;
+    text-align: center;
+    padding: 8px;
+    /* Reduced padding from 12px */
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    z-index: 2000;
+    /* Ensure it's above everything */
 }
 
 .circle.completed {
-    background-color: var(--primary-dark);
+    background-color: #22c55e;
+    /* Bright green */
+    color: white;
+    border: none;
+    box-shadow: 0 4px 10px rgba(34, 197, 94, 0.3);
+}
+
+.circle.active {
+    background-color: #800080;
+    color: white;
+    border: none;
+    box-shadow: 0 0 15px rgba(128, 0, 128, 0.5);
+}
+
+/* ================= ORIGINAL LAYOUT CLASSES ================= */
+.four_weeks_plan {
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+}
+
+
+
+.levels {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin-left: 50px;
+}
+
+.level1 {
+    border: 1px solid #d8b4fe;
+    border-radius: 20px;
+    padding: 30px;
+    width: 400px;
+    background: #fff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.about_level {
+    font-size: 35px;
+    font-weight: bold;
+    margin-left: 50px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.name_of_level {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.quate {
+    font-size: 18px;
+    margin-bottom: 15px;
+    display: block;
+    color: #555;
+    font-style: normal;
+}
+
+i.quate {
+    font-style: italic;
+    color: #777;
+}
+
+.images_button {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.level-btn {
+    background: #800080;
+    color: white;
+    padding: 10px 25px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    text-align: center;
+}
+
+.level-btn:hover {
+    background: #9333ea;
+}
+
+.images {
+    object-fit: contain;
+}
+
+/* ================= LOCKED CARD ================= */
+.foundation_week.locked {
+    opacity: 0.75;
+    pointer-events: none;
+    position: relative;
+    background: #f5f3f7;
+    border: 1px solid #d4d0d8;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    filter: grayscale(40%);
+}
+
+.foundation_week.locked h2,
+.foundation_week.locked h3 {
+    color: #a09aa8;
+}
+
+.foundation_week.locked .week1 {
+    background: #ccc;
+    color: #888;
+    border-color: #bbb;
+    cursor: not-allowed;
+}
+
+.foundation_week.locked .status {
+    background: #e0dce5;
+    color: #999;
+    border-color: #c8c4cc;
+    font-weight: normal;
+}
+
+/* ================= LOCK ICON ================= */
+.lock-overlay {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    /* Positioned top-right as in screenshot */
+    font-size: 18px;
+    color: #666;
+    z-index: 2;
+}
+
+/* Hide lock on unlocked cards */
+.foundation_week.unlocked .lock-overlay {
+    display: none;
+}
+
+/* ================= UNLOCKED CARD ================= */
+.foundation_week.unlocked {
+    opacity: 1;
+    pointer-events: auto;
+    background: linear-gradient(135deg, #f8f0ff, #ffe8f5);
+    border: 2px solid #d8b4fe;
+    filter: none;
+}
+
+/* ================= ACTIVE LEVEL (Current) ================= */
+.foundation_week.active-level {
+    background: #fff !important;
+    border: 3px solid #800080 !important;
+    /* Thick purple border */
+    transform: scale(1.05) !important;
+    box-shadow: 0 0 30px rgba(128, 0, 128, 0.4) !important;
+    /* Strong purple glow */
+    opacity: 1 !important;
+    filter: none !important;
+}
+
+.foundation_week.active-level .status {
+    border-color: #333;
+}
+
+.foundation_week.active-level .week1 {
+    background: #800080;
     color: white;
     border: none;
 }
 
-/* ================= DAY BUTTONS ================= */
-.day-btn.active {
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+.foundation_week.active-level:hover {
+    transform: translateY(-14px) scale(1.09) !important;
+    box-shadow:
+        0 28px 65px rgba(147, 51, 234, 0.55),
+        0 0 70px rgba(147, 51, 234, 0.35) !important;
+}
+
+.foundation_week.active-level .week1 {
+    background: linear-gradient(135deg, #9333ea, #7c3aed);
     color: white;
-    border: 2px solid var(--primary-dark);
+    border: none;
+    box-shadow: 0 4px 15px rgba(147, 51, 234, 0.4);
+    animation: pulseBtn 1.5s ease-in-out infinite;
 }
 
-.day-btn.day-completed {
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+@keyframes pulseBtn {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.foundation_week.active-level .status {
+    background: linear-gradient(135deg, #d8b4fe, #e9d5ff);
+    color: #6b21a8;
+    border: none;
+    font-weight: bold;
+}
+
+.foundation_week.active-level h2 {
+    color: #6b21a8;
+}
+
+@keyframes pulseBtn {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.foundation_week.active-level .status {
+    background: linear-gradient(135deg, #d8b4fe, #e9d5ff);
+    color: #6b21a8;
+    border: none;
+    font-weight: bold;
+}
+
+.foundation_week.active-level h2 {
+    color: #6b21a8;
+}
+
+/* ================= COMPLETED LEVEL ================= */
+.foundation_week.completed-level {
+    background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+    border: 2px solid #28a745 !important;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15) !important;
+    transform: none !important;
+    opacity: 1;
+    pointer-events: auto;
+    filter: none;
+}
+
+.foundation_week.completed-level .status {
+    background: #d1fae5;
+    color: #10b981;
+}
+
+.foundation_week.completed-level .week1 {
+    background: #22c55e !important;
+    background-color: #22c55e !important;
+    color: white !important;
+    border: 2px solid #22c55e !important;
+    border-color: #22c55e !important;
+    cursor: default !important;
+    pointer-events: none !important;
+}
+
+/* ================= BEGINNER CARD DEFAULT ================= */
+#beginnerCard .week1 {
+    background: linear-gradient(135deg, #9333ea, #7c3aed);
     color: white;
-    border: 2px solid var(--primary-dark);
+    border: none;
 }
 
-/* ================= RIGHT SECTION ================= */
-.header_bar {
-    background-color: var(--primary);
-}
-
-.arrow {
-    border: 1.5px solid var(--primary-light);
-    color: var(--primary);
-}
-
-.arrow:hover {
-    background: var(--primary);
-    color: #fff;
-}
-
-/* ================= LEVEL BUTTON ================= */
-.level-btn {
-    background: var(--primary);
-    color: white;
-}
-
-.level-btn:hover {
-    background: var(--primary-dark);
-}
-
-/* ================= FOOTER ================= */
-footer {
-    background-color: #0f172a;
-}
 
 @media (max-width: 768px) {
 
