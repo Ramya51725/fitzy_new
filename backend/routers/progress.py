@@ -3,7 +3,6 @@ from sqlalchemy.orm import Session
 from datetime import datetime, date
 from dependencies import get_db
 from models.progress import UserProgress
-from models.exercise_progress import ExerciseProgress
 from schemas.progress import ProgressCreate
 
 router = APIRouter(
@@ -36,24 +35,6 @@ def mark_completed(progress: ProgressCreate, db: Session = Depends(get_db)):
 
 @router.get("/{user_id}")
 def get_user_progress(user_id: int, db: Session = Depends(get_db)):
-    # 🔥 AUTO-SYNC: Check workout progress and fill diet gaps
-    workout = db.query(ExerciseProgress).filter(
-        ExerciseProgress.user_id == user_id
-    ).order_by(ExerciseProgress.completed_days.desc()).first()
-
-    if workout and workout.completed_days > 0:
-        max_diet_days = min(workout.completed_days, 30)
-        for day_num in range(1, max_diet_days + 1):
-            existing = db.query(UserProgress).filter(
-                UserProgress.user_id == user_id,
-                UserProgress.day == day_num
-            ).first()
-            if not existing:
-                db.add(UserProgress(user_id=user_id, day=day_num, status="completed"))
-            elif existing.status != "completed":
-                existing.status = "completed"
-        db.commit()
-
     progress = db.query(UserProgress).filter(
         UserProgress.user_id == user_id
     ).all()

@@ -101,7 +101,7 @@ async function loadProgress() {
     }
 
     // 🔥 DYNAMIC LEVEL MAPPING: Month 1 -> Level 1, Month 2 -> Level 2, etc.
-    level = "level" + progressState.currentMonth;
+    level = "Level " + progressState.currentMonth;
 
     console.log(`Current ${level} Progress:`, progressState);
     if (headerDay) headerDay.textContent = `Your current day: Day ${progressState.currentDay} 🔥`;
@@ -249,7 +249,7 @@ function showExerciseDetail(ex) {
     <h2>${ex.title}</h2>
     <div class="exercise-top-section">
       <div class="video-box">
-        <video src="${ex.exercise_video || ""}" muted autoplay loop></video>
+        <video src="${ex.exercise_video || ""}" muted autoplay loop playsinline></video>
       </div>
       <div class="exercise-timer-section">
         <h1 id="exerciseTimer">02:00</h1>
@@ -416,7 +416,7 @@ async function initWarmup() {
         // Month 1 → Level 1, Month 2 → Level 1, Month 3 → Level 2,
         // Month 4 → Level 3, ... Month 8 → Level 7
         const currentMonth = Number(progressState.currentMonth);
-        const warmupLevel = currentMonth <= 1 ? "level1" : "level" + (currentMonth - 1);
+        const warmupLevel = currentMonth <= 1 ? "Level 1" : "Level " + (currentMonth - 1);
         const catId = Number(localStorage.getItem("category_id")) || 1;
 
         console.log(`Warmup: Using ${warmupLevel} exercises (current month: ${currentMonth})`);
@@ -449,6 +449,7 @@ function showWarmupExercise() {
 
     warmupTitle.innerText = ex.title;
     warmupVideo.src = ex.exercise_video || "";
+    warmupVideo.setAttribute("playsinline", "true");
     warmupTimerEl.innerText = "01:00";
     breakScreen.style.display = "none";
 }
