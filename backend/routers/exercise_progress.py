@@ -12,7 +12,7 @@ from schemas.exercise_progress import (
 )
 
 router = APIRouter(
-    prefix="/progress",
+    prefix="/exercise-progress",
     tags=["Exercise Progress"]
 )
 

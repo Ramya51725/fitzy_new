@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // 🔥 FETCH PROGRESS FROM BACKEND
       try {
-        const progressRes = await fetch(`${API_BASE_URL}/progress/${userId}/fitzy/${categoryId}`);
+        const progressRes = await fetch(`${API_BASE_URL}/exercise-progress/${userId}/fitzy/${categoryId}`);
         if (progressRes.ok) {
           const pData = await progressRes.json();
           const progressState = {
@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
           console.log("No progress found → Initialising Beginner record in DB...");
 
           // Create the exercise_progress record in DB
-          await fetch(`${API_BASE_URL}/progress/init`, {
+          await fetch(`${API_BASE_URL}/exercise-progress/init`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
