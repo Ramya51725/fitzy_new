@@ -224,12 +224,12 @@ def update_progress(
     if update_data.completed_days is not None:
         # 🔥 Prevent advancing more than one day per calendar day
         if update_data.completed_days > progress.completed_days:
-            today = date.today()
-            if progress.last_completed_date and progress.last_completed_date.date() == today:
-                raise HTTPException(
-                    status_code=403, 
-                    detail="You have already completed a workout for today. Please come back tomorrow!"
-                )
+            # today = date.today()
+            # if progress.last_completed_date and progress.last_completed_date.date() == today:
+            #     raise HTTPException(
+            #         status_code=403, 
+            #         detail="You have already completed a workout for today. Please come back tomorrow!"
+            #     )
             progress.last_completed_date = datetime.now()
         progress.completed_days = update_data.completed_days
     if update_data.completed_exercises is not None:
