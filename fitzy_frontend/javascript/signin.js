@@ -111,9 +111,9 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (err) {
       console.error("Login Error Details:", err);
       if (err.name === 'TypeError' && err.message === 'Failed to fetch') {
-        messageEl.innerText = "Cannot connect to server. Make sure backend is running on http://127.0.0.1:8000";
+        messageEl.innerText = "Cannot connect to server. Please check your internet connection.";
       } else {
-        messageEl.innerText = "Invalid email or password";
+        messageEl.innerText = err.message || "Invalid email or password";
       }
     }
   });
