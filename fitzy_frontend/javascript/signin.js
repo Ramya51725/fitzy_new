@@ -102,10 +102,14 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       // ✅ Redirect
+      console.log("Login successful, redirecting based on email:", email);
+
       if (email === "admin@gmail.com") {
+        console.log("Redirecting to Admin Dashboard...");
         window.location.href = "admin.html";
       } else {
-        window.location.href = "../html/landing/beginner.html";
+        console.log("Redirecting to Beginner Landing...");
+        window.location.href = "landing/beginner.html";
       }
 
     } catch (err) {
