@@ -41,11 +41,6 @@ def get_home():
 # API prefix router (no prefix — routes served at root level)
 api_router = APIRouter()
 
-@api_router.get("/debug-progress")
-def debug_progress(db: Session = Depends(get_db)):
-    from models.exercise_progress import ExerciseProgress
-    return db.query(ExerciseProgress).all()
-
 api_router.include_router(exercise_progress.router)
 api_router.include_router(exercise_log.router)
 api_router.include_router(progress.router)

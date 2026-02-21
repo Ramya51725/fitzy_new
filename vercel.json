@@ -16,7 +16,7 @@
     ],
     "routes": [
         {
-            "src": "/(users|exercise-progress|diet-progress|exercise|category|veg|nonveg|exercise-log|debug-progress)(/.*)?",
+            "src": "/(users|exercise-progress|diet-progress|exercise|category|veg|nonveg|exercise-log)(/.*)?",
             "dest": "backend/main.py"
         },
         {
