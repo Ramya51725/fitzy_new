@@ -11,6 +11,20 @@ const submitBtn = document.getElementById("submitBtn");
 
 let currentDietId = null; 
 
+
+function showMessage(text) {
+  const msgDiv = document.getElementById("statusMessage");
+  if (!msgDiv) return;
+
+  msgDiv.innerText = text;
+  msgDiv.style.display = "block";
+
+  setTimeout(() => {
+    msgDiv.style.display = "none";
+  }, 3000);
+}
+
+
 async function fetchExistingDiet() {
   const day = dayInput.value;
   const dietType = dietTypeSelect.value;
@@ -26,7 +40,7 @@ async function fetchExistingDiet() {
   }
 
   if (Number(day) > 30) {
-    alert("Invalid day! Day must be between 1 and 30.");
+    showMessage("Invalid day! Diet plan is only for 30 days") 
     dayInput.value = "";
     return;
   }
@@ -58,7 +72,7 @@ async function fetchExistingDiet() {
       dinnerInput.value = "";
       currentDietId = null;
       submitBtn.innerText = "Post New Diet";
-      console.log("No existing diet found for this combination.");
+    showMessage("Invalid day! Diet plan is only for 30 days") 
     }
   } catch (error) {
     console.error("Fetch error:", error);
@@ -76,7 +90,7 @@ form.addEventListener("submit", async (e) => {
   const dayValue = Number(dayInput.value);
 
   if (dayValue > 30 || dayValue < 1) {
-    alert("Invalid day! Diet plan is only for 30 days.");
+    showMessage("Invalid day! Diet plan is only for 30 days") 
     return;
   }
 

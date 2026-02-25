@@ -190,6 +190,19 @@ function handleWeeks(currentMonth, currentWeek) {
 }
 
 
+function showMessage(text) {
+  const msgDiv = document.getElementById("statusMessage");
+  if (!msgDiv) return;
+
+  msgDiv.innerText = text;
+  msgDiv.style.display = "block";
+
+  setTimeout(() => {
+    msgDiv.style.display = "none";
+  }, 3000);
+}
+
+
 function renderDays(currentDay) {
     if (!dayContainer) return;
     dayContainer.innerHTML = "";
@@ -221,7 +234,7 @@ function renderDays(currentDay) {
                 btn.innerHTML = `Day ${i} (Locked)`;
                 btn.addEventListener("click", (e) => {
                     e.preventDefault();
-                    alert(`Exercise completed for today. Day ${i} will unlock tomorrow.`);
+                showMessage(`Exercise completed for today. Day ${i} will unlock tomorrow.`);
                 });
             } else {
                 btn.classList.add("active");

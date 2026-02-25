@@ -412,6 +412,22 @@ body {
   margin-top: 25px;
 }
 
+#statusMessage {
+    display: none;
+    position: fixed;              
+    top: 90px;                    
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 22px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 18px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+    z-index: 9999;                
+}
+
+
 #completeDayBtn {
   padding: 12px 24px;
   border-radius: 25px;
@@ -516,3 +532,4 @@ footer {
 }
 
 }
+
