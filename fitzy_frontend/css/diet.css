@@ -248,77 +248,68 @@ footer {
 body {
   padding-bottom: 60px;
 }
-
 @media (max-width: 768px) {
-  .header {
-    height: 80px;
-    padding: 20px;
-    margin-bottom: 10px;
-    flex-wrap: wrap;
-    display: flex;
-    gap: 10px;
+
+  body {
+    height: auto;
+    overflow-y: auto;   
   }
 
-  .food_type {
-    display: flex;
-    gap: 20px;
-    border: 1.5px solid #d8b4fe;
-    padding: 10px 25px;
-    border-radius: 15px;
-    width: fit-content;
-    margin-left: 30px;
-    background: white;
+  .header {
+    position: static !important;
   }
+
+html {
+  height: auto;
+}
+
+body {
+  min-height: 100vh;
+  background:rgba(255, 208, 215, 0.379);
+  overflow-x: hidden;  
+
+}
+
+  .header {
+    position: static !important;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  footer {
+    display: none;
+  }
+
+
 
   .arranging_diet_flex {
-    display: flex;
     flex-direction: column;
-    gap: 20px;
+    padding: 20px;
+    gap: 30px;
+  }
+
+  .nav {
+    flex-direction: row;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    padding: 10px;
+    border-radius: 15px;
+  }
+
+  .diet {
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .diet_day {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-left: 0;
   }
 
   .diet_content {
     width: 100%;
   }
 
-  .nav {
-    border: 1px solid black;
-    border-radius: 10px;
-    width: 90%;
-    margin: 20px;
-    padding: 10px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    gap: 15px;
-    margin-top: 60px;
-  }
-
-  .move {
-    margin-left: 0;
-  }
-
-  .diet {
-    width: 100%;
-    margin: 0;
-  }
-
-  .diet_day {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(60px, 3fr));
-    gap: 10px;
-    padding: 0 10px;
-    width: 70%;
-  }
-
-  .diet_box1 {
-    font-size: 12px;
-    padding: 8px;
-  }
-
-  footer {
-    font-size: 14px;
-    text-align: center;
-    padding: 10px;
-  }
 }

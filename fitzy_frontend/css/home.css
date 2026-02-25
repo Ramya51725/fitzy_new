@@ -14,13 +14,9 @@ h3,
 
 body {
     background: linear-gradient(to top, #fad0c43d 0%, #ffd1ff 100%);
-    height: 100vh;
-    overflow: hidden;
-    /* 🔥 This removes scrolling */
     color: var(--text-main);
 }
 
-/* HEADER */
 .home {
     display: flex;
     justify-content: space-between;
@@ -32,7 +28,6 @@ body {
     z-index: 100;
 }
 
-/* Left Side */
 .home-left {
     display: flex;
     align-items: center;
@@ -50,7 +45,6 @@ body {
     color: #555;
 }
 
-/* Right Side Badge */
 .home-right .decide {
     font-weight: bold;
     background: white;
@@ -66,7 +60,6 @@ body {
     font-size: 22px;
 }
 
-/* MAIN LAYOUT */
 .Arrranging_weeks_and_plans {
     display: flex;
     justify-content: space-between;
@@ -76,24 +69,19 @@ body {
     gap: 3rem;
 }
 
-/* LEFT SECTION */
 .left_section {
     display: flex;
     width: 60%;
     margin-left: 10px;
     align-items: center;
-    /* 🔥 vertically center with boxes */
     flex: 1;
     gap: 2.5rem;
 }
 
-/* NAVIGATION SIDEBAR */
 .nav {
     border: 1px solid #d8b4fe;
     border-radius: 50px;
-    /* More pill-shaped */
     width: 75px;
-    /* Slightly narrower */
     height: 520px;
     display: flex;
     flex-direction: column;
@@ -108,7 +96,6 @@ body {
 .nav-icon {
     font-size: 30px;
     color: #6b21a8;
-    /* Deep purple instead of black */
     transition: all 0.3s ease;
 }
 
@@ -119,7 +106,6 @@ body {
 
 .nav-icon:hover {
     color: purple;
-    /* Optional hover effect */
     transform: scale(1.2);
     background: var(--primary-light);
 }
@@ -148,22 +134,15 @@ body {
 .arranging_weeks_flex {
     display: flex;
     gap: 40px;
-    /* Reduced gap */
     margin-top: 20px;
-    /* Moved cards up */
 }
 
-/* LEVEL CARDS */
 .foundation_week {
     border: 1px solid rgba(147, 51, 234, 0.2);
-    /* Discrete purple border */
     padding: 24px;
     border-radius: 24px;
-    /* More rounded for modern look */
     width: 270px;
-    /* Refined width */
     background: rgba(255, 255, 255, 0.8);
-    /* Glass effect base */
     backdrop-filter: blur(12px);
     box-shadow:
         0 10px 30px rgba(0, 0, 0, 0.04),
@@ -198,7 +177,6 @@ body {
 
 .quote-container {
     height: 40px;
-    /* Fix height */
     display: flex;
     align-items: center;
 }
@@ -233,7 +211,6 @@ body {
     border: none !important;
 }
 
-/* 🔥 Hover Effect */
 .foundation_week:hover {
     transform: translateY(-8px) scale(1.02);
     box-shadow: 0 20px 40px rgba(147, 51, 234, 0.15);
@@ -256,7 +233,6 @@ body {
 .status {
     border: 1px solid #a0a0a0;
     border-radius: 25px;
-    /* Pill shaped input-like */
     width: 100%;
     padding: 8px 15px;
     background: #fff;
@@ -280,14 +256,12 @@ body {
     cursor: pointer;
 }
 
-/* 🔥 When hovering the entire card */
 .foundation_week:hover .week1 {
     background-color: #9333ea;
     color: white;
     box-shadow: 0 4px 12px rgba(147, 51, 234, 0.3);
 }
 
-/* ✅ Keep finished button green even on card hover */
 .foundation_week:hover .finished-btn,
 .foundation_week.completed-level:hover .week1 {
     background-color: #22c55e !important;
@@ -311,10 +285,8 @@ body {
 .foundation_week.completed-level {
     cursor: default !important;
     pointer-events: auto;
-    /* We need pointer-events for the card to handle the click suppression in JS, but we change cursor */
 }
 
-/* Override hover effects for completed levels */
 .foundation_week.completed-level:hover {
     transform: none !important;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04) !important;
@@ -352,12 +324,10 @@ img {
 
 
 
-/* Hover Effect */
 .week1:hover::before {
     width: 100%;
 }
 
-/* Change Text Color On Hover */
 .week1:hover {
     color: white;
 }
@@ -375,7 +345,6 @@ img {
     }
 }
 
-/* Month Timeline */
 .circle {
     width: 42px;
     height: 42px;
@@ -404,14 +373,11 @@ img {
 
 
 
-/* DIVIDER */
 .divider {
     width: 2px;
-    /* Thicker solid line */
     margin-top: 40px;
     height: 550px;
     background-color: #333;
-    /* Dark as seen in screenshot */
 }
 
 .day-buttons {
@@ -421,7 +387,6 @@ img {
     scroll-behavior: smooth;
     width: 330px;
     padding: 15px 10px;
-    /* Side padding to prevent clipping */
     align-items: flex-end;
 }
 
@@ -429,17 +394,14 @@ img {
     display: none;
 }
 
-/* Day wrapper for arrow positioning */
 .day-wrap {
     display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
     padding-top: 20px;
-    /* Space for the floating arrow */
 }
 
-/* Bouncing arrow above current day */
 .day-arrow {
     position: absolute;
     top: 0;
@@ -467,9 +429,7 @@ img {
     height: 40px;
     padding: 0;
     border: 2px solid #333;
-    /* Darker rectangular border */
     border-radius: 8px;
-    /* Less rounded */
     background: #fff;
     color: #333;
     font-weight: 500;
@@ -492,7 +452,6 @@ img {
     display: flex;
 }
 
-/* Active day (current) */
 .day-btn.active {
     background: linear-gradient(135deg, #9333ea, #7c3aed);
     color: white;
@@ -506,7 +465,6 @@ img {
     font-size: 11px;
 }
 
-/* Completed day */
 .day-btn.day-completed {
     background: linear-gradient(135deg, #22c55e, #16a34a);
     color: white;
@@ -521,7 +479,6 @@ img {
     font-weight: bold;
 }
 
-/* Disabled/future day */
 .day-btn.disabled {
     opacity: 0.6;
     cursor: not-allowed;
@@ -529,11 +486,9 @@ img {
     border-color: #ddd;
 }
 
-/* RIGHT SECTION */
 .days_plans {
     width: 35%;
     padding-left: 20px;
-    /* Reduced padding */
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -550,7 +505,6 @@ img {
     width: 4px;
     height: 30px;
     background-color: #ff00ff;
-    /* Magenta bar */
     border-radius: 10px;
 }
 
@@ -607,7 +561,6 @@ img {
     border-color: #9333ea;
 }
 
-/* Month Timeline */
 .month {
     margin-top: 40px;
 }
@@ -621,34 +574,26 @@ img {
 
 .line {
     width: 30px;
-    /* Shorter lines */
     height: 2px;
     background-color: #333;
-    /* Darker lines */
 }
 
-/* FOOTER */
 footer {
     position: fixed;
     bottom: 0px;
-    /* Force to bottom edge */
     width: 100%;
     background-color: #111;
-    /* Solid dark bar */
     color: white;
     text-align: center;
     padding: 8px;
-    /* Reduced padding from 12px */
     font-size: 0.85rem;
     font-weight: 400;
     letter-spacing: 0.5px;
     z-index: 2000;
-    /* Ensure it's above everything */
 }
 
 .circle.completed {
     background-color: #22c55e;
-    /* Bright green */
     color: white;
     border: none;
     box-shadow: 0 4px 10px rgba(34, 197, 94, 0.3);
@@ -661,7 +606,6 @@ footer {
     box-shadow: 0 0 15px rgba(128, 0, 128, 0.5);
 }
 
-/* ================= ORIGINAL LAYOUT CLASSES ================= */
 .four_weeks_plan {
     display: flex;
     align-items: flex-start;
@@ -738,7 +682,6 @@ i.quate {
     object-fit: contain;
 }
 
-/* ================= LOCKED CARD ================= */
 .foundation_week.locked {
     opacity: 0.75;
     pointer-events: none;
@@ -768,23 +711,19 @@ i.quate {
     font-weight: normal;
 }
 
-/* ================= LOCK ICON ================= */
 .lock-overlay {
     position: absolute;
     top: 15px;
     right: 15px;
-    /* Positioned top-right as in screenshot */
     font-size: 18px;
     color: #666;
     z-index: 2;
 }
 
-/* Hide lock on unlocked cards */
 .foundation_week.unlocked .lock-overlay {
     display: none;
 }
 
-/* ================= UNLOCKED CARD ================= */
 .foundation_week.unlocked {
     opacity: 1;
     pointer-events: auto;
@@ -793,14 +732,11 @@ i.quate {
     filter: none;
 }
 
-/* ================= ACTIVE LEVEL (Current) ================= */
 .foundation_week.active-level {
     background: #fff !important;
     border: 3px solid #800080 !important;
-    /* Thick purple border */
     transform: scale(1.05) !important;
     box-shadow: 0 0 30px rgba(128, 0, 128, 0.4) !important;
-    /* Strong purple glow */
     opacity: 1 !important;
     filter: none !important;
 }
@@ -876,7 +812,6 @@ i.quate {
     color: #6b21a8;
 }
 
-/* ================= COMPLETED LEVEL ================= */
 .foundation_week.completed-level {
     background: linear-gradient(135deg, #ecfdf5, #d1fae5);
     border: 2px solid #28a745 !important;
@@ -902,7 +837,6 @@ i.quate {
     pointer-events: none !important;
 }
 
-/* ================= BEGINNER CARD DEFAULT ================= */
 #beginnerCard .week1 {
     background: linear-gradient(135deg, #9333ea, #7c3aed);
     color: white;
@@ -910,222 +844,138 @@ i.quate {
 }
 
 
-@media (max-width: 768px) {
 
-    .home {
-        padding-top: 15px;
-        padding-left: 15px;
-        font-size: 28px;
+
+@media (max-width: 1024px) {
+
+    .Arrranging_weeks_and_plans {
+        flex-direction: column;
+        height: auto;
+        padding: 30px;
     }
 
-    span {
-        font-size: 20px;
-        margin-top: 5px;
+    .left_section,
+    .days_plans {
+        width: 100%;
     }
 
-    .move {
-        width: 25px;
-        height: 25px;
-    }
-
-    h1 {
-        font-size: 25px;
+    .divider {
+        display: none;
     }
 
     .nav {
-        border: 1px solid black;
-        border-radius: 10px;
-        width: 95%;
-        margin: 20px;
-        padding: 10px;
-        display: flex;
         flex-direction: row;
-        justify-content: space-around;
-        align-items: center;
-        gap: 15px;
-        margin-top: 30px;
-    }
-
-    span {
-        display: flex;
-        flex-wrap: wrap;
-    }
-
-    h1 {
-        font-size: 20px;
-    }
-
-    .four_weeks_plan {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 30px;
+        width: 100%;
+        height: 70px;
+        border-radius: 20px;
+        margin-top: 0;
     }
 
     .plans {
-        margin: 0;
-        width: 90%;
-        height: auto;
-        text-align: center;
+        margin-left: 0;
     }
 
-    .Weeks {
-        width: 200px;
-        margin-top: 40px;
+    .arranging_weeks_flex {
+        flex-wrap: wrap;
+        justify-content: center;
     }
-
 
     .foundation_week {
-        width: 90%;
-        margin: 20px auto;
+        width: 45%;
+    }
+}
+
+
+
+@media (max-width: 768px) {
+
+.home {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    position: static !important;   
+    top: auto !important;
+}
+body{
+      background:rgba(255, 208, 215, 0.379);
+
+}
+
+.plans h1 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 0.5rem;
+}
+
+.home-right .decide {
+    margin-left: 25px;
+    margin-top: 10px;
+    font-size: 15px;
+    background: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    color: var(--primary);
+    border: 1px solid var(--primary-light);
+}
+
+    .Arrranging_weeks_and_plans {
         padding: 20px;
+        gap: 2rem;
+    }
+
+    .left_section {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .nav {
+        flex-direction: row;
+        width: 100%;
+        height: 60px;
         border-radius: 15px;
     }
 
-
-    .foundation_week h2 {
-        text-align: center;
-        font-size: 22px;
+    .nav-icon {
+        font-size: 20px;
     }
 
-    .status {
+    .plans {
+        margin-left: 0;
         width: 100%;
-        text-align: center;
-        margin: 10px 0;
-    }
-
-    .week1 {
-        width: 60%;
-        margin: 10px auto;
-        text-align: center;
     }
 
     .arranging_weeks_flex {
         flex-direction: column;
         gap: 20px;
-        padding: 0;
-        align-items: center;
-    }
-
-    .Arrranging_weeks_and_plans {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .days_plans {
-        width: 95%;
-        height: auto;
-        border: none;
-        margin: 0;
-
-    }
-
-    .levels {
-        margin-left: 0;
-        gap: 30px;
-        align-items: center;
-    }
-
-    .level1 {
-        width: 90%;
-        height: auto;
-        border-radius: 25px;
-        padding: 20px;
-    }
-
-    .name_of_level {
-        font-size: 20px;
-        text-align: center;
-        margin: 10px 0;
-    }
-
-    .quate {
-        font-size: 16px;
-        text-align: center;
-        margin: 10px;
-    }
-
-    .level-btn {
-        display: block;
-        margin: 15px auto;
-        padding: 10px 20px;
-    }
-
-    .images_button {
-        flex-direction: column;
-        gap: 10px;
-        align-items: center;
-    }
-
-    .btn {
-        margin-top: 20px;
-        text-align: center;
-    }
-
-    .day-disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-    }
-
-    .about_level {
-        font-size: 30px;
-        text-align: center;
-        margin-left: 0;
-        margin-top: 20px;
-    }
-
-    .about_level h2 {
-        font-size: 40px;
-    }
-
-}
-
-
-/* RESPONSIVE - Clean UI Mobile */
-@media (max-width: 1024px) {
-    .Arrranging_weeks_and_plans {
-        padding: 2rem;
-        flex-direction: column;
-        height: auto;
-        overflow-y: auto;
-    }
-
-    .left_section {
-        flex-direction: column;
-    }
-
-    .nav {
-        width: 100%;
-        height: 60px;
-        flex-direction: row;
-        padding: 0 1rem;
-    }
-
-    .days_plans {
-        width: 100%;
-        padding: 0;
-    }
-}
-
-@media (max-width: 768px) {
-    .home {
-        padding: 1rem 1.5rem;
-    }
-
-    .home-left h2 {
-        font-size: 1.4rem;
-    }
-
-    .arranging_weeks_flex {
-        flex-direction: column;
-        width: 100%;
     }
 
     .foundation_week {
         width: 100%;
     }
 
-    .plans h1 {
-        font-size: 1.75rem;
+    .days_plans {
+        width: 100%;
+        padding-left: 0;
     }
+
+    .motivation {
+        width: 100%;
+    }
+
+    .level1 {
+        width: 100%;
+    }
+
+    .levels {
+        margin-left: 0;
+    }
+
+    footer {
+        position: relative;
+    }
+
 }
