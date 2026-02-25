@@ -74,7 +74,8 @@ def complete_day(progress: ProgressCreate, db: Session = Depends(get_db)):
     # If no progress → create new
     new_progress = ExerciseProgress(
         user_id=progress.user_id,
-        level=get_level_name(1),
+        # level=get_level_name(1),
+        level=progress.level,
         category_id=progress.category_id,
         completed_days=0,
         current_day=1,
@@ -123,11 +124,10 @@ def get_progress(
 # =========================================
 @router.post("/init", response_model=ProgressResponse)
 def init_progress(progress: ProgressCreate, db: Session = Depends(get_db)):
-    """Creates a fresh Beginner (Month 1, Week 1, Day 1) record if one doesn't exist."""
 
     existing = db.query(ExerciseProgress).filter(
         ExerciseProgress.user_id == progress.user_id,
-        ExerciseProgress.level == progress.level,
+        ExerciseProgress.level.ilike(progress.level),
         ExerciseProgress.category_id == progress.category_id
     ).first()
 
@@ -136,7 +136,7 @@ def init_progress(progress: ProgressCreate, db: Session = Depends(get_db)):
 
     new_progress = ExerciseProgress(
         user_id=progress.user_id,
-        level=get_level_name(1),
+        level=progress.level,   # ✅ DO NOT HARDCODE Beginner
         category_id=progress.category_id,
         current_month=1,
         current_week=1,
@@ -153,7 +153,6 @@ def init_progress(progress: ProgressCreate, db: Session = Depends(get_db)):
     db.refresh(new_progress)
 
     return new_progress
-
 
 # =========================================
 # 🔥 UPDATE PROGRESS
