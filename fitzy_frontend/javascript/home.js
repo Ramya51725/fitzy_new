@@ -32,7 +32,6 @@ async function initProgress() {
         return;
     }
 
-    // 🔥 Sync with Backend
     try {
         const res = await fetch(`${API_BASE_URL}/exercise-progress/${userId}/fitzy/${categoryId}`);
         if (res.ok) {
@@ -48,7 +47,6 @@ async function initProgress() {
             localStorage.setItem("fitzy_progress", JSON.stringify(progressState));
             console.log("Dashboard synced with Supabase ✅");
         } else if (res.status === 404) {
-            // No progress found, ensure localStorage has defaults
             const stored = localStorage.getItem("fitzy_progress");
             if (stored) {
                 progressState = JSON.parse(stored);
@@ -67,10 +65,9 @@ async function initProgress() {
         }
     }
 
-    console.log("Progress State Loaded ✅", progressState);
+    console.log("Progress State Loaded ", progressState);
 }
 
-/* ================= MONTH TITLE LOGIC ================= */
 
 function updateMonthTitles(currentMonth) {
     const monthTitle1 = document.getElementById("monthTitle1");
@@ -88,10 +85,8 @@ function updateMonthTitles(currentMonth) {
     monthTitle2.innerText = "Month " + (startMonth + 1);
 }
 
-/* ================= HANDLE LEVEL LOGIC ================= */
 
 function handleLevels(currentMonth) {
-    // Ensure currentMonth is a number
     currentMonth = Number(currentMonth) || 1;
     console.log("handleLevels called for currentMonth:", currentMonth);
 
@@ -117,16 +112,13 @@ function handleLevels(currentMonth) {
         const statusEl = card.el.querySelector(".status");
 
         if (currentMonth >= card.start) {
-            // UNLOCKED (Either Active or Completed)
             card.el.classList.add("unlocked");
             card.el.style.pointerEvents = "auto";
 
-            // Remove lock icon
             const lockIcon = card.el.querySelector(".lock-overlay");
             if (lockIcon) lockIcon.style.display = "none";
 
             if (currentMonth >= card.start && currentMonth <= card.end) {
-                // ACTIVE
                 card.el.classList.add("active-level");
                 card.el.style.cursor = "default";
                 if (statusEl) statusEl.textContent = "🔥 In Progress";
@@ -140,7 +132,6 @@ function handleLevels(currentMonth) {
                     };
                 }
             } else if (currentMonth > card.end) {
-                // COMPLETED
                 card.el.classList.add("completed-level");
                 if (statusEl) statusEl.textContent = "✅ Completed";
                 if (startBtn) {
@@ -151,7 +142,6 @@ function handleLevels(currentMonth) {
                         e.stopPropagation();
                     };
                 }
-                // Disable navigation on the entire card for completed levels
                 card.el.onclick = (e) => {
                     e.preventDefault();
                     e.stopPropagation();
@@ -159,11 +149,9 @@ function handleLevels(currentMonth) {
                 card.el.style.cursor = "default";
             }
         } else {
-            // LOCKED
             card.el.classList.add("locked");
             if (statusEl) statusEl.textContent = "🔒 Locked";
 
-            // Add lock icon overlay if missing
             let lockIcon = card.el.querySelector(".lock-overlay");
             if (!lockIcon) {
                 lockIcon = document.createElement("div");
@@ -177,7 +165,6 @@ function handleLevels(currentMonth) {
     });
 }
 
-/* ================= HANDLE WEEKS ================= */
 
 function handleWeeks(currentMonth, currentWeek) {
     const levelMonth = ((currentMonth - 1) % 2) + 1;
@@ -202,7 +189,6 @@ function handleWeeks(currentMonth, currentWeek) {
     });
 }
 
-/* ================= DAY BUTTONS ================= */
 
 function renderDays(currentDay) {
     if (!dayContainer) return;
@@ -213,11 +199,9 @@ function renderDays(currentDay) {
     const finishedToday = (lastDone === today);
 
     for (let i = 1; i <= 7; i++) {
-        // Wrap each day in a container for the arrow marker
         const dayWrap = document.createElement("div");
         dayWrap.className = "day-wrap";
 
-        // Arrow marker for current day
         if (i === Number(currentDay)) {
             const arrow = document.createElement("div");
             arrow.className = "day-arrow";
@@ -258,7 +242,6 @@ function renderDays(currentDay) {
     }
 }
 
-/* ================= SCROLL ================= */
 
 if (nextBtn) {
     nextBtn.addEventListener("click", () => {
@@ -272,7 +255,6 @@ if (prevBtn) {
     });
 }
 
-/* ================= CATEGORY NAME ================= */
 
 function setCategoryName() {
     const categoryId = Number(localStorage.getItem("category_id"));
@@ -288,7 +270,6 @@ function setCategoryName() {
     if (categorySpan) categorySpan.innerText = categoryText;
     if (categoryDisplay) categoryDisplay.innerText = categoryText;
 
-    // 🔥 Dynamic Level Name
     if (levelDisplay) {
         let levelText = "Beginner";
         const m = Number(progressState.currentMonth) || 1;
@@ -299,7 +280,6 @@ function setCategoryName() {
     }
 }
 
-/* ================= TYPING EFFECT ================= */
 
 const quotes = [
     "Stronger Every Day",

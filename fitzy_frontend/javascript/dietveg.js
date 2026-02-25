@@ -14,7 +14,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const API_URL = `${API_BASE_URL}/veg/diet/by-category-day`;
   const PROGRESS_API = `${API_BASE_URL}/diet-progress`;
 
-  // 🔥 Update Header with Current Month
   const progressData = JSON.parse(localStorage.getItem("fitzy_progress"));
   const currentMonth = progressData ? progressData.currentMonth : 1;
   const dietHeader = document.getElementById("dietTypeHeader");
@@ -96,9 +95,8 @@ document.addEventListener("DOMContentLoaded", () => {
         throw new Error(errorData.detail || "Could not save progress");
       }
 
-      markGreen(selectedDay, true); // Unlock next day immediately!
+      markGreen(selectedDay, true); 
 
-      // Check if 30 days are completed
       if (selectedDay === 30) {
         if (confirm("Congratulations! You have completed the 30-day diet plan. Would you like to reset for a new start?")) {
           await resetDietProgress();
@@ -106,14 +104,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
 
-      // Auto-select next day
       const nextDayIndex = selectedDay;
       if (dayButtons[nextDayIndex]) {
         dayButtons[nextDayIndex].classList.remove("disabled");
         dayButtons[nextDayIndex].click();
       }
 
-      // Refresh button state after clicking next
       updateButtonStatus();
     } catch (err) {
       console.error(err);
@@ -145,7 +141,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!res.ok) throw new Error("Reset failed");
 
-      // Clear UI
       dayButtons.forEach(btn => {
         btn.classList.remove("completed");
         if (btn.innerText !== "Day 1") {
@@ -153,7 +148,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
 
-      // Reset to Day 1
       dayButtons[0].click();
       alert("Progress reset. Let's start a fresh cycle! 🔥");
 
@@ -185,7 +179,6 @@ document.addEventListener("DOMContentLoaded", () => {
         nextBtn.classList.remove("disabled");
         nextBtn.click();
       } else {
-        // If all 30 days done, click the last one
         dayButtons[dayButtons.length - 1].click();
       }
 
@@ -214,149 +207,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-
-
-
-
-// import API_BASE_URL from "./config.js";
-
-// document.addEventListener("DOMContentLoaded", () => {
-
-//   const token = localStorage.getItem("token");
-//   const categoryId = Number(localStorage.getItem("category_id"));
-//   const userId = Number(localStorage.getItem("user_id"));
-
-//   if (!token || !userId || !categoryId) {
-//     alert("Session expired. Please login again.");
-//     window.location.href = "../html/sign_in.html";
-//     return;
-//   }
-
-//   const API_URL = `${API_BASE_URL}/veg/diet/by-category-day`;
-//   const PROGRESS_API = `${API_BASE_URL}/progress`;
-
-//   const dayContainer = document.getElementById("dayButtons");
-//   const completedBtn = document.querySelector(".Completed-btn");
-
-//   let activeBtn = null;
-//   let selectedDay = 1;
-//   const dayButtons = [];
-
-//   for (let day = 1; day <= 30; day++) {
-//     const btn = document.createElement("div");
-//     btn.className = "diet_box1 disabled";
-//     btn.innerText = `Day ${day}`;
-
-//     btn.onclick = () => {
-//       if (btn.classList.contains("disabled")) return;
-//       if (activeBtn) activeBtn.classList.remove("active");
-
-//       btn.classList.add("active");
-//       activeBtn = btn;
-//       selectedDay = day;
-//       loadDiet(day);
-//     };
-
-//     dayButtons.push(btn);
-//     dayContainer.appendChild(btn);
-//   }
-
-//   dayButtons[0].classList.remove("disabled");
-//   dayButtons[0].classList.add("active");
-//   activeBtn = dayButtons[0];
-
-//   function loadDiet(day) {
-//     fetch(`${API_URL}?category_id=${categoryId}&day=${day}`, {
-//       headers: {
-//         Authorization: `Bearer ${token}`
-//       }
-//     })
-//       .then(res => res.json())
-//       .then(data => {
-//         if (!data || data.length === 0) {
-//           setText("No diet available");
-//           return;
-//         }
-
-//         const diet = data[0];
-//         document.getElementById("breakfast").innerText = diet.breakfast;
-//         document.getElementById("lunch").innerText = diet.lunch;
-//         document.getElementById("dinner").innerText = diet.dinner;
-//       })
-//       .catch(() => alert("Error loading diet"));
-//   }
-
-//   function setText(msg) {
-//     document.getElementById("breakfast").innerText = msg;
-//     document.getElementById("lunch").innerText = msg;
-//     document.getElementById("dinner").innerText = msg;
-//   }
-
-//   completedBtn.addEventListener("click", async () => {
-//     try {
-//       const res = await fetch(`${PROGRESS_API}/complete`, {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//           Authorization: `Bearer ${token}`
-//         },
-//         body: JSON.stringify({
-//           user_id: userId,
-//           day: selectedDay
-//         })
-//       });
-
-//       if (!res.ok) throw new Error();
-//       markGreen(selectedDay);
-
-//     } catch {
-//       alert("Could not save progress");
-//     }
-//   });
-
-//   async function loadProgress() {
-//     try {
-//       const res = await fetch(`${PROGRESS_API}/${userId}`, {
-//         headers: {
-//           Authorization: `Bearer ${token}`
-//         }
-//       });
-
-//       if (!res.ok) return;
-
-//       const data = await res.json();
-//       let maxCompletedDay = 0;
-
-//       data.forEach(p => {
-//         if (p.status === "completed") {
-//           markGreen(p.day);
-//           maxCompletedDay = Math.max(maxCompletedDay, p.day);
-//         }
-//       });
-
-//       const nextBtn = dayButtons[maxCompletedDay];
-//       if (nextBtn) nextBtn.classList.remove("disabled");
-
-//     } catch (err) {
-//       console.error(err);
-//     }
-//   }
-
-//   function markGreen(day) {
-//     const btn = dayButtons[day - 1];
-//     if (!btn) return;
-
-//     btn.classList.add("completed");
-//     btn.classList.remove("disabled");
-
-//     const nextBtn = dayButtons[day];
-//     if (nextBtn) nextBtn.classList.remove("disabled");
-//   }
-
-//   loadDiet(1);
-//   loadProgress();
-
-// });
 
 
 

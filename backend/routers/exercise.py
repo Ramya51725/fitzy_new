@@ -26,8 +26,6 @@ def get_exercise_by_category_and_level(
     level: str,
     db: Session = Depends(get_db)
 ):
-    # Normalize level for more flexible matching
-    # e.g., "Level 1", "level 1", "level1" will all work
     normalized_level = level.strip().lower()
     
     return db.query(Exercise).filter(
@@ -53,13 +51,11 @@ async def create_exercise(
     db: Session = Depends(get_db)
 ):
     try:
-        # Upload Image
         image_upload = cloudinary.uploader.upload(
             exercise_image.file,
             folder="fitzy/exercises/images"
         )
 
-        # Upload Video
         video_upload = cloudinary.uploader.upload(
             exercise_video.file,
             resource_type="video",
@@ -75,7 +71,6 @@ async def create_exercise(
     image_url = image_upload.get("secure_url")
     video_url = video_upload.get("secure_url")
 
-    # Convert focus_area to list
     focus_list = []
     if focus_area:
         try:
@@ -127,35 +122,6 @@ def update_exercise(
     return ex
 
 
-@router.get("/warmup/{level}/{category_id}")
-def get_warmup(
-    level: str,
-    category_id: int,
-    db: Session = Depends(get_db)   # 🔥 THIS WAS MISSING
-):
-
-    # If user category = 1 → warmup from 2 & 3
-    if category_id == 1:
-        exercises = db.query(Exercise).filter(
-            Exercise.level == level,
-            Exercise.category_id.in_([2, 3])
-        ).all()
-
-    # If user category = 2 → warmup from 1 & 3
-    elif category_id == 2:
-        exercises = db.query(Exercise).filter(
-            Exercise.level == level,
-            Exercise.category_id.in_([1, 3])
-        ).all()
-
-    # If user category = 3 → warmup from 1 & 2
-    else:
-        exercises = db.query(Exercise).filter(
-            Exercise.level == level,
-            Exercise.category_id.in_([1, 2])
-        ).all()
-
-    return exercises
 
 
 

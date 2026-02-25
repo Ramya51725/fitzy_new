@@ -38,7 +38,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       if (!res.ok) {
-        // ✅ Handle FastAPI validation errors properly
         if (Array.isArray(data.detail)) {
           const errorMsg = data.detail.map(err => err.msg).join(", ");
           throw new Error(errorMsg);
@@ -46,10 +45,8 @@ document.addEventListener("DOMContentLoaded", () => {
         throw new Error(data.detail || "Invalid email or password");
       }
 
-      // ✅ Clear old storage
       localStorage.clear();
 
-      // ✅ Store required data (NO TOKEN)
       const userId = data.user_id;
       const categoryId = data.category_id;
       localStorage.setItem("user_id", userId);
@@ -57,7 +54,6 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem("name", data.name || "");
       localStorage.setItem("level", "level1");
 
-      // 🔥 FETCH PROGRESS FROM BACKEND
       try {
         const progressRes = await fetch(`${API_BASE_URL}/exercise-progress/${userId}/fitzy/${categoryId}`);
         if (progressRes.ok) {
@@ -70,12 +66,8 @@ document.addEventListener("DOMContentLoaded", () => {
             completedDays: pData.completed_days
           };
           localStorage.setItem("fitzy_progress", JSON.stringify(progressState));
-          console.log("Progress synced from Supabase 🔋");
         } else if (progressRes.status === 404) {
-          // New user → no progress in DB yet. Create fresh Beginner record
-          console.log("No progress found → Initialising Beginner record in DB...");
 
-          // Create the exercise_progress record in DB
           await fetch(`${API_BASE_URL}/exercise-progress/init`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -86,7 +78,6 @@ document.addEventListener("DOMContentLoaded", () => {
             })
           });
 
-          // Set localStorage defaults
           const freshProgress = {
             currentMonth: 1,
             currentWeek: 1,
@@ -101,8 +92,6 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("Login successful, but was unable to sync your progress from the cloud. You can still proceed.");
       }
 
-      // ✅ Redirect
-      console.log("Login successful, redirecting based on email:", email);
 
       if (email === "admin@gmail.com") {
         console.log("Redirecting to Admin Dashboard...");

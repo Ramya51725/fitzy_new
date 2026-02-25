@@ -25,13 +25,11 @@ def verification(plain_password: str, hashed_password: str):
     return pwd_context.verify(plain_password, hashed_password)
 
 
-# ✅ GET ALL USERS
 @router.get("/get")
 def get_all_users(db: Session = Depends(get_db)):
     return db.query(User).all()
 
 
-# ✅ SIMPLE LOGIN (NO JWT)
 @router.post("/login")
 def login_user(user: UserLogin, db: Session = Depends(get_db)):
 
@@ -53,7 +51,6 @@ def login_user(user: UserLogin, db: Session = Depends(get_db)):
     }
 
 
-# ✅ CREATE USER
 @router.post("/")
 def create_user(user: UserCreate, db: Session = Depends(get_db)):
     try:
@@ -84,13 +81,11 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
         db.commit()
         db.refresh(new_user)
 
-        # Store primitives for safe return
         res_id = new_user.user_id
         res_name = new_user.name
         res_email = new_user.email
         res_cat = new_user.category_id
 
-        # 🔥 INITIALIZE PROGRESS FOR NEW USER
         try:
             new_progress = ExerciseProgress(
                 user_id=res_id,
@@ -126,7 +121,6 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=500, detail=f"Signup failed due to server error: {str(e)}")
 
 
-# ✅ UPDATE USER
 @router.put("/{id}")
 def update_user(id: int, user: UserUpdate, db: Session = Depends(get_db)):
 
@@ -165,7 +159,6 @@ def update_user(id: int, user: UserUpdate, db: Session = Depends(get_db)):
     }
 
 
-# ✅ GET USER BY ID
 @router.get("/{id}")
 def get_user_by_id(id: int, db: Session = Depends(get_db)):
 
@@ -194,7 +187,7 @@ def get_user_by_id(id: int, db: Session = Depends(get_db)):
     }
 
 
-# ✅ DELETE USER
+
 @router.delete("/delete/{id}")
 def delete_user(id: int, db: Session = Depends(get_db)):
 

@@ -9,15 +9,13 @@ const lunchInput = document.getElementById("lunch");
 const dinnerInput = document.getElementById("dinner");
 const submitBtn = document.getElementById("submitBtn");
 
-let currentDietId = null; // Stores ID if diet exists
+let currentDietId = null; 
 
-// --- FETCH DIET LOGIC ---
 async function fetchExistingDiet() {
   const day = dayInput.value;
   const dietType = dietTypeSelect.value;
   const categoryId = categorySelect.value;
 
-  // Clear fields if inputs are incomplete
   if (!day || !dietType || !categoryId) {
     breakfastInput.value = "";
     lunchInput.value = "";
@@ -27,7 +25,6 @@ async function fetchExistingDiet() {
     return;
   }
 
-  // 🔥 VALIDATION: Day must not be > 30
   if (Number(day) > 30) {
     alert("Invalid day! Day must be between 1 and 30.");
     dayInput.value = "";
@@ -47,7 +44,6 @@ async function fetchExistingDiet() {
 
     const data = await response.json();
 
-    // Check if diet exists (Backend returns an array for this endpoint)
     if (data && data.length > 0) {
       const diet = data[0];
       breakfastInput.value = diet.breakfast || "";
@@ -57,7 +53,6 @@ async function fetchExistingDiet() {
       submitBtn.innerText = "Update Existing Diet";
       console.log("Existing diet loaded:", diet);
     } else {
-      // No existing diet found
       breakfastInput.value = "";
       lunchInput.value = "";
       dinnerInput.value = "";
@@ -70,19 +65,16 @@ async function fetchExistingDiet() {
   }
 }
 
-// Add event listeners to trigger auto-fetch
 dayInput.addEventListener("input", fetchExistingDiet);
 dietTypeSelect.addEventListener("change", fetchExistingDiet);
 categorySelect.addEventListener("change", fetchExistingDiet);
 
-// --- SUBMIT (POST or PUT) LOGIC ---
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const dietType = dietTypeSelect.value;
   const dayValue = Number(dayInput.value);
 
-  // 🔥 VALIDATION before submit
   if (dayValue > 30 || dayValue < 1) {
     alert("Invalid day! Diet plan is only for 30 days.");
     return;
@@ -100,7 +92,6 @@ form.addEventListener("submit", async (e) => {
   let method = "POST";
 
   if (currentDietId) {
-    // UPDATE mode
     method = "PUT";
     if (dietType === "veg") {
       url = `${API_BASE_URL}/veg/update/${currentDietId}`;
@@ -108,7 +99,6 @@ form.addEventListener("submit", async (e) => {
       url = `${API_BASE_URL}/nonveg/update/${currentDietId}`;
     }
   } else {
-    // POST mode
     if (dietType === "veg") {
       url = `${API_BASE_URL}/veg/diet`;
     } else {
@@ -133,7 +123,6 @@ form.addEventListener("submit", async (e) => {
     const result = await response.json();
     alert(currentDietId ? "Diet updated successfully!" : "Diet added successfully!");
 
-    // Refresh the view
     fetchExistingDiet();
 
   } catch (error) {
@@ -142,7 +131,6 @@ form.addEventListener("submit", async (e) => {
   }
 });
 
-// Logout logic
 document.addEventListener("DOMContentLoaded", () => {
   const logoutBtn = document.getElementById("logoutBtn");
   if (logoutBtn) {

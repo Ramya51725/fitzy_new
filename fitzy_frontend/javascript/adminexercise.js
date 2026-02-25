@@ -49,7 +49,6 @@ form.addEventListener("submit", async (e) => {
 });
 
 
-// Logout logic
 document.addEventListener("DOMContentLoaded", () => {
   const logoutBtn = document.getElementById("logoutBtn");
   if (logoutBtn) {

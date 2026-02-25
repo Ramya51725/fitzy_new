@@ -1,8 +1,6 @@
 import API_BASE_URL from "../config.js";
 
-/* =====================================================
-   🔥 BASIC DATA
-===================================================== */
+
 
 const userId = localStorage.getItem("user_id");
 const categoryId = localStorage.getItem("category_id");
@@ -26,11 +24,7 @@ let progressState = {
 };
 let currentExercise = null;
 let completedCount = 0;
-let level = "level1"; // Default, will be updated dynamically
-
-/* =====================================================
-   🔥 PROGRESS MANAGEMENT (Sync with Supabase)
-===================================================== */
+let level = "level1"; 
 
 async function loadProgress() {
     try {
@@ -39,12 +33,10 @@ async function loadProgress() {
             return;
         }
 
-        // 🔥 1. Try fetching progress from the backend first
         const res = await fetch(`${API_BASE_URL}/exercise-progress/${userId}/fitzy/${categoryId}`);
 
         if (res.ok) {
             const data = await res.json();
-            // Map backend field names → frontend progressState
             progressState = {
                 currentMonth: Number(data.current_month) || 1,
                 currentWeek: Number(data.current_week) || 1,
@@ -52,20 +44,15 @@ async function loadProgress() {
                 completedMonths: Number(data.completed_months) || 0,
                 completedDays: Number(data.completed_days) || 0
             };
-            // Keep localStorage in sync
             localStorage.setItem("fitzy_progress", JSON.stringify(progressState));
-            console.log("Progress loaded from backend ✅", progressState);
 
         } else if (res.status === 404) {
-            // 🔥 2. No backend record → check localStorage
-            console.warn("No backend progress found (404). Checking localStorage...");
             const stored = localStorage.getItem("fitzy_progress");
 
             if (stored) {
                 progressState = JSON.parse(stored);
                 console.log("Progress loaded from localStorage 📦", progressState);
             } else {
-                // 🔥 3. Brand-new user → init a fresh record on the backend
                 console.log("No local progress either → initialising new backend record...");
                 const initRes = await fetch(`${API_BASE_URL}/exercise-progress/init`, {
                     method: "POST",
@@ -87,23 +74,16 @@ async function loadProgress() {
                         completedDays: Number(data.completed_days) || 0
                     };
                     localStorage.setItem("fitzy_progress", JSON.stringify(progressState));
-                    console.log("Progress initialised and synced ✅", progressState);
                 }
             }
-        } else {
-            console.error("Unexpected response while fetching progress:", res.status);
-        }
+        } 
     } catch (err) {
-        // Network error → fall back to localStorage silently
-        console.error("Cloud fetch error, falling back to localStorage:", err);
         const stored = localStorage.getItem("fitzy_progress");
         if (stored) progressState = JSON.parse(stored);
     }
 
-    // 🔥 DYNAMIC LEVEL MAPPING: Month 1 -> Level 1, Month 2 -> Level 2, etc.
     level = "Level " + (progressState.currentMonth || 1);
 
-    console.log(`Current ${level} Progress:`, progressState);
     if (headerDay) headerDay.textContent = `Your current day: Day ${progressState.currentDay} 🔥`;
 
     initWarmup();
@@ -111,11 +91,8 @@ async function loadProgress() {
 }
 
 async function saveProgress() {
-    // 1. Save Locally
     localStorage.setItem("fitzy_progress", JSON.stringify(progressState));
-    console.log("Progress Saved to localStorage ✅");
 
-    // 2. 🔥 Sync with Backend
     try {
         const payload = {
             current_month: Number(progressState.currentMonth) || 1,
@@ -126,18 +103,14 @@ async function saveProgress() {
             completed_exercises: Number(completedCount) || 0
         };
 
-        // Try to UPDATE existing record
         let res = await fetch(`${API_BASE_URL}/exercise-progress/update/${userId}/fitzy/${categoryId}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)
         });
 
-        // 🔥 If no record (404) → Create fresh record first, then update
         if (res.status === 404) {
-            console.log("No progress record found → Initialising new record...");
 
-            // Create initial Beginner record using /init (safe upsert — won't skip Day 1)
             await fetch(`${API_BASE_URL}/exercise-progress/init`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -148,7 +121,6 @@ async function saveProgress() {
                 })
             });
 
-            // Now update with the correct progress values
             res = await fetch(`${API_BASE_URL}/exercise-progress/update/${userId}/fitzy/${categoryId}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
@@ -161,41 +133,30 @@ async function saveProgress() {
             throw new Error(errorData.detail || "Server Error");
         }
 
-        console.log("Progress synced with backend ✅");
     } catch (err) {
-        console.error("Cloud Sync Error:", err);
         alert(err.message);
-        console.warn("Progress saved locally only. Cloud sync failed:", err.message);
     }
 }
 
-/* =====================================================
-   🔥 LOAD EXERCISES
-===================================================== */
 
 async function loadExercisesForDay() {
     try {
         const catId = Number(localStorage.getItem("category_id")) || 1;
         const month = progressState.currentMonth || 1;
 
-        console.log(`🚀 Fetching Exercises for: Level=${level}, Category=${catId}, Month ${month}`);
 
-        // Encode the level parameter to handle spaces (e.g., "Level 1")
         const res = await fetch(
             `${API_BASE_URL}/exercise/by-category-level?category_id=${catId}&level=${encodeURIComponent(level)}`
         );
 
         if (!res.ok) {
-            console.error(`❌ Fetch failed with status: ${res.status}`);
             container.innerHTML = `<p>Error fetching exercises (Status: ${res.status})</p>`;
             return;
         }
 
         const data = await res.json();
-        console.log("📦 Exercises found:", data);
 
         if (!data || !data.length) {
-            console.warn(`🛑 No exercises found for Level: "${level}" and Category: ${catId}`);
             container.innerHTML = `<p>No exercises found for your current level and category. Please check the Admin Panel to ensure exercises are uploaded for "${level}".</p>`;
             return;
         }
@@ -206,14 +167,9 @@ async function loadExercisesForDay() {
         renderExercises(monthlyExercises);
 
     } catch (err) {
-        console.error("🔥 Exercise Load Error:", err);
         container.innerHTML = "<p>Error loading exercises. Please check your connection.</p>";
     }
 }
-
-/* =====================================================
-   🔥 STABLE SHUFFLE
-===================================================== */
 
 function stableShuffle(array, seed) {
     let shuffled = [...array];
@@ -229,9 +185,6 @@ function stableShuffle(array, seed) {
     return shuffled;
 }
 
-/* =====================================================
-   🔥 RENDER EXERCISES
-===================================================== */
 
 function renderExercises(exercises) {
     if (!container) return;
@@ -248,9 +201,6 @@ function renderExercises(exercises) {
     });
 }
 
-/* =====================================================
-   🔥 SHOW DETAIL
-===================================================== */
 
 function showExerciseDetail(ex) {
     if (!detailContainer) return;
@@ -315,9 +265,7 @@ function formatFocusAreas(focusArea) {
     return areas.map(area => `<div class="focus-pill">${area.trim()}</div>`).join("");
 }
 
-/* =====================================================
-   🔥 PROGRESS UPDATE
-===================================================== */
+
 
 async function updateProgressAfterExercise() {
     completedCount++;
@@ -328,17 +276,12 @@ async function updateProgressAfterExercise() {
 }
 
 if (completeBtn) {
-    console.log("Mark Day Complete button found and listener attached ✅");
     completeBtn.addEventListener("click", async () => {
-        console.log("Mark Day Complete clicked! ⚡");
         await moveToNextDay();
     });
-} else {
-    console.error("CRITICAL: completeDayBtn NOT found in DOM! ❌");
 }
 
 async function moveToNextDay() {
-    console.log("moveToNextDay() started. Current State:", progressState);
 
     if (completeBtn) {
         completeBtn.disabled = true;
@@ -359,18 +302,14 @@ async function moveToNextDay() {
             progressState.completedMonths = Number(progressState.completedMonths || 0) + 1;
         }
 
-        console.log("New State calculated:", progressState);
 
-        // Save locally first so user doesn't lose progress if network fails
         localStorage.setItem("fitzy_progress", JSON.stringify(progressState));
 
-        // Sync with cloud
         await saveProgress();
 
         alert("Day Completed Successfully! 🔥");
         window.location.href = "../landing/beginner.html";
     } catch (err) {
-        console.error("Error in moveToNextDay:", err);
         alert("Saved locally, but cloud sync failed. You can continue!");
         window.location.href = "../landing/beginner.html";
     } finally {
@@ -397,9 +336,7 @@ async function logExerciseToHistory(ex) {
     } catch (err) { console.error("Log Exercise Error:", err); }
 }
 
-/* =====================================================
-   🔥 WARMUP SYSTEM
-===================================================== */
+
 
 let warmupExercises = [];
 let warmupIndex = 0;
@@ -421,9 +358,7 @@ async function initWarmup() {
     warmupOverlay.style.display = "flex";
 
     try {
-        // 🔥 WARMUP LEVEL MAPPING:
-        // Month 1 → Level 1, Month 2 → Level 1, Month 3 → Level 2,
-        // Month 4 → Level 3, ... Month 8 → Level 7
+
         const currentMonth = Number(progressState.currentMonth);
         const warmupLevel = currentMonth <= 1 ? "Level 1" : "Level " + (currentMonth - 1);
         const catId = Number(localStorage.getItem("category_id")) || 1;
@@ -440,7 +375,6 @@ async function initWarmup() {
             return;
         }
 
-        // Shuffle the previous level's exercises for warmup
         warmupExercises = stableShuffle(data, currentMonth + 100).slice(0, 6);
         warmupIndex = 0;
 
@@ -476,12 +410,10 @@ if (warmupSkipBtn) {
         clearInterval(warmupTimer);
         warmupTimer = null;
         if (isBreak) {
-            // During break time → skip to main workout
             isBreak = false;
             breakScreen.style.display = "none";
             warmupOverlay.style.display = "none";
         } else {
-            // During warmup exercise → skip to next warmup
             if (warmupStartBtn) warmupStartBtn.disabled = false;
             handleWarmupNext();
         }
@@ -508,24 +440,20 @@ if (warmupNextBtn) {
 
 function handleWarmupNext() {
     if (warmupIndex < warmupExercises.length - 1) {
-        // More warmup exercises → go to next (no break)
         warmupIndex++;
         clearInterval(warmupTimer);
         warmupTimer = null;
         if (warmupStartBtn) warmupStartBtn.disabled = false;
         showWarmupExercise();
     } else {
-        // All warmups done → show break screen, let user choose time
         clearInterval(warmupTimer);
         warmupTimer = null;
         isBreak = true;
         breakScreen.style.display = "flex";
         if (warmupStartBtn) warmupStartBtn.disabled = true;
 
-        // Default 2 min display
         warmupTimerEl.innerText = "02:00";
 
-        // Wait for user to click "Start Break"
         const startBreakBtn = document.getElementById("startBreakBtn");
         const breakMinInput = document.getElementById("breakMinutes");
         if (startBreakBtn) {
@@ -555,19 +483,15 @@ function startWarmupCountdown(seconds) {
             clearInterval(warmupTimer);
             warmupTimer = null;
             if (isBreak) {
-                // Final break finished → close warmup, go to main workout
                 isBreak = false;
                 breakScreen.style.display = "none";
                 warmupOverlay.style.display = "none";
             } else {
-                // Exercise timer finished → go to next warmup exercise
                 handleWarmupNext();
             }
         }
     }, 1000);
 }
 
-/* =====================================================
-   🔥 INITIAL START
-===================================================== */
+
 loadProgress();

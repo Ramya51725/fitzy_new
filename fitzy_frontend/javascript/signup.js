@@ -89,7 +89,6 @@ form.addEventListener("submit", async function (e) {
       throw new Error(data.detail || "Signup failed");
     }
 
-    // ✅ Clear any old user data
     localStorage.clear();
 
     window.location.href = "sign_in.html";
