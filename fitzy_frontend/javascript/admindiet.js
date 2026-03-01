@@ -9,8 +9,7 @@ const lunchInput = document.getElementById("lunch");
 const dinnerInput = document.getElementById("dinner");
 const submitBtn = document.getElementById("submitBtn");
 
-let currentDietId = null; 
-
+let currentDietId = null;
 
 function showMessage(text) {
   const msgDiv = document.getElementById("statusMessage");
@@ -24,7 +23,6 @@ function showMessage(text) {
   }, 3000);
 }
 
-
 async function fetchExistingDiet() {
   const day = dayInput.value;
   const dietType = dietTypeSelect.value;
@@ -35,13 +33,14 @@ async function fetchExistingDiet() {
     lunchInput.value = "";
     dinnerInput.value = "";
     currentDietId = null;
-    submitBtn.innerText = "Post New Diet";
+    submitBtn.disabled = true;
     return;
   }
 
-  if (Number(day) > 30) {
-    showMessage("Invalid day! Diet plan is only for 30 days") 
+  if (Number(day) > 30 || Number(day) < 1) {
+    showMessage("Invalid day! Diet plan is only for 30 days");
     dayInput.value = "";
+    submitBtn.disabled = true;
     return;
   }
 
@@ -60,22 +59,27 @@ async function fetchExistingDiet() {
 
     if (data && data.length > 0) {
       const diet = data[0];
+
       breakfastInput.value = diet.breakfast || "";
       lunchInput.value = diet.lunch || "";
       dinnerInput.value = diet.dinner || "";
+
       currentDietId = diet.diet_id;
-      submitBtn.innerText = "Update Existing Diet";
-      console.log("Existing diet loaded:", diet);
+      submitBtn.disabled = false;
+
+      showMessage("Diet loaded successfully. You can edit now.");
     } else {
       breakfastInput.value = "";
       lunchInput.value = "";
       dinnerInput.value = "";
       currentDietId = null;
-      submitBtn.innerText = "Post New Diet";
-    showMessage("Invalid day! Diet plan is only for 30 days") 
+      submitBtn.disabled = true;
+
+      showMessage("No diet found. Only existing diet can be edited.");
     }
   } catch (error) {
     console.error("Fetch error:", error);
+    showMessage("Failed to load diet. Check console.");
   }
 }
 
@@ -86,11 +90,16 @@ categorySelect.addEventListener("change", fetchExistingDiet);
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
+  if (!currentDietId) {
+    showMessage("Cannot create new diet. Only editing is allowed.");
+    return;
+  }
+
   const dietType = dietTypeSelect.value;
   const dayValue = Number(dayInput.value);
 
   if (dayValue > 30 || dayValue < 1) {
-    showMessage("Invalid day! Diet plan is only for 30 days") 
+    showMessage("Invalid day! Diet plan is only for 30 days");
     return;
   }
 
@@ -103,26 +112,16 @@ form.addEventListener("submit", async (e) => {
   };
 
   let url = "";
-  let method = "POST";
 
-  if (currentDietId) {
-    method = "PUT";
-    if (dietType === "veg") {
-      url = `${API_BASE_URL}/veg/update/${currentDietId}`;
-    } else {
-      url = `${API_BASE_URL}/nonveg/update/${currentDietId}`;
-    }
+  if (dietType === "veg") {
+    url = `${API_BASE_URL}/veg/update/${currentDietId}`;
   } else {
-    if (dietType === "veg") {
-      url = `${API_BASE_URL}/veg/diet`;
-    } else {
-      url = `${API_BASE_URL}/nonveg/nonveg`;
-    }
+    url = `${API_BASE_URL}/nonveg/update/${currentDietId}`;
   }
 
   try {
     const response = await fetch(url, {
-      method: method,
+      method: "PUT",
       headers: {
         "Content-Type": "application/json"
       },
@@ -134,14 +133,12 @@ form.addEventListener("submit", async (e) => {
       throw new Error(errorText);
     }
 
-    const result = await response.json();
-    alert(currentDietId ? "Diet updated successfully!" : "Diet added successfully!");
-
+    showMessage("Diet updated successfully!");
     fetchExistingDiet();
 
   } catch (error) {
-    console.error("Submission error:", error);
-    alert("Operation failed. Check console.");
+    console.error("Update error:", error);
+    showMessage("Update failed. Check console.");
   }
 });
 
@@ -154,3 +151,4 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+

@@ -33,7 +33,7 @@ async function initProgress() {
     }
 
     try {
-        const res = await fetch(`${API_BASE_URL}/exercise-progress/${userId}/fitzy/${categoryId}`);
+        const res = await fetch(`${API_BASE_URL}/exercise-progress/${userId}/${level}/${categoryId}`);
         if (res.ok) {
             const pData = await res.json();
             progressState = {
@@ -45,7 +45,7 @@ async function initProgress() {
                 lastCompletedDate: pData.last_completed_date || null
             };
             localStorage.setItem("fitzy_progress", JSON.stringify(progressState));
-            console.log("Dashboard synced with Supabase ✅");
+            console.log("Dashboard synced with Supabase ");
         } else if (res.status === 404) {
             const stored = localStorage.getItem("fitzy_progress");
             if (stored) {
@@ -121,7 +121,7 @@ function handleLevels(currentMonth) {
             if (currentMonth >= card.start && currentMonth <= card.end) {
                 card.el.classList.add("active-level");
                 card.el.style.cursor = "default";
-                if (statusEl) statusEl.textContent = "🔥 In Progress";
+                if (statusEl) statusEl.textContent = " In Progress";
 
                 card.el.onclick = null;
                 if (startBtn) {
@@ -133,7 +133,7 @@ function handleLevels(currentMonth) {
                 }
             } else if (currentMonth > card.end) {
                 card.el.classList.add("completed-level");
-                if (statusEl) statusEl.textContent = "✅ Completed";
+                if (statusEl) statusEl.textContent = " Completed";
                 if (startBtn) {
                     startBtn.innerText = "Finished";
                     startBtn.classList.add("finished-btn");
@@ -150,7 +150,7 @@ function handleLevels(currentMonth) {
             }
         } else {
             card.el.classList.add("locked");
-            if (statusEl) statusEl.textContent = "🔒 Locked";
+            if (statusEl) statusEl.textContent = " Locked";
 
             let lockIcon = card.el.querySelector(".lock-overlay");
             if (!lockIcon) {
@@ -238,7 +238,7 @@ function renderDays(currentDay) {
                 });
             } else {
                 btn.classList.add("active");
-                btn.innerHTML = `<span class="day-fire">🔥</span> Day ${i}`;
+                btn.innerHTML = `<span class="day-fire"></span> Day ${i}`;
                 btn.addEventListener("click", () => {
                     localStorage.setItem("selected_day", i);
                     window.location.href = `../levels/workout.html`;

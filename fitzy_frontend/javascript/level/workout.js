@@ -22,7 +22,6 @@ let progressState = {
 };
 let currentExercise = null;
 let completedCount = 0;
-let level = "level1";
 
 async function loadProgress() {
   try {
@@ -31,7 +30,7 @@ async function loadProgress() {
     }
 
     const res = await fetch(
-      `${API_BASE_URL}/exercise-progress/${userId}/fitzy/${categoryId}`,
+      `${API_BASE_URL}/exercise-progress/${userId}/${level}/${categoryId}`,
     );
 
     if (res.ok) {
@@ -58,7 +57,7 @@ async function loadProgress() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             user_id: Number(userId),
-            level: "fitzy",
+            level: (level),
             category_id: Number(categoryId),
           }),
         });
@@ -84,7 +83,7 @@ async function loadProgress() {
   level = "Level " + (progressState.currentMonth || 1);
 
   if (headerDay)
-    headerDay.textContent = `Your current day: Day ${progressState.currentDay} 🔥`;
+    headerDay.textContent = `Your current day: Day ${progressState.currentDay} `;
 
   initWarmup();
   loadExercisesForDay();
@@ -104,7 +103,7 @@ async function saveProgress() {
     };
 
     let res = await fetch(
-      `${API_BASE_URL}/exercise-progress/update/${userId}/fitzy/${categoryId}`,
+      `${API_BASE_URL}/exercise-progress/update/${userId}/${level}/${categoryId}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -118,7 +117,7 @@ async function saveProgress() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           user_id: Number(userId),
-          level: "fitzy",
+          level: (level),
           category_id: Number(categoryId),
         }),
       });
