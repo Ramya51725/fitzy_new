@@ -45,6 +45,9 @@ def complete_day(progress: ProgressCreate, db: Session = Depends(get_db)):
             )
 
         existing.completed_days += 1
+
+        existing.completed_exercises = existing.completed_days * 6
+
         existing.current_day += 1
         existing.last_completed_date = datetime.now()
 
@@ -61,8 +64,6 @@ def complete_day(progress: ProgressCreate, db: Session = Depends(get_db)):
         if existing.current_month > 8:
             existing.is_level_completed = True
 
-        existing.completed_exercises = 0
-
         db.commit()
         db.refresh(existing)
 
@@ -73,6 +74,7 @@ def complete_day(progress: ProgressCreate, db: Session = Depends(get_db)):
         level=progress.level,
         category_id=progress.category_id,
         completed_days=0,
+        completed_exercises=0,
         current_day=1,
         current_week=1,
         current_month=1
@@ -86,7 +88,7 @@ def complete_day(progress: ProgressCreate, db: Session = Depends(get_db)):
 
 
 
-@router.get("/{user_id}/{level}", response_model=ProgressResponse)
+# @router.get("/{user_id}/{level}", response_model=ProgressResponse)
 @router.get("/{user_id}/{level}/{category_id}", response_model=ProgressResponse)
 def get_progress(
     user_id: int, 
@@ -144,7 +146,7 @@ def init_progress(progress: ProgressCreate, db: Session = Depends(get_db)):
 
     return new_progress
 
-@router.put("/update/{user_id}/{level}", response_model=ProgressResponse)
+# @router.put("/update/{user_id}/{level}", response_model=ProgressResponse)
 @router.put("/update/{user_id}/{level}/{category_id}", response_model=ProgressResponse)
 def update_progress(
     user_id: int, 
@@ -184,7 +186,7 @@ def update_progress(
             progress.last_completed_date = datetime.now()
         progress.completed_days = update_data.completed_days
     if update_data.completed_exercises is not None:
-        progress.completed_exercises = update_data.completed_exercises
+        progress.completed_exercises = progress.completed_days * 6
     if update_data.completed_months is not None:
         progress.completed_months = update_data.completed_months
     if update_data.is_month_completed is not None:
