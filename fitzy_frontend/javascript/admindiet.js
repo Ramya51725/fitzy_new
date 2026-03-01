@@ -134,6 +134,8 @@ form.addEventListener("submit", async (e) => {
     }
 
     showMessage("Diet updated successfully!");
+    form.reset()
+
 
   } catch (error) {
     console.error("Update error:", error);
