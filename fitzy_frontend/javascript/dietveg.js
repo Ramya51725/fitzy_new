@@ -27,7 +27,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let activeBtn = null;
   let selectedDay = 1;
   let maxCompletedDay = 0;
-  let finishedToday = false;
   const dayButtons = [];
 
   for (let day = 1; day <= 30; day++) {
@@ -43,7 +42,6 @@ document.addEventListener("DOMContentLoaded", () => {
       activeBtn = btn;
       selectedDay = day;
       loadDiet(day);
-      updateButtonStatus();
     };
 
     dayButtons.push(btn);
@@ -95,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
         throw new Error(errorData.detail || "Could not save progress");
       }
 
-      markGreen(selectedDay, true); 
+      markGreen(selectedDay, true);
 
       if (selectedDay === 30) {
         if (confirm("Congratulations! You have completed the 30-day diet plan. Would you like to reset for a new start?")) {
@@ -110,28 +108,11 @@ document.addEventListener("DOMContentLoaded", () => {
         dayButtons[nextDayIndex].click();
       }
 
-      updateButtonStatus();
     } catch (err) {
       console.error(err);
       alert(err.message);
     }
   });
-
-  function updateButtonStatus() {
-    if (!completedBtn) return;
-    const isCompleted = dayButtons[selectedDay - 1].classList.contains("completed");
-    if (isCompleted) {
-      completedBtn.innerText = "Finished ✅";
-      completedBtn.disabled = true;
-      completedBtn.style.opacity = "0.6";
-      completedBtn.style.cursor = "default";
-    } else {
-      completedBtn.innerText = "Completed";
-      completedBtn.disabled = false;
-      completedBtn.style.opacity = "1";
-      completedBtn.style.cursor = "pointer";
-    }
-  }
 
   async function resetDietProgress() {
     try {
@@ -149,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       dayButtons[0].click();
-      alert("Progress reset. Let's start a fresh cycle! 🔥");
+      alert("Progress reset. Let's start a fresh cycle! ");
 
     } catch (err) {
       console.error(err);
@@ -163,13 +144,11 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!res.ok) return;
 
       const data = await res.json();
-      finishedToday = false;
       maxCompletedDay = 0;
-      const today = new Date().toISOString().split('T')[0];
 
       data.forEach(p => {
         if (p.status === "completed") {
-          markGreen(p.day, true); // Always allow unlocking next day
+          markGreen(p.day, true);
           maxCompletedDay = Math.max(maxCompletedDay, p.day);
         }
       });
@@ -181,8 +160,6 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
         dayButtons[dayButtons.length - 1].click();
       }
-
-      updateButtonStatus();
 
     } catch (err) {
       console.error(err);
@@ -206,8 +183,3 @@ document.addEventListener("DOMContentLoaded", () => {
   loadProgress();
 
 });
-
-
-
-
-
