@@ -58,7 +58,7 @@ async function loadProgress() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             user_id: Number(userId),
-            level: "fitzy",
+            // level: "fitzy",
             category_id: Number(categoryId),
           }),
         });
@@ -118,7 +118,7 @@ async function saveProgress() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           user_id: Number(userId),
-          level: "fitzy",
+          // level: "fitzy",
           category_id: Number(categoryId),
         }),
       });

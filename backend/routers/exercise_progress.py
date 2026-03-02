@@ -119,7 +119,7 @@ def init_progress(progress: ProgressCreate, db: Session = Depends(get_db)):
 
     existing = db.query(ExerciseProgress).filter(
         ExerciseProgress.user_id == progress.user_id,
-        ExerciseProgress.level.ilike(progress.level),
+        # ExerciseProgress.level.ilike(progress.level),
         ExerciseProgress.category_id == progress.category_id
     ).first()
 
