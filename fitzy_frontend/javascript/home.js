@@ -42,7 +42,8 @@ async function initProgress() {
                 currentDay: pData.current_day || 1,
                 completedMonths: pData.completed_months || 0,
                 completedDays: pData.completed_days || 0,
-                lastCompletedDate: pData.last_completed_date || null
+                lastCompletedDate: pData.last_completed_date || null,
+                level : pData.level
             };
             localStorage.setItem("fitzy_progress", JSON.stringify(progressState));
             console.log("Dashboard synced with Supabase ✅");
