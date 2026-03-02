@@ -73,7 +73,6 @@ document.addEventListener("DOMContentLoaded", () => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               user_id: Number(userId),
-              // level: "fitzy",
               category_id: Number(categoryId)
             })
           });

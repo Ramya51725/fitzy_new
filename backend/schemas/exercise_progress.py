@@ -5,7 +5,6 @@ from datetime import datetime
 
 class ProgressCreate(BaseModel):
     user_id: int
-    level: str
     category_id: Optional[int] = None
 
 

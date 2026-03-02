@@ -88,7 +88,6 @@ def complete_day(progress: ProgressCreate, db: Session = Depends(get_db)):
 
 
 
-# @router.get("/{user_id}/{level}", response_model=ProgressResponse)
 @router.get("/{user_id}/{level}/{category_id}", response_model=ProgressResponse)
 def get_progress(
     user_id: int, 
@@ -119,7 +118,6 @@ def init_progress(progress: ProgressCreate, db: Session = Depends(get_db)):
 
     existing = db.query(ExerciseProgress).filter(
         ExerciseProgress.user_id == progress.user_id,
-        # ExerciseProgress.level.ilike(progress.level),
         ExerciseProgress.category_id == progress.category_id
     ).first()
 
@@ -146,7 +144,6 @@ def init_progress(progress: ProgressCreate, db: Session = Depends(get_db)):
 
     return new_progress
 
-# @router.put("/update/{user_id}/{level}", response_model=ProgressResponse)
 @router.put("/update/{user_id}/{level}/{category_id}", response_model=ProgressResponse)
 def update_progress(
     user_id: int, 
