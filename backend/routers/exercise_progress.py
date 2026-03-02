@@ -128,7 +128,7 @@ def init_progress(progress: ProgressCreate, db: Session = Depends(get_db)):
 
     new_progress = ExerciseProgress(
         user_id=progress.user_id,
-        level=progress.level,   
+        level=get_level_name(1),   
         category_id=progress.category_id,
         current_month=1,
         current_week=1,
