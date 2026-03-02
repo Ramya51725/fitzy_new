@@ -112,6 +112,8 @@ async function saveProgress() {
       },
     );
 
+    console.log("updated is called")
+
     if (res.status === 404) {
       await fetch(`${API_BASE_URL}/exercise-progress/init`, {
         method: "POST",
@@ -132,6 +134,7 @@ async function saveProgress() {
         },
       );
     }
+    console.log("updated is called")
 
     if (!res.ok) {
       const errorData = await res.json();
