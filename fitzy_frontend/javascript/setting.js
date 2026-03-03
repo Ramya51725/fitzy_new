@@ -1,24 +1,13 @@
 import API_BASE_URL from "./config.js";
 
 
-function showMessage(text) {
-  const msgDiv = document.getElementById("statusMessage");
-  if (!msgDiv) return;
-
-  msgDiv.innerText = text;
-  msgDiv.style.display = "block";
-
-  setTimeout(() => {
-    msgDiv.style.display = "none";
-  }, 3000);
-}
 
 document.addEventListener("DOMContentLoaded", () => {
 
   const userId = localStorage.getItem("user_id");
 
   if (!userId) {
-    showMessage("Please login again")
+    alert("Please login again")
     window.location.href = "sign_in.html";
     return;
   }
@@ -67,12 +56,13 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .then(() => {
           localStorage.clear();
-          showMessage("Account deleted successfully")
+          alert("Account deleted successfully")
           window.location.href = "../../index.html";
         })
         .catch(err => {
           console.error("DELETE ERROR:", err);
-          showMessage("Account deletion failed. Please try again")
+          alert("Account deletion failed. Please try again")
+          ("Account deletion failed. Please try again")
 
         });
     });

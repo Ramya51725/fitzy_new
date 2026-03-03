@@ -422,6 +422,8 @@ body {
     border-radius: 8px;
     text-align: center;
     font-weight: 600;
+    background: #fff3cd;    
+  color: #856404;         
     font-size: 18px;
     box-shadow: 0 6px 18px rgba(0,0,0,0.15);
     z-index: 9999;                

@@ -7,22 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const rawUserId = localStorage.getItem("user_id");
   const userId = rawUserId ? Number(rawUserId) : null;
 
-function showMessage(text) {
-  const msgDiv = document.getElementById("statusMessage");
-  if (!msgDiv) return;
-
-  msgDiv.innerText = text;  
-  msgDiv.style.display = "block";
-
-  setTimeout(() => {
-    msgDiv.style.display = "none";
-  }, 3000);
-}
-
 
   if (!userId || !categoryId) {
-    showMessage("Please login again")
-    // alert("Please login again.");
+    alert("Please login again.");
     window.location.href = "../html/sign_in.html";
     return;
   }
