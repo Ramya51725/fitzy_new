@@ -103,7 +103,7 @@ headerDay.innerHTML = `
   loadExercisesForDay();
 }
 
-const level = "Level" + (progressState.currentMonth || 1);
+const level = "level" + (progressState.currentMonth || 1);
 async function saveProgress() {
   localStorage.setItem("fitzy_progress", JSON.stringify(progressState));
 
@@ -172,7 +172,7 @@ async function loadExercisesForDay() {
     const data = await res.json();
 
     if (!data || !data.length) {
-      container.innerHTML = `<p>No exercises found for your current level and category. Please check the Admin Panel to ensure exercises are uploaded for "${level}".</p>`;
+      container.innerHTML = `<p>No exercises found for your current level and category."${level}".</p>`;
       return;
     }
 
