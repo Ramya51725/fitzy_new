@@ -13,6 +13,19 @@ let progressState = {
     completedDays: 0
 };
 
+function showMessage(text) {
+  const msgDiv = document.getElementById("statusMessage");
+  if (!msgDiv) return;
+
+  msgDiv.innerText = text;  
+  msgDiv.style.display = "block";
+
+  setTimeout(() => {
+    msgDiv.style.display = "none";
+  }, 3000);
+}
+
+
 document.addEventListener("DOMContentLoaded", async () => {
     await initProgress();
     setCategoryName();
@@ -29,7 +42,8 @@ async function initProgress() {
     // const monthLevel = localStorage.getItem("level")
 
     if (!userId || !categoryId) {
-        alert("Please login again.");
+        showMessage("Please login again")
+        // alert("Please login again.");
         window.location.href = "sign_in.html";
         return;
     }
@@ -48,7 +62,6 @@ async function initProgress() {
                 level : pData.level
             };
             localStorage.setItem("fitzy_progress", JSON.stringify(progressState));
-            console.log("Dashboard synced with Supabase ✅");
         } else if (res.status === 404) {
             const stored = localStorage.getItem("fitzy_progress");
             if (stored) {
@@ -124,8 +137,12 @@ function handleLevels(currentMonth) {
             if (currentMonth >= card.start && currentMonth <= card.end) {
                 card.el.classList.add("active-level");
                 card.el.style.cursor = "default";
-                if (statusEl) statusEl.textContent = "🔥 In Progress";
-
+            if (statusEl) {
+            statusEl.innerHTML = `
+                <i class="fa-solid fa-fire" style="color: orange; margin-right: 6px;"></i>
+                In Progress
+            `;
+            }
                 card.el.onclick = null;
                 if (startBtn) {
                     startBtn.innerText = "Start";
@@ -136,8 +153,14 @@ function handleLevels(currentMonth) {
                 }
             } else if (currentMonth > card.end) {
                 card.el.classList.add("completed-level");
-                if (statusEl) statusEl.textContent = "✅ Completed";
-                if (startBtn) {
+                if (statusEl) {
+                statusEl.innerHTML = `
+                    <i class="fa-solid fa-circle-check" 
+                    style="color: green; margin-right: 6px;">
+                    </i>
+                    Completed
+                `;
+                }                if (startBtn) {
                     startBtn.innerText = "Finished";
                     startBtn.classList.add("finished-btn");
                     startBtn.onclick = (e) => {
@@ -153,8 +176,14 @@ function handleLevels(currentMonth) {
             }
         } else {
             card.el.classList.add("locked");
-            if (statusEl) statusEl.textContent = "🔒 Locked";
-
+            if (statusEl) {
+            statusEl.innerHTML = `
+                <i class="fa-solid fa-lock" 
+                style="color: gray; margin-right: 6px;">
+                </i>
+                Locked
+            `;
+            }
             let lockIcon = card.el.querySelector(".lock-overlay");
             if (!lockIcon) {
                 lockIcon = document.createElement("div");
@@ -241,7 +270,10 @@ function renderDays(currentDay) {
                 });
             } else {
                 btn.classList.add("active");
-                btn.innerHTML = `<span class="day-fire">🔥</span> Day ${i}`;
+                btn.innerHTML = `
+                <span class="day-fire">
+                <i class="fa-solid fa-fire" style="color: orange;"></i></span>
+                Day ${i}`
                 btn.addEventListener("click", () => {
                     localStorage.setItem("selected_day", i);
                     window.location.href = `../levels/workout.html`;

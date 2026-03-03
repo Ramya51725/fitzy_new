@@ -1,12 +1,25 @@
 import API_BASE_URL from "./config.js";
 
+function showMessage(text) {
+  const msgDiv = document.getElementById("statusMessage");
+  if (!msgDiv) return;
+
+  msgDiv.innerText = text;  
+  msgDiv.style.display = "block";
+
+  setTimeout(() => {
+    msgDiv.style.display = "none";
+  }, 3000);
+}
+
 document.addEventListener("DOMContentLoaded", () => {
 
   const categoryId = Number(localStorage.getItem("category_id"));
   const userId = Number(localStorage.getItem("user_id"));
 
   if (!userId || !categoryId) {
-    alert("Please login again.");
+    showMessage("Please login again")
+    // alert("Please login again.");
     window.location.href = "../html/sign_in.html";
     return;
   }

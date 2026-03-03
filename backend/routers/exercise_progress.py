@@ -142,10 +142,10 @@ def init_progress(progress: ProgressCreate, db: Session = Depends(get_db)):
 
     return new_progress
 
-@router.put("/update/{user_id}/{level}/{category_id}", response_model=ProgressResponse)
+@router.put("/update/{user_id}/{category_id}", response_model=ProgressResponse)
 def update_progress(
     user_id: int, 
-    level: str, 
+    # level: str, 
     update_data: ProgressUpdate, 
     category_id: Optional[int] = None, 
     db: Session = Depends(get_db)
@@ -155,8 +155,8 @@ def update_progress(
         ExerciseProgress.user_id == user_id
     )
 
-    if level:
-        query = query.filter(ExerciseProgress.level == level)
+    # if level:
+    #     query = query.filter(ExerciseProgress.level == level)
 
     if category_id is not None and category_id != 0:
         query = query.filter(ExerciseProgress.category_id == category_id)
@@ -165,9 +165,6 @@ def update_progress(
 
     if not progress:
         raise HTTPException(status_code=404, detail="Progress not found")
-
-    print(f"DEBUG: Updating Progress for User {user_id}, Level {level}")
-    print(f"DEBUG: Incoming Data: {update_data.dict()}")
 
     if update_data.current_month is not None:
         progress.current_month = update_data.current_month

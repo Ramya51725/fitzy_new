@@ -5,8 +5,21 @@ const categoryId = localStorage.getItem("category_id");
 const headerDay = document.getElementById("currentDayHeader");
 // const monthLevel = localStorage.getItem("level")
 
+function showMessage(text) {
+  const msgDiv = document.getElementById("statusMessage");
+  if (!msgDiv) return;
+
+  msgDiv.innerHTML = text;  
+  msgDiv.style.display = "block";
+
+  setTimeout(() => {
+    msgDiv.style.display = "none";
+  }, 3000);
+}
+
 if (!userId) {
-  alert("Login required");
+  showMessage("Login required")
+  // alert("Login required");
   window.location.href = "../../html/sign_in.html";
 }
 
@@ -85,8 +98,10 @@ async function loadProgress() {
   }
 
 
-  if (headerDay)
-    headerDay.textContent = `Your current day: Day ${progressState.currentDay} 🔥`;
+headerDay.innerHTML = `
+  Your current day: Day ${progressState.currentDay}
+  <i class="fa-solid fa-fire" style="color: orange; margin-left: 6px;"></i>
+`;
 
   initWarmup();
   loadExercisesForDay();
@@ -107,7 +122,7 @@ async function saveProgress() {
     };
 
     let res = await fetch(
-      `${API_BASE_URL}/exercise-progress/update/${userId}/${level}/${categoryId}`,
+      `${API_BASE_URL}/exercise-progress/update/${userId}/${categoryId}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -126,7 +141,7 @@ async function saveProgress() {
       });
 
       res = await fetch(
-        `${API_BASE_URL}/exercise-progress/update/${userId}/${level}/${categoryId}`,
+        `${API_BASE_URL}/exercise-progress/update/${userId}/${categoryId}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -229,7 +244,7 @@ function showExerciseDetail(ex) {
     </div>
   `;
   if (window.exerciseInterval) clearInterval(window.exerciseInterval);
-  currentExercise = ex;
+  // currentExercise = ex;
   initExerciseTimer();
 }
 
@@ -287,7 +302,7 @@ if (completeBtn) {
 function showMessage(text, isError = false) {
     const msgDiv = document.getElementById("statusMessage");
 
-    msgDiv.innerText = text;
+    msgDiv.innerHTML = text;
     msgDiv.style.display = "block";
 
     if (isError) {
@@ -330,8 +345,9 @@ async function moveToNextDay() {
 
     await saveProgress();
 
-    showMessage("Day Completed Successfully! 🔥");
-
+    showMessage(`Day Completed Successfully!
+      <i class="fa-solid fa-fire" style="color: orange; margin-left: 6px;"></i>
+    `);
     setTimeout(() => {
       window.location.href = "../landing/beginner.html";
     }, 3000);

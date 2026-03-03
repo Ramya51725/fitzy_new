@@ -1,5 +1,19 @@
 import API_BASE_URL from "./config.js";
 
+
+function showMessage(text) {
+  const msgDiv = document.getElementById("statusMessage");
+  if (!msgDiv) return;
+
+  msgDiv.innerText = text;
+  msgDiv.style.display = "block";
+
+  setTimeout(() => {
+    msgDiv.style.display = "none";
+  }, 3000);
+}
+
+
 const form = document.getElementById("signupForm");
 
 function clearErrors() {
@@ -61,7 +75,8 @@ form.addEventListener("submit", async function (e) {
   }
 
   if (!userData.gender) {
-    alert("Please select gender");
+    
+    showMessage("Please select gender")
     isValid = false;
   }
 
@@ -99,7 +114,7 @@ form.addEventListener("submit", async function (e) {
     if (err.message.includes("Email")) {
       document.getElementById("mail_error").innerText = "Email already exists";
     } else {
-      alert("Signup failed: " + err.message);
+      showMessage("Signup failed")
     }
   }
 });

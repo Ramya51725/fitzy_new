@@ -90,7 +90,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       } catch (pErr) {
         console.error("Progress Sync Error:", pErr);
-        alert("Login successful, but was unable to sync your progress ");
       }
 
 

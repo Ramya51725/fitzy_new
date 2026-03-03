@@ -7,11 +7,27 @@ document.addEventListener("DOMContentLoaded", () => {
   const rawUserId = localStorage.getItem("user_id");
   const userId = rawUserId ? Number(rawUserId) : null;
 
+function showMessage(text) {
+  const msgDiv = document.getElementById("statusMessage");
+  if (!msgDiv) return;
+
+  msgDiv.innerText = text;  
+  msgDiv.style.display = "block";
+
+  setTimeout(() => {
+    msgDiv.style.display = "none";
+  }, 3000);
+}
+
+
   if (!userId || !categoryId) {
-    alert("Please login again.");
+    showMessage("Please login again")
+    // alert("Please login again.");
     window.location.href = "../html/sign_in.html";
     return;
   }
+
+
 
   const API_URL = `${API_BASE_URL}/nonveg/diet/by-category-day`;
   const PROGRESS_API = `${API_BASE_URL}/diet-progress`;
