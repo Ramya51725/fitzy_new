@@ -97,7 +97,7 @@ def get_progress(
         ExerciseProgress.user_id == user_id
     )
 
-=
+
 
     if category_id is not None and category_id != 0:
         query = query.filter(ExerciseProgress.category_id == category_id)
