@@ -20,7 +20,7 @@ let progressState = {
   completedMonths: 0,
   completedDays: 0,
 };
-let currentExercise = null;
+// let currentExercise = null;
 let completedCount = 0;
 let level = "level1";
 
@@ -44,6 +44,7 @@ async function loadProgress() {
         completedDays: Number(data.completed_days) || 0,
       };
       localStorage.setItem("fitzy_progress", JSON.stringify(progressState));
+      console.log("progress state",progressState)
     } else if (res.status === 404) {
       const stored = localStorage.getItem("fitzy_progress");
 
@@ -250,7 +251,7 @@ function initExerciseTimer() {
         timerDisplay.textContent = "Completed ✔";
         timerDisplay.style.color = "green";
         startBtn.style.display = "none";
-        updateProgressAfterExercise();
+        // updateProgressAfterExercise();
       }
     }, 1000);
   };
@@ -265,13 +266,13 @@ function formatFocusAreas(focusArea) {
     .join("");
 }
 
-async function updateProgressAfterExercise() {
-  completedCount++;
-  if (currentExercise) await logExerciseToHistory(currentExercise);
-  if (completedCount >= 6) {
-    await moveToNextDay();
-  }
-}
+// async function updateProgressAfterExercise() {
+//   completedCount++;
+//   if (currentExercise) await logExerciseToHistory(currentExercise);
+//   if (completedCount >= 6) {
+//     await moveToNextDay();
+//   }
+// }
 
 if (completeBtn) {
   completeBtn.addEventListener("click", async () => {
@@ -346,23 +347,23 @@ async function moveToNextDay() {
 
 
 
-async function logExerciseToHistory(ex) {
-  try {
-    await fetch(`${API_BASE_URL}/exercise-log/log`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        user_id: Number(userId),
-        exercise_id: ex.exercise_id || null,
-        title: ex.title,
-        level: level,
-        day: Number(progressState.currentDay),
-      }),
-    });
-  } catch (err) {
-    console.error("Log Exercise Error:", err);
-  }
-}
+// async function logExerciseToHistory(ex) {
+//   try {
+//     await fetch(`${API_BASE_URL}/exercise-log/log`, {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify({
+//         user_id: Number(userId),
+//         exercise_id: ex.exercise_id || null,
+//         title: ex.title,
+//         level: level,
+//         day: Number(progressState.currentDay),
+//       }),
+//     });
+//   } catch (err) {
+//     console.error("Log Exercise Error:", err);
+//   }
+// }
 
 let warmupExercises = [];
 let warmupIndex = 0;
