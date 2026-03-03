@@ -8,7 +8,7 @@ function showMessage(text) {
   const msgDiv = document.getElementById("statusMessage");
   if (!msgDiv) return;
 
-  msgDiv.innerHTML = text;  
+  msgDiv.innerHTML = text;
   msgDiv.style.display = "block";
 
   setTimeout(() => {
@@ -17,7 +17,7 @@ function showMessage(text) {
 }
 
 if (!userId) {
-  showMessage("Login required")
+  showMessage("Login required");
   window.location.href = "../../html/sign_in.html";
 }
 
@@ -52,11 +52,11 @@ async function loadProgress() {
         currentDay: Number(data.current_day) || 1,
         completedMonths: Number(data.completed_months) || 0,
         completedDays: Number(data.completed_days) || 0,
-        monthLevel : data.level,
-        exerciseLevel : Number(data.current_month)
+        monthLevel: data.level,
+        exerciseLevel: Number(data.current_month),
       };
       localStorage.setItem("fitzy_progress", JSON.stringify(progressState));
-      console.log("progress state",progressState)
+      console.log("progress state", progressState);
     } else if (res.status === 404) {
       const stored = localStorage.getItem("fitzy_progress");
 
@@ -93,8 +93,7 @@ async function loadProgress() {
     if (stored) progressState = JSON.parse(stored);
   }
 
-
-headerDay.innerHTML = `
+  headerDay.innerHTML = `
   Your current day: Day ${progressState.currentDay}
   <i class="fa-solid fa-fire" style="color: orange; margin-left: 6px;"></i>
 `;
@@ -102,8 +101,6 @@ headerDay.innerHTML = `
   initWarmup();
   loadExercisesForDay();
 }
-
-const level = "level" + (progressState.currentMonth || 1);
 async function saveProgress() {
   localStorage.setItem("fitzy_progress", JSON.stringify(progressState));
 
@@ -158,7 +155,8 @@ async function saveProgress() {
 async function loadExercisesForDay() {
   try {
     const catId = Number(localStorage.getItem("category_id")) || 1;
-    const month = progressState.currentMonth || 1;
+    const month = Number(progressState.currentMonth) || 1;
+    const level = "level" + month;
 
     const res = await fetch(
       `${API_BASE_URL}/exercise/by-category-level?category_id=${catId}&level=${level}`,
@@ -172,7 +170,7 @@ async function loadExercisesForDay() {
     const data = await res.json();
 
     if (!data || !data.length) {
-      container.innerHTML = `<p>No exercises found for your current level and category."${level}".</p>`;
+      container.innerHTML = `<p>No exercises found for your current level"${level}"and category."${catId}".</p>`;
       return;
     }
 
@@ -284,10 +282,6 @@ if (completeBtn) {
   });
 }
 
-
-
-
-
 async function moveToNextDay() {
   if (completeBtn) {
     completeBtn.disabled = true;
@@ -320,15 +314,12 @@ async function moveToNextDay() {
     setTimeout(() => {
       window.location.href = "../landing/beginner.html";
     }, 3000);
-
   } catch (err) {
-
     showMessage("Failed to show save", true);
 
     setTimeout(() => {
       window.location.href = "../landing/beginner.html";
     }, 3000);
-
   }
 }
 
@@ -354,7 +345,7 @@ async function initWarmup() {
   try {
     const currentMonth = Number(progressState.currentMonth);
     const warmupLevel =
-      currentMonth <= 1 ? "Level 1" : "Level " + (currentMonth - 1);
+      currentMonth <= 1 ? "level1" : "level" + (currentMonth - 1);
     const catId = Number(localStorage.getItem("category_id")) || 1;
 
     console.log(
@@ -362,7 +353,7 @@ async function initWarmup() {
     );
 
     const res = await fetch(
-      `${API_BASE_URL}/exercise/by-category-level?category_id=${catId}&level=${encodeURIComponent(warmupLevel)}`,
+      `${API_BASE_URL}/exercise/by-category-level?category_id=${catId}&level=${warmupLevel}`,
     );
     const data = await res.json();
 
