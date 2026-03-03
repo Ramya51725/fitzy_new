@@ -52,7 +52,6 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem("user_id", userId);
       localStorage.setItem("category_id", categoryId);
       localStorage.setItem("name", data.name || "");
-      // localStorage.setItem("level", "level1");
 
       try {
         const progressRes = await fetch(`${API_BASE_URL}/exercise-progress/${userId}/${categoryId}`);
@@ -90,6 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       } catch (pErr) {
         console.error("Progress Sync Error:", pErr);
+        alert("Login successful, but was unable to sync your progress ");
       }
 
 
