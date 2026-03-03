@@ -3,6 +3,7 @@ import API_BASE_URL from "../config.js";
 const userId = localStorage.getItem("user_id");
 const categoryId = localStorage.getItem("category_id");
 const headerDay = document.getElementById("currentDayHeader");
+// const monthLevel = localStorage.getItem("level")
 
 if (!userId) {
   alert("Login required");
@@ -22,7 +23,7 @@ let progressState = {
 };
 // let currentExercise = null;
 let completedCount = 0;
-let level = "level1";
+// let level = "level1";
 
 async function loadProgress() {
   try {
@@ -31,7 +32,7 @@ async function loadProgress() {
     }
 
     const res = await fetch(
-      `${API_BASE_URL}/exercise-progress/${userId}/fitzy/${categoryId}`,
+      `${API_BASE_URL}/exercise-progress/${userId}/${categoryId}`,
     );
 
     if (res.ok) {
@@ -42,6 +43,8 @@ async function loadProgress() {
         currentDay: Number(data.current_day) || 1,
         completedMonths: Number(data.completed_months) || 0,
         completedDays: Number(data.completed_days) || 0,
+        monthLevel : data.level,
+        exerciseLevel : Number(data.current_month)
       };
       localStorage.setItem("fitzy_progress", JSON.stringify(progressState));
       console.log("progress state",progressState)
@@ -81,7 +84,6 @@ async function loadProgress() {
     if (stored) progressState = JSON.parse(stored);
   }
 
-  level = "Level " + (progressState.currentMonth || 1);
 
   if (headerDay)
     headerDay.textContent = `Your current day: Day ${progressState.currentDay} 🔥`;
@@ -90,6 +92,7 @@ async function loadProgress() {
   loadExercisesForDay();
 }
 
+const level = "Level" + (progressState.currentMonth || 1);
 async function saveProgress() {
   localStorage.setItem("fitzy_progress", JSON.stringify(progressState));
 
@@ -104,7 +107,7 @@ async function saveProgress() {
     };
 
     let res = await fetch(
-      `${API_BASE_URL}/exercise-progress/update/${userId}/fitzy/${categoryId}`,
+      `${API_BASE_URL}/exercise-progress/update/${userId}/${level}/${categoryId}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -123,7 +126,7 @@ async function saveProgress() {
       });
 
       res = await fetch(
-        `${API_BASE_URL}/exercise-progress/update/${userId}/fitzy/${categoryId}`,
+        `${API_BASE_URL}/exercise-progress/update/${userId}/${level}/${categoryId}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -147,7 +150,7 @@ async function loadExercisesForDay() {
     const month = progressState.currentMonth || 1;
 
     const res = await fetch(
-      `${API_BASE_URL}/exercise/by-category-level?category_id=${catId}&level=${encodeURIComponent(level)}`,
+      `${API_BASE_URL}/exercise/by-category-level?category_id=${catId}&level=${level}`,
     );
 
     if (!res.ok) {

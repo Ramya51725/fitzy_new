@@ -4,6 +4,7 @@ const dayContainer = document.getElementById("dayContainer");
 const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
 
+
 let progressState = {
     currentMonth: 1,
     currentWeek: 1,
@@ -25,6 +26,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 async function initProgress() {
     const userId = localStorage.getItem("user_id");
     const categoryId = localStorage.getItem("category_id");
+    // const monthLevel = localStorage.getItem("level")
 
     if (!userId || !categoryId) {
         alert("Please login again.");
@@ -33,7 +35,7 @@ async function initProgress() {
     }
 
     try {
-        const res = await fetch(`${API_BASE_URL}/exercise-progress/${userId}/fitzy/${categoryId}`);
+        const res = await fetch(`${API_BASE_URL}/exercise-progress/${userId}/${categoryId}`);
         if (res.ok) {
             const pData = await res.json();
             progressState = {

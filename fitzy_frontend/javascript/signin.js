@@ -52,10 +52,10 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem("user_id", userId);
       localStorage.setItem("category_id", categoryId);
       localStorage.setItem("name", data.name || "");
-      localStorage.setItem("level", "level1");
+      // localStorage.setItem("level", "level1");
 
       try {
-        const progressRes = await fetch(`${API_BASE_URL}/exercise-progress/${userId}/fitzy/${categoryId}`);
+        const progressRes = await fetch(`${API_BASE_URL}/exercise-progress/${userId}/${categoryId}`);
         if (progressRes.ok) {
           const pData = await progressRes.json();
           const progressState = {
@@ -63,9 +63,11 @@ document.addEventListener("DOMContentLoaded", () => {
             currentWeek: pData.current_week,
             currentDay: pData.current_day,
             completedMonths: pData.completed_months,
-            completedDays: pData.completed_days
+            completedDays: pData.completed_days,
+            monthLevel :pData.level
           };
           localStorage.setItem("fitzy_progress", JSON.stringify(progressState));
+          console.log("existing progress state",progressState)
         } else if (progressRes.status === 404) {
 
           await fetch(`${API_BASE_URL}/exercise-progress/init`, {

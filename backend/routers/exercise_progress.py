@@ -87,11 +87,9 @@ def complete_day(progress: ProgressCreate, db: Session = Depends(get_db)):
     return new_progress
 
 
-
-@router.get("/{user_id}/{level}/{category_id}", response_model=ProgressResponse)
+@router.get("/{user_id}/{category_id}", response_model=ProgressResponse)
 def get_progress(
     user_id: int, 
-    level: str, 
     category_id: Optional[int] = None, 
     db: Session = Depends(get_db)
 ):
@@ -99,8 +97,8 @@ def get_progress(
         ExerciseProgress.user_id == user_id
     )
 
-    if level != "fitzy":
-        query = query.filter(ExerciseProgress.level == level)
+    # if level:
+    #     query = query.filter(ExerciseProgress.level == level)
 
     if category_id is not None and category_id != 0:
         query = query.filter(ExerciseProgress.category_id == category_id)
@@ -157,7 +155,7 @@ def update_progress(
         ExerciseProgress.user_id == user_id
     )
 
-    if level != "fitzy":
+    if level:
         query = query.filter(ExerciseProgress.level == level)
 
     if category_id is not None and category_id != 0:
