@@ -69,7 +69,3 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 });
-
-
-
-

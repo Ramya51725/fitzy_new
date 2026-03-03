@@ -3,7 +3,6 @@ import API_BASE_URL from "../config.js";
 const userId = localStorage.getItem("user_id");
 const categoryId = localStorage.getItem("category_id");
 const headerDay = document.getElementById("currentDayHeader");
-// const monthLevel = localStorage.getItem("level")
 
 function showMessage(text) {
   const msgDiv = document.getElementById("statusMessage");
@@ -33,9 +32,7 @@ let progressState = {
   completedMonths: 0,
   completedDays: 0,
 };
-// let currentExercise = null;
 let completedCount = 0;
-// let level = "level1";
 
 async function loadProgress() {
   try {
@@ -243,7 +240,6 @@ function showExerciseDetail(ex) {
     </div>
   `;
   if (window.exerciseInterval) clearInterval(window.exerciseInterval);
-  // currentExercise = ex;
   initExerciseTimer();
 }
 
@@ -268,7 +264,6 @@ function initExerciseTimer() {
         timerDisplay.textContent = "Completed ✔";
         timerDisplay.style.color = "green";
         startBtn.style.display = "none";
-        // updateProgressAfterExercise();
       }
     }, 1000);
   };
@@ -283,19 +278,12 @@ function formatFocusAreas(focusArea) {
     .join("");
 }
 
-// async function updateProgressAfterExercise() {
-//   completedCount++;
-//   if (currentExercise) await logExerciseToHistory(currentExercise);
-//   if (completedCount >= 6) {
-//     await moveToNextDay();
-//   }
-// }
-
 if (completeBtn) {
   completeBtn.addEventListener("click", async () => {
     await moveToNextDay();
   });
 }
+
 
 
 
@@ -343,27 +331,6 @@ async function moveToNextDay() {
 
   }
 }
-
-
-
-
-// async function logExerciseToHistory(ex) {
-//   try {
-//     await fetch(`${API_BASE_URL}/exercise-log/log`, {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify({
-//         user_id: Number(userId),
-//         exercise_id: ex.exercise_id || null,
-//         title: ex.title,
-//         level: level,
-//         day: Number(progressState.currentDay),
-//       }),
-//     });
-//   } catch (err) {
-//     console.error("Log Exercise Error:", err);
-//   }
-// }
 
 let warmupExercises = [];
 let warmupIndex = 0;

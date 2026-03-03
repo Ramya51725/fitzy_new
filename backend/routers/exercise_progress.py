@@ -97,8 +97,7 @@ def get_progress(
         ExerciseProgress.user_id == user_id
     )
 
-    # if level:
-    #     query = query.filter(ExerciseProgress.level == level)
+=
 
     if category_id is not None and category_id != 0:
         query = query.filter(ExerciseProgress.category_id == category_id)
@@ -145,7 +144,6 @@ def init_progress(progress: ProgressCreate, db: Session = Depends(get_db)):
 @router.put("/update/{user_id}/{category_id}", response_model=ProgressResponse)
 def update_progress(
     user_id: int, 
-    # level: str, 
     update_data: ProgressUpdate, 
     category_id: Optional[int] = None, 
     db: Session = Depends(get_db)
@@ -155,8 +153,6 @@ def update_progress(
         ExerciseProgress.user_id == user_id
     )
 
-    # if level:
-    #     query = query.filter(ExerciseProgress.level == level)
 
     if category_id is not None and category_id != 0:
         query = query.filter(ExerciseProgress.category_id == category_id)

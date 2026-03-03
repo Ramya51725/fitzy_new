@@ -39,7 +39,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 async function initProgress() {
     const userId = localStorage.getItem("user_id");
     const categoryId = localStorage.getItem("category_id");
-    // const monthLevel = localStorage.getItem("level")
 
     if (!userId || !categoryId) {
         showMessage("Please login again")

@@ -24,7 +24,6 @@ form.addEventListener("submit", async (e) => {
 
   if (!imageFile || !videoFile) {
     showMessage("Please select both image and video")
-    // alert("Please select both image and video");
     return;
   }
 
