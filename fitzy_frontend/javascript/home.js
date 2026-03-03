@@ -13,17 +13,7 @@ let progressState = {
     completedDays: 0
 };
 
-function showMessage(text) {
-  const msgDiv = document.getElementById("statusMessage");
-  if (!msgDiv) return;
 
-  msgDiv.innerText = text;  
-  msgDiv.style.display = "block";
-
-  setTimeout(() => {
-    msgDiv.style.display = "none";
-  }, 3000);
-}
 
 
 document.addEventListener("DOMContentLoaded", async () => {
