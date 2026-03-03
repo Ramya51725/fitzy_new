@@ -299,24 +299,6 @@ if (completeBtn) {
 }
 
 
-function showMessage(text, isError = false) {
-    const msgDiv = document.getElementById("statusMessage");
-
-    msgDiv.innerHTML = text;
-    msgDiv.style.display = "block";
-
-    if (isError) {
-        msgDiv.style.background = "#f8d7da";
-        msgDiv.style.color = "#721c24";
-    } else {
-        msgDiv.style.background = " #fff3cd";
-        msgDiv.style.color = " #856404";
-        msgDiv.style.borderRadius = "10px"
-    }
-}
-
-
-
 
 
 async function moveToNextDay() {
