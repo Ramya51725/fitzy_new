@@ -14,7 +14,17 @@ let progressState = {
 };
 
 
+function showMessage(text) {
+  const msgDiv = document.getElementById("statusMessage");
+  if (!msgDiv) return;
 
+  msgDiv.innerText = text;
+  msgDiv.style.display = "block";
+
+  setTimeout(() => {
+    msgDiv.style.display = "none";
+  }, 3000);
+}
 
 document.addEventListener("DOMContentLoaded", async () => {
     await initProgress();
@@ -33,7 +43,6 @@ async function initProgress() {
 
     if (!userId || !categoryId) {
         showMessage("Please login again")
-        // alert("Please login again.");
         window.location.href = "sign_in.html";
         return;
     }
@@ -212,17 +221,7 @@ function handleWeeks(currentMonth, currentWeek) {
 }
 
 
-function showMessage(text) {
-  const msgDiv = document.getElementById("statusMessage");
-  if (!msgDiv) return;
 
-  msgDiv.innerText = text;
-  msgDiv.style.display = "block";
-
-  setTimeout(() => {
-    msgDiv.style.display = "none";
-  }, 3000);
-}
 
 
 function renderDays(currentDay) {

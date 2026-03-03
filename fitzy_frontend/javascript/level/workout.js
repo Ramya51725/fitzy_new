@@ -19,7 +19,6 @@ function showMessage(text) {
 
 if (!userId) {
   showMessage("Login required")
-  // alert("Login required");
   window.location.href = "../../html/sign_in.html";
 }
 

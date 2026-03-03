@@ -19,7 +19,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!userId || !categoryId) {
     showMessage("Please login again")
-    // alert("Please login again.");
     window.location.href = "../html/sign_in.html";
     return;
   }

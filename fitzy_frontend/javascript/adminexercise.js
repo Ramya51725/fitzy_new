@@ -56,7 +56,7 @@ form.addEventListener("submit", async (e) => {
         style="color: green; margin-right: 6px;">
       </i>
       Exercise added successfully!
-    `);    // alert("✅ Exercise added successfully!");
+    `);    
     form.reset();
 
   } catch (err) {
