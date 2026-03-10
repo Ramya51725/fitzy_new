@@ -816,7 +816,12 @@ i.quate {
 .foundation_week.active-level h2 {
     color: #6b21a8;
 }
-
+.burger{
+  display:none;
+  font-size:26px;
+  cursor:pointer;
+  color:#6b21a8;
+} 
 .foundation_week.completed-level {
     background: linear-gradient(135deg, #ecfdf5, #d1fae5);
     border: 2px solid #28a745 !important;
