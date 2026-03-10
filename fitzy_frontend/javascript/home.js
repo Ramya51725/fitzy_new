@@ -352,3 +352,12 @@ function eraseEffect() {
         setTimeout(typeEffect, 500);
     }
 }
+
+
+const burger = document.getElementById("burger");
+const nav = document.querySelector(".nav");
+
+burger.addEventListener("click", () => {
+  nav.classList.toggle("show");
+  burger.classList.toggle("left");   // move burger
+});

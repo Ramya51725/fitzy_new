@@ -34,15 +34,19 @@ document.addEventListener("DOMContentLoaded", () => {
     btn.className = "diet_box1 disabled";
     btn.innerText = `Day ${day}`;
 
+
     btn.onclick = () => {
-      if (btn.classList.contains("disabled")) return;
+      // allow completed days also
+      if (btn.classList.contains("disabled") && !btn.classList.contains("completed")) return;
+
       if (activeBtn) activeBtn.classList.remove("active");
 
       btn.classList.add("active");
       activeBtn = btn;
       selectedDay = day;
+
       loadDiet(day);
-    };
+    }
 
     dayButtons.push(btn);
     dayContainer.appendChild(btn);
@@ -178,6 +182,13 @@ document.addEventListener("DOMContentLoaded", () => {
       if (nextBtn) nextBtn.classList.remove("disabled");
     }
   }
+const burger = document.getElementById("burger");
+const nav = document.querySelector(".nav");
+
+burger.addEventListener("click", () => {
+  nav.classList.toggle("show");
+  burger.classList.toggle("left");   // move burger
+});
 
   loadDiet(1);
   loadProgress();

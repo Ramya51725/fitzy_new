@@ -135,8 +135,7 @@ body {
   color: white;
   border: 1.5px solid #16a34a;
   box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
-  cursor: default;
-  pointer-events: none;
+  cursor: pointer;   
 }
 
 .diet_box1.disabled {
@@ -220,7 +219,12 @@ body {
   transition: all 0.3s ease;
   display: block;
 }
-
+.burger{
+  display:none;
+  font-size:26px;
+  cursor:pointer;
+  color:#6b21a8;
+} 
 .Completed-btn:hover {
   background: #9333ea;
   color: white;
@@ -264,6 +268,50 @@ html {
   height: auto;
 }
 
+.burger{
+  display:block;
+  position:absolute;
+  top:20px;
+  right:20px;
+  font-size:28px;
+  cursor:pointer;
+  z-index:1001;
+}
+
+.nav{
+  display:none;
+  position:absolute;   /* change from fixed to absolute */
+  top:0;
+  right:0;
+  width:85%;
+  height:50vh;
+  background:#4444445b;
+
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:40px;
+
+  border-bottom-left-radius:700px;
+
+  margin:0;
+  padding:0;
+}
+.burger.left{
+  right:auto;
+  left:20px;
+}
+
+  .nav.show{
+    display:flex;
+  }
+
+  .nav a{
+    color:white;
+    font-size:24px;
+    text-decoration:none;
+    font-family:'Outfit',sans-serif;
+  }
 body {
   min-height: 100vh;
   background:rgba(255, 208, 215, 0.379);
@@ -289,14 +337,21 @@ body {
     gap: 30px;
   }
 
-  .nav {
-    flex-direction: row;
-    width: 100%;
-    height: auto;
-    margin: 0;
-    padding: 10px;
-    border-radius: 15px;
-  }
+/* .nav{
+display:none;
+flex-direction:column;
+gap:20px;
+position:absolute;
+top:70px;
+right:0;
+background:white;
+padding:20px;
+}
+
+.nav.show{
+display:flex;
+} */
+
 
   .diet {
     width: 100%;
