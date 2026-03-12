@@ -46,14 +46,17 @@ document.addEventListener("DOMContentLoaded", () => {
     btn.innerText = `Day ${day}`;
 
     btn.onclick = () => {
-      if (btn.classList.contains("disabled")) return;
+      if (btn.classList.contains("disabled") && !btn.classList.contains("completed")) return;
 
       if (activeBtn) activeBtn.classList.remove("active");
+
       btn.classList.add("active");
       activeBtn = btn;
       selectedDay = day;
+
       loadDiet(day);
-    };
+    }
+
 
     dayButtons.push(btn);
     dayContainer.appendChild(btn);

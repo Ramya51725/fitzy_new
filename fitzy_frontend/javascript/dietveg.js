@@ -36,7 +36,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     btn.onclick = () => {
-      // allow completed days also
       if (btn.classList.contains("disabled") && !btn.classList.contains("completed")) return;
 
       if (activeBtn) activeBtn.classList.remove("active");
