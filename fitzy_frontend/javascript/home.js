@@ -158,8 +158,7 @@ function handleLevels(currentMonth) {
                     </i>
                     Completed
                 `;
-                } 
-                if (startBtn) {
+                }   if (startBtn) {
                     startBtn.innerText = "Finished";
                     startBtn.classList.add("finished-btn");
                     startBtn.onclick = (e) => {
@@ -221,9 +220,6 @@ function handleWeeks(currentMonth, currentWeek) {
 }
 
 
-
-
-
 function renderDays(currentDay) {
     if (!dayContainer) return;
     dayContainer.innerHTML = "";
@@ -265,7 +261,7 @@ function renderDays(currentDay) {
                 Day ${i}`
                 btn.addEventListener("click", () => {
                     localStorage.setItem("selected_day", i);
-                    window.location.href = `../workout.html`;
+                    window.location.href = `../html/workout.html`;
                 });
             }
         } else {
@@ -360,5 +356,5 @@ const nav = document.querySelector(".nav");
 
 burger.addEventListener("click", () => {
   nav.classList.toggle("show");
-  burger.classList.toggle("left");
+  burger.classList.toggle("left");   
 });
