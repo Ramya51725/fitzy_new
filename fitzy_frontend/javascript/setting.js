@@ -1,7 +1,5 @@
 import API_BASE_URL from "./config.js";
 
-
-
 document.addEventListener("DOMContentLoaded", () => {
 
   const userId = localStorage.getItem("user_id");
@@ -34,10 +32,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
-  const logoutBtn = document.getElementById("logoutBtn");
 
-  if (logoutBtn) {
-    logoutBtn.addEventListener("click", () => {
+  const deleteBtn = document.getElementById("logoutBtn");
+
+  if (deleteBtn) {
+    deleteBtn.addEventListener("click", () => {
 
       const confirmDelete = confirm(
         "Your account will be deleted permanently. Continue?"
@@ -55,24 +54,43 @@ document.addEventListener("DOMContentLoaded", () => {
           return res.json();
         })
         .then(() => {
+
           localStorage.clear();
-          alert("Account deleted successfully")
+
+          alert("Account deleted successfully");
+
           window.location.href = "../../index.html";
         })
         .catch(err => {
           console.error("DELETE ERROR:", err);
-          alert("Account deletion failed. Please try again")
-          ("Account deletion failed. Please try again")
-
+          alert("Account deletion failed. Please try again");
         });
     });
   }
 
+
+
+  const logout = document.querySelector(".log");
+
+  if (logout) {
+    logout.addEventListener("click", () => {
+
+      localStorage.removeItem("user_id");
+
+      alert("Logged out successfully");
+
+      window.location.href = "../../index.html";
+
+    });
+  }
+
 });
+
+
 const burger = document.getElementById("burger");
 const nav = document.querySelector(".nav");
 
 burger.addEventListener("click", () => {
   nav.classList.toggle("show");
-  burger.classList.toggle("left");   // move burger
+  burger.classList.toggle("left");
 });

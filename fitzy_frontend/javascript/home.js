@@ -158,7 +158,8 @@ function handleLevels(currentMonth) {
                     </i>
                     Completed
                 `;
-                }                if (startBtn) {
+                } 
+                if (startBtn) {
                     startBtn.innerText = "Finished";
                     startBtn.classList.add("finished-btn");
                     startBtn.onclick = (e) => {
@@ -264,7 +265,7 @@ function renderDays(currentDay) {
                 Day ${i}`
                 btn.addEventListener("click", () => {
                     localStorage.setItem("selected_day", i);
-                    window.location.href = `../levels/workout.html`;
+                    window.location.href = `../workout.html`;
                 });
             }
         } else {
@@ -359,5 +360,5 @@ const nav = document.querySelector(".nav");
 
 burger.addEventListener("click", () => {
   nav.classList.toggle("show");
-  burger.classList.toggle("left");   // move burger
+  burger.classList.toggle("left");
 });

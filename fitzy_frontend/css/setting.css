@@ -213,6 +213,12 @@ a {
     display: flex;
     gap: 40px;
 }
+.burger{
+  display:none;
+  font-size:26px;
+  cursor:pointer;
+  color:#6b21a8;
+} 
 
 .about_fitzy {
     border: 1px solid black;

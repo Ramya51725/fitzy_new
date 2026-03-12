@@ -1,4 +1,4 @@
-import API_BASE_URL from "../config.js";
+import API_BASE_URL from "./config.js";
 
 const userId = localStorage.getItem("user_id");
 const categoryId = localStorage.getItem("category_id");
@@ -312,13 +312,13 @@ async function moveToNextDay() {
       <i class="fa-solid fa-fire" style="color: orange; margin-left: 6px;"></i>
     `);
     setTimeout(() => {
-      window.location.href = "../landing/beginner.html";
+      window.location.href = "../html/beginner.html";
     }, 3000);
   } catch (err) {
     showMessage("Failed to show save", true);
 
     setTimeout(() => {
-      window.location.href = "../landing/beginner.html";
+      window.location.href = "../beginner.html";
     }, 3000);
   }
 }
@@ -357,8 +357,13 @@ async function initWarmup() {
     );
     const data = await res.json();
 
-    if (!data || !data.length) {
-      warmupOverlay.style.display = "none";
+    if (!data || data.length === 0) {
+      warmupOverlay.innerHTML = "<p>No warmup exercises found</p>";
+
+      setTimeout(() => {
+        warmupOverlay.style.display = "none";
+      }, 2000);
+
       return;
     }
 
@@ -487,5 +492,5 @@ const nav = document.querySelector(".nav");
 
 burger.addEventListener("click", () => {
   nav.classList.toggle("show");
-  burger.classList.toggle("left");   // move burger
+  burger.classList.toggle("left");  
 });
