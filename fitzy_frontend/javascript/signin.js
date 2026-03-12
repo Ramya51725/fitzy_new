@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
         window.location.href = "admin.html";
       } else {
         console.log("Redirecting to Beginner Landing...");
-        window.location.href = "landing/beginner.html";
+        window.location.href = "beginner.html";
       }
 
     } catch (err) {
