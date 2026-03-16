@@ -106,6 +106,34 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
     }
 
 
+@router.get("/{id}")
+def get_user_by_id(id: int, db: Session = Depends(get_db)):
+
+    user = db.query(User).filter(User.user_id == id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    category_name = None
+    if user.category_id:
+        category = db.query(Category).filter(
+            Category.category_id == user.category_id
+        ).first()
+        if category:
+            category_name = category.category
+
+    return {
+        "user_id": user.user_id,
+        "name": user.name,
+        "age": user.age,
+        "weight": user.weight,
+        "height": user.height,
+        "bmi": user.bmi,
+        "category": category_name,
+        "email": user.email,
+        "gender": user.gender
+    }
+
+
 
 @router.delete("/delete/{id}")
 def delete_user(id: int, db: Session = Depends(get_db)):
