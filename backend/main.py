@@ -1,7 +1,7 @@
 import sys
 import os
 
-# 🔥 ENSURE BACKEND DIRECTORY IS IN PATH FOR VERCEL
+#  ENSURE BACKEND DIRECTORY IS IN PATH FOR VERCEL
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from fastapi import FastAPI, APIRouter, Depends
@@ -31,10 +31,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/health")
-def health_check():
-    return {"status": "ok", "version": "v1.2"}
 
+@app.get("/")
+def home():
+    return {"message": "API Running"}
 
 api_router = APIRouter()
 
