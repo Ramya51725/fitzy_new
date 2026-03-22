@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     typeEffect();
 });
 
-async function initProgress() {
+async function initProgress()   {
     const userId = localStorage.getItem("user_id");
     const categoryId = localStorage.getItem("category_id");
 
@@ -69,13 +69,12 @@ async function initProgress() {
             }
         }
     } catch (err) {
-        console.error("Dashboard Sync Error:", err);
         const stored = localStorage.getItem("fitzy_progress");
         if (stored) {
             progressState = JSON.parse(stored);
-            alert("Unable to sync with cloud. Using locally saved progress.");
+            alert("You're offline right now. Showing your saved progress.");
         } else {
-            alert("Unable to load progress. Please check your internet connection and make sure the server is running.");
+            alert("Unable to load progress.");
         }
     }
 
@@ -292,7 +291,6 @@ if (prevBtn) {
 function setCategoryName() {
     const categoryId = Number(localStorage.getItem("category_id"));
     const categorySpan = document.getElementById("categoryName");
-    const categoryDisplay = document.getElementById("categoryDisplay");
     const levelDisplay = document.getElementById("levelDisplay");
 
     let categoryText = "Unknown";
@@ -301,7 +299,6 @@ function setCategoryName() {
     else if (categoryId === 3) categoryText = "Overweight";
 
     if (categorySpan) categorySpan.innerText = categoryText;
-    if (categoryDisplay) categoryDisplay.innerText = categoryText;
 
     if (levelDisplay) {
         let levelText = "Beginner";

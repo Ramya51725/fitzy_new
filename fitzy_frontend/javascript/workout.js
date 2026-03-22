@@ -205,7 +205,7 @@ function renderExercises(exercises) {
     const card = document.createElement("div");
     card.className = "exercise-card";
     card.innerHTML = `
-      <img src="${ex.exercise_image || "/Assets/default.png"}">
+      <img src="${ex.exercise_image || "/Assets/default.jp  g"}">
       <p>${ex.title}</p>
     `;
     card.onclick = () => showExerciseDetail(ex);
@@ -373,8 +373,11 @@ async function initWarmup() {
     showWarmupExercise();
   } catch (err) {
     console.error("Warmup Load Error:", err);
-    warmupOverlay.style.display = "none";
-  }
+      warmupOverlay.innerHTML = "<p>Failed to load warmup exercises. Please try again.</p>";
+      setTimeout(() => {
+        warmupOverlay.style.display = "none";
+      }, 2000);
+      }
 }
 
 function showWarmupExercise() {
@@ -383,7 +386,6 @@ function showWarmupExercise() {
 
   warmupTitle.innerText = ex.title;
   warmupVideo.src = ex.exercise_video || "";
-  warmupVideo.setAttribute("playsinline", "true");
   warmupTimerEl.innerText = "01:00";
   breakScreen.style.display = "none";
 }
@@ -393,7 +395,7 @@ if (warmupStartBtn) {
     if (warmupTimer) return;
     warmupStartBtn.disabled = true;
     startWarmupCountdown(60);
-  };
+  };  
 }
 
 if (warmupSkipBtn) {
