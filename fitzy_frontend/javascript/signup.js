@@ -25,7 +25,6 @@ form.addEventListener("submit", async function (e) {
   clearErrors();
 
   const formData = new FormData(form);
-  
 
   const userData = {
     name: formData.get("name")?.trim(),
@@ -54,8 +53,8 @@ form.addEventListener("submit", async function (e) {
     isValid = false;
   }
 
-  if (!userData.weight || userData.weight <= 0 || userData.weight > 112) {
-    document.getElementById("weight_error").innerText = "weight must be less than 112";
+  if (!userData.weight || userData.weight <= 0 || userData.weight > 300) {
+    document.getElementById("weight_error").innerText = "Enter valid weight";
     isValid = false;
   }
 
