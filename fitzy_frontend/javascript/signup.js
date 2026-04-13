@@ -25,6 +25,7 @@ form.addEventListener("submit", async function (e) {
   clearErrors();
 
   const formData = new FormData(form);
+  
 
   const userData = {
     name: formData.get("name")?.trim(),
@@ -53,14 +54,22 @@ form.addEventListener("submit", async function (e) {
     isValid = false;
   }
 
-  if (!userData.weight || userData.weight <= 0 || userData.weight > 300) {
-    document.getElementById("weight_error").innerText = "Enter valid weight";
+  if (!userData.weight || userData.weight <= 0 || userData.weight > 112) {
+    document.getElementById("weight_error").innerText = "weight must be less than 112";
     isValid = false;
   }
 
-  if (!userData.email) {
+  const email = userData.email; 
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!email) {
     document.getElementById("mail_error").innerText = "Email is required";
     isValid = false;
+  } else if (!emailPattern.test(email)) {
+    document.getElementById("mail_error").innerText = "Enter a valid email address";
+    isValid = false;
+  } else {
+    document.getElementById("mail_error").innerText = "";
   }
 
   if (!userData.password || userData.password.length < 8) {

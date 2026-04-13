@@ -294,18 +294,31 @@ function setCategoryName() {
     const levelDisplay = document.getElementById("levelDisplay");
 
     let categoryText = "Unknown";
+
     if (categoryId === 1) categoryText = "Underweight";
     else if (categoryId === 2) categoryText = "Normal weight";
     else if (categoryId === 3) categoryText = "Overweight";
+
+    if (!categoryId || categoryText === "Unknown") {
+        showMessage("Your BMI is not valid. BMI must be less than 40");
+
+        setTimeout(() => {
+            window.location.href = "sign_up.html";
+        }, 4000);
+
+        return;
+    }
 
     if (categorySpan) categorySpan.innerText = categoryText;
 
     if (levelDisplay) {
         let levelText = "Beginner";
         const m = Number(progressState.currentMonth) || 1;
+
         if (m >= 7) levelText = "Expert";
         else if (m >= 5) levelText = "Advanced";
         else if (m >= 3) levelText = "Intermediate";
+
         levelDisplay.innerText = levelText;
     }
 }
