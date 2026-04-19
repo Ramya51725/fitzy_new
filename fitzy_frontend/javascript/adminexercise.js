@@ -90,14 +90,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   deleteBtn.addEventListener("click", async () => {
 
-    console.log("CLICKED ✅");
 
     const level = document.getElementById("level").value;
     const category = document.getElementById("category").value;
     const title = document.getElementById("title").value.trim();
 
     if (!level || !category || !title) {
-      alert("Please select Level, Category and enter Title");
+      showMessage("Please select Level, Category and enter Title")
       return;
     }
 
@@ -109,7 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       const response = await fetch(`${API_BASE_URL}/exercise/delete`, {
-        method: "DELETE",  // 🔥 FIXED
+        method: "DELETE",  
         headers: {
           "Content-Type": "application/json"
         },
@@ -128,12 +127,12 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      alert("Exercise deleted successfully ✅");
+      showMessage("Exercise deleted successfully")
       document.getElementById("exerciseForm").reset();
 
     } catch (error) {
       console.error("Delete error:", error);
-      alert("Network error ❌");
+      alert("Network error ");
     }
   });
 });
