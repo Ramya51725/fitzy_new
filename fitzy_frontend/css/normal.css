@@ -91,7 +91,7 @@ body {
 }
 
 .nav-icon {
-  font-size: 30px;
+  font-size: 25px;
   color: #6b21a8;
   transition: all 0.3s ease;
 }
@@ -99,6 +99,10 @@ body {
 .nav-icon:hover {
   color: #9333ea;
   transform: scale(1.1);
+}
+.nav a.active i {
+  background-color: rgba(75, 135, 69, 0.938);   /* use red to test */
+  color: white;
 }
 
 .exercise-grid {

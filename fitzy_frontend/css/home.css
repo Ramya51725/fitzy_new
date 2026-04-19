@@ -97,9 +97,15 @@ a{
 }
 
 .nav-icon {
-    font-size: 30px;
-    color: #6b21a8;
-    transition: all 0.3s ease;
+  font-size: 25px;
+  color: #6b21a8;
+  transition: all 0.3s ease;
+
+  padding: 12px;          /* 🔥 IMPORTANT */
+  border-radius: 50%;     /* 🔥 makes it circle */
+  display: inline-flex;   /* 🔥 proper alignment */
+  justify-content: center;
+  align-items: center;
 }
 
 .nav-icon:hover {
@@ -107,12 +113,18 @@ a{
     transform: scale(1.1);
 }
 
-.nav-icon:hover {
-    color: purple;
-    transform: scale(1.2);
-    background: var(--primary-light);
+.nav a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0;
+  text-decoration: none;
 }
 
+.nav a.active i {
+  background-color: rgba(75, 135, 69, 0.938);   /* use red to test */
+  color: white;
+}
 
 .move {
     margin-left: 10px;
