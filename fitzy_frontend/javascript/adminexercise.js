@@ -82,3 +82,58 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+document.addEventListener("DOMContentLoaded", () => {
+
+  const deleteBtn = document.getElementById("deleteExerciseBtn");
+
+  if (!deleteBtn) return;
+
+  deleteBtn.addEventListener("click", async () => {
+
+    console.log("CLICKED ✅");
+
+    const level = document.getElementById("level").value;
+    const category = document.getElementById("category").value;
+    const title = document.getElementById("title").value.trim();
+
+    if (!level || !category || !title) {
+      alert("Please select Level, Category and enter Title");
+      return;
+    }
+
+    const confirmDelete = confirm(
+      `Are you sure you want to delete "${title}" from ${level}?`
+    );
+
+    if (!confirmDelete) return;
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/exercise/delete`, {
+        method: "DELETE",  // 🔥 FIXED
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          level,
+          category_id: Number(category),
+          title
+        })
+      });
+
+      const data = await response.json();
+      console.log("Response:", data);
+
+      if (!response.ok) {
+        alert(data.detail || "Delete failed");
+        return;
+      }
+
+      alert("Exercise deleted successfully ✅");
+      document.getElementById("exerciseForm").reset();
+
+    } catch (error) {
+      console.error("Delete error:", error);
+      alert("Network error ❌");
+    }
+  });
+});

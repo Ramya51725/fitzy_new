@@ -25,3 +25,8 @@ class ExerciseUpdate(BaseModel):
     category_id : int  
 class Focusupdate(BaseModel):
      focus_area:List[str]
+
+class DeleteExerciseRequest(BaseModel):
+    level: str
+    category_id: int
+    title: str

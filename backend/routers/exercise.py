@@ -1,11 +1,11 @@
-from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form,Body
 from sqlalchemy.orm import Session
 import json
 import cloudinary
 import cloudinary.uploader
 
 from models.exemodel import Exercise
-from schemas.exeschema import ExerciseResponse, ExerciseUpdate, Focusupdate
+from schemas.exeschema import ExerciseResponse, ExerciseUpdate, Focusupdate , DeleteExerciseRequest
 from dependencies import get_db
 
 import cloudinary_config  
@@ -125,10 +125,17 @@ def update_exercise(
 
 
 
-@router.delete("/delete/{id}")
-def delete_exercise(id: int, db: Session = Depends(get_db)):
+@router.delete("/delete")
+def delete_exercise(
+    data: DeleteExerciseRequest = Body(...),
+    db: Session = Depends(get_db)
+):
+    print("Incoming:", data)
+
     exercise = db.query(Exercise).filter(
-        Exercise.exercise_id == id
+        Exercise.level == data.level,
+        Exercise.category_id == data.category_id,
+        Exercise.title.ilike(data.title)
     ).first()
 
     if not exercise:
@@ -136,7 +143,9 @@ def delete_exercise(id: int, db: Session = Depends(get_db)):
 
     db.delete(exercise)
     db.commit()
+
     return {"msg": "Exercise deleted successfully"}
+
 
 
 @router.patch("/focus/{exercise_id}")

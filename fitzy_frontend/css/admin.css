@@ -100,12 +100,15 @@ body {
 }
 
 .form-container {
+  /* margin-top: 50px; */
+  /* margin-bottom: 50px; */
   width: 760px;
   padding: 28px 36px;
   border-radius: 35px;
   border: 2px solid black;
   background: linear-gradient(to top, #fad0c43d 0%, #ffd1ff 100%);
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.35);
+  /* margin-bottom: 20px; */
 }
 
 .form-container h2 {
